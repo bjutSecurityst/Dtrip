@@ -14,7 +14,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>龤穪旅行</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="ApplicationIcon.qrc">
+    <normaloff>:/ApplicationIcon.png</normaloff>:/ApplicationIcon.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LayoutDirection::LeftToRight</enum>
@@ -32,7 +39,7 @@
       <x>0</x>
       <y>0</y>
       <width>151</width>
-      <height>341</height>
+      <height>711</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -154,7 +161,7 @@
         <enum>Qt::Orientation::Vertical</enum>
        </property>
        <property name="invertedAppearance">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="invertedControls">
         <bool>false</bool>
@@ -416,12 +423,12 @@
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>0</hour>
+           <hour>16</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
-           <month>1</month>
-           <day>1</day>
+           <month>9</month>
+           <day>19</day>
           </datetime>
          </property>
          <property name="maximumDate">
@@ -584,6 +591,36 @@
      <string>© 2024 bjutSecurityst  |   京ICP备1145141919号   |    使用条款</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>209</x>
+      <y>350</y>
+      <width>551</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>570</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;微软雅黑&quot;;color: rgb(255, 255, 255);
+</string>
+    </property>
+    <property name="text">
+     <string>广告位招租</string>
+    </property>
+   </widget>
    <zorder>backgroundsky</zorder>
    <zorder>home_background</zorder>
    <zorder>layoutbutton</zorder>
@@ -598,9 +635,13 @@
    <zorder>pushButton_4</zorder>
    <zorder>label_8</zorder>
    <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_11</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="ApplicationIcon.qrc"/>
+ </resources>
  <connections/>
 </ui>

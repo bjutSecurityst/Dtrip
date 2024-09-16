@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-a295079c6da77b78fd7d.json",
+					"jsonFile" : "directory-.-Debug-6542a05fc206e01441ca.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Dtrip::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Dtrip-Debug-dd91416d14ee9f79f5d1.json",
+					"jsonFile" : "target-Dtrip-Debug-7b29d1652f9e23a36c1f.json",
 					"name" : "Dtrip",
 					"projectIndex" : 0
 				},

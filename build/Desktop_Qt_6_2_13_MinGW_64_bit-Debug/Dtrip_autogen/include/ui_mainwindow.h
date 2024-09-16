@@ -68,6 +68,8 @@ public:
     QPushButton *pushButton_4;
     QLabel *label_8;
     QLabel *label_9;
+    QLabel *label_10;
+    QLabel *label_11;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -76,6 +78,10 @@ public:
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModality::NonModal);
         MainWindow->resize(1280, 720);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/ApplicationIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
+        MainWindow->setWindowOpacity(1.000000000000000);
         MainWindow->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
         MainWindow->setAutoFillBackground(false);
         MainWindow->setAnimated(false);
@@ -83,7 +89,7 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(0, 0, 151, 341));
+        horizontalLayoutWidget->setGeometry(QRect(0, 0, 151, 711));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(2, 0, 0, 0);
@@ -92,10 +98,10 @@ public:
         verticaltool->setContentsMargins(2, -1, -1, -1);
         pushButton_0 = new QPushButton(horizontalLayoutWidget);
         pushButton_0->setObjectName(QString::fromUtf8("pushButton_0"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8("\350\217\234\345\215\225\346\240\217.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon.addFile(QString::fromUtf8("\350\217\234\345\215\225\346\240\217.png"), QSize(), QIcon::Normal, QIcon::On);
-        pushButton_0->setIcon(icon);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("\350\217\234\345\215\225\346\240\217.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("\350\217\234\345\215\225\346\240\217.png"), QSize(), QIcon::Normal, QIcon::On);
+        pushButton_0->setIcon(icon1);
         pushButton_0->setIconSize(QSize(68, 24));
         pushButton_0->setAutoDefault(true);
         pushButton_0->setFlat(false);
@@ -136,7 +142,7 @@ public:
         verticalScrollBar = new QScrollBar(horizontalLayoutWidget);
         verticalScrollBar->setObjectName(QString::fromUtf8("verticalScrollBar"));
         verticalScrollBar->setOrientation(Qt::Orientation::Vertical);
-        verticalScrollBar->setInvertedAppearance(false);
+        verticalScrollBar->setInvertedAppearance(true);
         verticalScrollBar->setInvertedControls(false);
 
         horizontalLayout->addWidget(verticalScrollBar);
@@ -246,7 +252,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 1, 1), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 19), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
 
@@ -296,10 +302,10 @@ public:
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setGeometry(QRect(670, 240, 81, 51));
         pushButton_4->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("search.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon1.addFile(QString::fromUtf8("search.png"), QSize(), QIcon::Normal, QIcon::On);
-        pushButton_4->setIcon(icon1);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("search.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("search.png"), QSize(), QIcon::Normal, QIcon::On);
+        pushButton_4->setIcon(icon2);
         pushButton_4->setIconSize(QSize(12, 12));
         pushButton_4->setCheckable(true);
         pushButton_4->setAutoDefault(false);
@@ -310,6 +316,14 @@ public:
         label_9->setObjectName(QString::fromUtf8("label_9"));
         label_9->setGeometry(QRect(440, 670, 381, 16));
         label_9->setStyleSheet(QString::fromUtf8("font: 10pt \"Microsoft YaHei UI\";"));
+        label_10 = new QLabel(centralwidget);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+        label_10->setGeometry(QRect(209, 350, 551, 261));
+        label_11 = new QLabel(centralwidget);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+        label_11->setGeometry(QRect(380, 570, 141, 41));
+        label_11->setStyleSheet(QString::fromUtf8("font: 20pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";color: rgb(255, 255, 255);\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
         home_background->raise();
@@ -325,6 +339,8 @@ public:
         pushButton_4->raise();
         label_8->raise();
         label_9->raise();
+        label_10->raise();
+        label_11->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
@@ -341,7 +357,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\351\276\244\347\251\252\346\227\205\350\241\214", nullptr));
         pushButton_0->setText(QString());
         pushButton_1->setText(QCoreApplication::translate("MainWindow", "\350\210\252\347\217\255\346\237\245\350\257\242", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "\351\200\200\346\224\271\347\245\250", nullptr));
@@ -373,6 +389,8 @@ public:
         pushButton_4->setText(QCoreApplication::translate("MainWindow", "\346\220\234\347\264\242", nullptr));
         label_8->setText(QString());
         label_9->setText(QCoreApplication::translate("MainWindow", "\302\251 2024 bjutSecurityst  |   \344\272\254ICP\345\244\2071145141919\345\217\267   |    \344\275\277\347\224\250\346\235\241\346\254\276", nullptr));
+        label_10->setText(QString());
+        label_11->setText(QCoreApplication::translate("MainWindow", "\345\271\277\345\221\212\344\275\215\346\213\233\347\247\237", nullptr));
     } // retranslateUi
 
 };
