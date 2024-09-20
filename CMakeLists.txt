@@ -28,6 +28,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MyGraphicsView.cpp
         MyGraphicsView.h
         ApplicationIcon.qrc
+        Edge.h
+        Node.h
+        CMap.h
+        MinHeap.h
+        ticketinfo.h ticketinfo.cpp ticketinfo.ui
+        Log.h
+        QuickSort.h
+
 
     )
 # Define target properties for Android with Qt 6 as:

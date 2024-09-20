@@ -32,12 +32,12 @@ Map::Map(QDate curDate,QWidget *parent)
     ui->label->setNum(100);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
-    for(i=0;i<17;i++){
-        for(j=i+1;j<17;j++){
+    for(i=0;i<16;i++){
+        for(j=i+1;j<16;j++){
             addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
         }
     }
-    for(i=0;i<17;i++){
+    for(i=0;i<16;i++){
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);
         buttons[i]->setObjectName(citys[i]);
@@ -73,18 +73,18 @@ void Map::wheelEvent(QWheelEvent *event)
     if(ratio>99) ratio=99;
     ui->horizontalSlider->setSliderPosition(ratio);
     ui->label->setNum(ratio);
-    for(i=0;i<17;i++){
+    for(i=0;i<16;i++){
         buttons[i]->move(ui->graphicsView->mapFromScene(cityp[i]).rx(),ui->graphicsView->mapFromScene(cityp[i]).ry());
     }
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
     if(ratio<36) {
-        for(i=0;i<17;i++){
+        for(i=0;i<16;i++){
             buttons[i]->setVisible(false);
         }
         ui->label_2->setVisible(true);
     }
     else {
-        for(i=0;i<17;i++){
+        for(i=0;i<16;i++){
             buttons[i]->setVisible(true);
         }
         ui->label_2->setVisible(false);
@@ -108,7 +108,7 @@ void Map::on_MyGraphicsView_rubberBandChanged()
     QPoint p( -100, 100);
     QPoint q( 100, -100);
     double ratio=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(p.rx()-q.rx()+60)*18;
-    for(i=0;i<17;i++){
+    for(i=0;i<16;i++){
         buttons[i]->move(ui->graphicsView->mapFromScene(cityp[i]).rx(),ui->graphicsView->mapFromScene(cityp[i]).ry());
     }
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
@@ -192,8 +192,8 @@ void Map::on_pushButton_4_clicked()
     }
     else{
         int i,j;
-        for(i=0;i<17;i++){
-            for(j=i+1;j<17;j++){
+        for(i=0;i<16;i++){
+            for(j=i+1;j<16;j++){
                 addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
             }
         }
@@ -217,8 +217,8 @@ void Map::on_pushButton_5_clicked()
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->setScene(scene);
     int i,j;
-    for(i=0;i<17;i++){
-        for(j=i+1;j<17;j++){
+    for(i=0;i<16;i++){
+        for(j=i+1;j<16;j++){
             fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
             QFile fs(fname);
             if(fs.open(QIODeviceBase::ReadOnly)){

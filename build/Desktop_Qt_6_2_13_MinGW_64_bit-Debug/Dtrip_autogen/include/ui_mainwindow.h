@@ -70,6 +70,9 @@ public:
     QLabel *label_9;
     QLabel *label_10;
     QLabel *label_11;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout_2;
+    QScrollBar *verticalScrollBar_2;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -153,13 +156,13 @@ public:
         labelicon0->setScaledContents(true);
         backgroundsky = new QPushButton(centralwidget);
         backgroundsky->setObjectName(QString::fromUtf8("backgroundsky"));
-        backgroundsky->setGeometry(QRect(200, 80, 571, 241));
+        backgroundsky->setGeometry(QRect(200, 80, 681, 241));
         backgroundsky->setIconSize(QSize(300, 150));
         backgroundsky->setAutoDefault(false);
         backgroundsky->setFlat(false);
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(220, 159, 431, 51));
+        verticalLayoutWidget_2->setGeometry(QRect(220, 159, 431, 63));
         horizontalLayout_2 = new QHBoxLayout(verticalLayoutWidget_2);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -227,7 +230,7 @@ public:
         label_4->setWordWrap(false);
         easystay = new QPushButton(centralwidget);
         easystay->setObjectName(QString::fromUtf8("easystay"));
-        easystay->setGeometry(QRect(570, 100, 181, 31));
+        easystay->setGeometry(QRect(670, 100, 181, 31));
         home_background = new QPushButton(centralwidget);
         home_background->setObjectName(QString::fromUtf8("home_background"));
         home_background->setGeometry(QRect(200, 80, 271, 71));
@@ -236,7 +239,7 @@ public:
         layoutbutton_2->setGeometry(QRect(210, 230, 441, 71));
         verticalLayoutWidget_5 = new QWidget(centralwidget);
         verticalLayoutWidget_5->setObjectName(QString::fromUtf8("verticalLayoutWidget_5"));
-        verticalLayoutWidget_5->setGeometry(QRect(220, 239, 431, 51));
+        verticalLayoutWidget_5->setGeometry(QRect(220, 239, 431, 63));
         horizontalLayout_3 = new QHBoxLayout(verticalLayoutWidget_5);
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
@@ -252,9 +255,10 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 19), QTime(16, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
+        dateEdit->setDate(QDate(2024, 9, 20));
 
         verticalLayout_4->addWidget(dateEdit);
 
@@ -311,7 +315,7 @@ public:
         pushButton_4->setAutoDefault(false);
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(810, 80, 331, 541));
+        label_8->setGeometry(QRect(920, 80, 331, 541));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QString::fromUtf8("label_9"));
         label_9->setGeometry(QRect(440, 670, 381, 16));
@@ -321,9 +325,22 @@ public:
         label_10->setGeometry(QRect(209, 350, 551, 261));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setGeometry(QRect(380, 570, 141, 41));
+        label_11->setGeometry(QRect(380, 570, 531, 41));
         label_11->setStyleSheet(QString::fromUtf8("font: 20pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";color: rgb(255, 255, 255);\n"
 ""));
+        verticalLayoutWidget = new QWidget(centralwidget);
+        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(200, 350, 681, 301));
+        verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalScrollBar_2 = new QScrollBar(centralwidget);
+        verticalScrollBar_2->setObjectName(QString::fromUtf8("verticalScrollBar_2"));
+        verticalScrollBar_2->setGeometry(QRect(880, 350, 17, 299));
+        verticalScrollBar_2->setMinimum(1);
+        verticalScrollBar_2->setMaximum(100);
+        verticalScrollBar_2->setOrientation(Qt::Orientation::Vertical);
+        verticalScrollBar_2->setInvertedAppearance(false);
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
         home_background->raise();
@@ -341,6 +358,8 @@ public:
         label_9->raise();
         label_10->raise();
         label_11->raise();
+        verticalLayoutWidget->raise();
+        verticalScrollBar_2->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);

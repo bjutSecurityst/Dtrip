@@ -89,6 +89,14 @@ build CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj: CXX_COMPILER__Dtrip_unscanned
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
+build CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Debug E$:/Qtproject/Dtrip/ticketinfo.cpp || cmake_object_order_depends_target_Dtrip
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Dtrip.dir\ticketinfo.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui
+  OBJECT_DIR = CMakeFiles\Dtrip.dir
+  OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
+
 build CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Debug E$:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp || cmake_object_order_depends_target_Dtrip
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\Dtrip_autogen\EWIEGA46WW\qrc_ApplicationIcon.cpp.obj.d
@@ -105,7 +113,7 @@ build CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj:
 #############################################
 # Link the executable Dtrip.exe
 
-build Dtrip.exe: CXX_EXECUTABLE_LINKER__Dtrip_Debug CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj CMakeFiles/Dtrip.dir/main.cpp.obj CMakeFiles/Dtrip.dir/mainwindow.cpp.obj CMakeFiles/Dtrip.dir/map.cpp.obj CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj | F$:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Core.a F$:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a || Dtrip_autogen Dtrip_autogen_timestamp_deps
+build Dtrip.exe: CXX_EXECUTABLE_LINKER__Dtrip_Debug CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj CMakeFiles/Dtrip.dir/main.cpp.obj CMakeFiles/Dtrip.dir/mainwindow.cpp.obj CMakeFiles/Dtrip.dir/map.cpp.obj CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj | F$:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Core.a F$:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a || Dtrip_autogen Dtrip_autogen_timestamp_deps
   FLAGS = -DQT_QML_DEBUG -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = F:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a  F:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a  F:/Qt/6.2.13/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  F:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -192,7 +200,7 @@ build Dtrip_autogen_timestamp_deps: phony
 #############################################
 # Utility command for Dtrip_autogen
 
-build Dtrip_autogen: phony CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/timestamp Dtrip_autogen/mocs_compilation.cpp Dtrip_autogen_timestamp_deps
+build Dtrip_autogen: phony CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h Dtrip_autogen/timestamp Dtrip_autogen/mocs_compilation.cpp Dtrip_autogen_timestamp_deps
 
 
 #############################################
@@ -218,7 +226,7 @@ build Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp | ${cmake_ninja_workdir}D
 #############################################
 # Phony custom command for CMakeFiles\Dtrip_autogen
 
-build CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h | ${cmake_ninja_workdir}CMakeFiles/Dtrip_autogen ${cmake_ninja_workdir}Dtrip_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_map.h: phony Dtrip_autogen/timestamp || Dtrip_autogen_timestamp_deps
+build CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h | ${cmake_ninja_workdir}CMakeFiles/Dtrip_autogen ${cmake_ninja_workdir}Dtrip_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_map.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_ticketinfo.h: phony Dtrip_autogen/timestamp || Dtrip_autogen_timestamp_deps
 
 # =============================================================================
 # Target aliases.

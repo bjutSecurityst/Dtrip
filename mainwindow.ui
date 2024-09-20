@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -191,7 +191,7 @@
      <rect>
       <x>200</x>
       <y>80</y>
-      <width>571</width>
+      <width>681</width>
       <height>241</height>
      </rect>
     </property>
@@ -355,7 +355,7 @@
    <widget class="QPushButton" name="easystay">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>670</x>
       <y>100</y>
       <width>181</width>
       <height>31</height>
@@ -428,7 +428,7 @@
            <second>0</second>
            <year>2024</year>
            <month>9</month>
-           <day>19</day>
+           <day>20</day>
           </datetime>
          </property>
          <property name="maximumDate">
@@ -440,6 +440,13 @@
          </property>
          <property name="calendarPopup">
           <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>2024</year>
+           <month>9</month>
+           <day>20</day>
+          </date>
          </property>
         </widget>
        </item>
@@ -565,7 +572,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>920</x>
       <y>80</y>
       <width>331</width>
       <height>541</height>
@@ -609,7 +616,7 @@
      <rect>
       <x>380</x>
       <y>570</y>
-      <width>141</width>
+      <width>531</width>
       <height>41</height>
      </rect>
     </property>
@@ -619,6 +626,39 @@
     </property>
     <property name="text">
      <string>广告位招租</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>350</y>
+      <width>681</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2"/>
+   </widget>
+   <widget class="QScrollBar" name="verticalScrollBar_2">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>350</y>
+      <width>17</width>
+      <height>299</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
     </property>
    </widget>
    <zorder>backgroundsky</zorder>
@@ -637,6 +677,8 @@
    <zorder>label_9</zorder>
    <zorder>label_10</zorder>
    <zorder>label_11</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>verticalScrollBar_2</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -240,10 +240,26 @@
 	"DEP_FILE_RULE_NAME" : "Dtrip_autogen/timestamp",
 	"HEADERS" : 
 	[
+		[ "E:/Qtproject/Dtrip/CMap.h", "MU", "EWIEGA46WW/moc_CMap.cpp", null ],
+		[ "E:/Qtproject/Dtrip/Edge.h", "MU", "EWIEGA46WW/moc_Edge.cpp", null ],
+		[ "E:/Qtproject/Dtrip/Log.h", "MU", "EWIEGA46WW/moc_Log.cpp", null ],
+		[
+			"E:/Qtproject/Dtrip/MinHeap.h",
+			"MU",
+			"EWIEGA46WW/moc_MinHeap.cpp",
+			null
+		],
 		[
 			"E:/Qtproject/Dtrip/MyGraphicsView.h",
 			"MU",
 			"EWIEGA46WW/moc_MyGraphicsView.cpp",
+			null
+		],
+		[ "E:/Qtproject/Dtrip/Node.h", "MU", "EWIEGA46WW/moc_Node.cpp", null ],
+		[
+			"E:/Qtproject/Dtrip/QuickSort.h",
+			"MU",
+			"EWIEGA46WW/moc_QuickSort.cpp",
 			null
 		],
 		[
@@ -252,7 +268,13 @@
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
 		],
-		[ "E:/Qtproject/Dtrip/map.h", "MU", "EWIEGA46WW/moc_map.cpp", null ]
+		[ "E:/Qtproject/Dtrip/map.h", "MU", "EWIEGA46WW/moc_map.cpp", null ],
+		[
+			"E:/Qtproject/Dtrip/ticketinfo.h",
+			"MU",
+			"EWIEGA46WW/moc_ticketinfo.cpp",
+			null
+		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/include",
@@ -320,7 +342,8 @@
 		[ "E:/Qtproject/Dtrip/MyGraphicsView.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/main.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/mainwindow.cpp", "MU", null ],
-		[ "E:/Qtproject/Dtrip/map.cpp", "MU", null ]
+		[ "E:/Qtproject/Dtrip/map.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/ticketinfo.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
