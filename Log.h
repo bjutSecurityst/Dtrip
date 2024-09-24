@@ -11,6 +11,7 @@ public:
     QString time1;
     int price;
     QString chi;
+    Log* next=NULL;
     Log() {}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi){
         this->company=company;
@@ -21,6 +22,26 @@ public:
         this->time1=time1;
         this->price=price;
         this->chi=chi;
+    }
+    void clear(){
+        this->company="";
+        this->ID="";
+        this->sou="";
+        this->des="";
+        this->time0="";
+        this->time1="";
+        this->price=0;
+        this->chi="";
+        Log *p,*q;
+        if(this->next!=NULL){
+            p=this->next;
+            while(p->next!=NULL) {
+                q=p->next;
+                delete p;
+                p=q;
+            }
+            delete p;
+        }
     }
 private:
 

@@ -189,9 +189,9 @@
    <widget class="QPushButton" name="backgroundsky">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>190</x>
       <y>80</y>
-      <width>681</width>
+      <width>691</width>
       <height>241</height>
      </rect>
     </property>
@@ -214,9 +214,9 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>159</y>
-      <width>431</width>
+      <x>210</x>
+      <y>160</y>
+      <width>511</width>
       <height>51</height>
      </rect>
     </property>
@@ -317,9 +317,9 @@
    <widget class="QPushButton" name="layoutbutton">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>200</x>
       <y>150</y>
-      <width>441</width>
+      <width>531</width>
       <height>71</height>
      </rect>
     </property>
@@ -368,7 +368,7 @@
    <widget class="QPushButton" name="home_background">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>190</x>
       <y>80</y>
       <width>271</width>
       <height>71</height>
@@ -381,9 +381,9 @@
    <widget class="QPushButton" name="layoutbutton_2">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>200</x>
       <y>230</y>
-      <width>441</width>
+      <width>531</width>
       <height>71</height>
      </rect>
     </property>
@@ -394,9 +394,9 @@
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>239</y>
-      <width>431</width>
+      <x>210</x>
+      <y>240</y>
+      <width>511</width>
       <height>51</height>
      </rect>
     </property>
@@ -423,7 +423,7 @@
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>16</hour>
+           <hour>0</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -520,9 +520,9 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>760</x>
       <y>160</y>
-      <width>81</width>
+      <width>91</width>
       <height>51</height>
      </rect>
     </property>
@@ -539,9 +539,9 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>760</x>
       <y>240</y>
-      <width>81</width>
+      <width>91</width>
       <height>51</height>
      </rect>
     </property>
@@ -631,9 +631,9 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>190</x>
       <y>350</y>
-      <width>681</width>
+      <width>711</width>
       <height>301</height>
      </rect>
     </property>

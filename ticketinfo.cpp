@@ -1,16 +1,62 @@
 #include "ticketinfo.h"
 #include "ui_ticketinfo.h"
-
-ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QWidget *parent)
+QString timeDifferString(QString time0,QString time1,int mode);
+ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,Log* next,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ticketInfo)
 {
     ui->setupUi(this);
+    int i=0,j;
+    setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+    QString time_split=timeDifferString(time0,time1,1);
+    QImage img;
+    if(company=="中国国航"||company=="春秋航空") img.load("E:/Qtproject/Dtrip/CA.png");
+    else if(company=="山东航空"||company=="南方航空") img.load("E:/Qtproject/Dtrip/CZ.png");
+    else img.load("E:/Qtproject/Dtrip/MU.png");
+    ui->label->setPixmap(QPixmap::fromImage(img));
+    Log* p=next;
+    QString a="";
+    QString IDS=ID,timeload;
+    bool ID_visible=true;
+    if(p!=NULL){
+        timeload=p->time1;
+        i=0;
+        while(p->next!=NULL){
+            p=p->next;
+            if(p->company!=company) ID_visible=false;
+            a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0);
+            timeload=p->time1;
+            IDS=IDS+"\n"+p->ID;
+            i++;
+        }
+    }
+    ui->label_2->setText(company);
+    if(ID_visible) ui->label_3->setText(IDS);
+    else ui->label_3->setText(ID+"\n"+"多个航司，"+QString::number(i+1)+"程航班");
+    ui->label_7->setText(time0);
+    ui->label_8->setText(sou);
+    ui->label_9->setText(time1);
+    ui->label_10->setText(des);
+    ui->label_5->setText(time_split);
+    ui->label_6->setText(QString::number(price));
+    if(i==0) ui->label_11->setText("直飞");
+    else ui->label_11->setText("转机"+QString::number(i)+"次,转:"+a);
+    ui->pushButton->setText("订票");
+    QImage img0;
+    img0.load("E:/Qtproject/Dtrip/横杠.png");
+    ui->label_4->setPixmap(QPixmap::fromImage(img0));
+}
+
+ticketInfo::~ticketInfo()
+{
+    delete ui;
+}
+
+QString timeDifferString(QString time0,QString time1,int mode){
     int time0h,time0m,time1h,time1m,i=0,j=0,times_h,times_m;
     bool dayplus=false;
     QString time1_withplus;
     QString time_split;
-    setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
     QStringList time0l=time0.split(':');
     QStringList time1l=time1.split(':');
     foreach (QString item, time0l) {
@@ -44,24 +90,7 @@ ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QStrin
         times_m+=60;
         times_h-=1;
     }
-    time_split=QString::number(times_h)+"小时"+QString::number(times_m)+ "分";
-    QImage img;
-    if(company=="中国国航"||company=="春秋航空") img.load("E:/Qtproject/Dtrip/CA.png");
-    else if(company=="山东航空"||company=="南方航空") img.load("E:/Qtproject/Dtrip/CZ.png");
-    else img.load("E:/Qtproject/Dtrip/MU.png");
-    ui->label->setPixmap(QPixmap::fromImage(img));
-    ui->label_2->setText(company);
-    ui->label_3->setText(ID);
-    ui->label_7->setText(time0);
-    ui->label_8->setText(sou);
-    ui->label_9->setText(time1);
-    ui->label_10->setText(des);
-    ui->label_5->setText(time_split);
-    ui->label_6->setText(QString::number(price));
-    ui->pushButton->setText("订票");
+    if(mode==0) return time_split=QString::number(times_h)+"h"+QString::number(times_m)+ "m";
+    else return time_split=QString::number(times_h)+"小时"+QString::number(times_m)+ "分";
 }
 
-ticketInfo::~ticketInfo()
-{
-    delete ui;
-}

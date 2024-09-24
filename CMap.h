@@ -385,7 +385,7 @@ public:
                 if ((dist[e->m_iNodeIndexB].m_length < dist[v].m_length + e->m_iWeightValue)&&(dist[e->m_iNodeIndexB].m_second_length > dist[v].m_length + e->m_iWeightValue)) {
                     dist[e->m_iNodeIndexB].m_second_length = dist[v].m_length + e->m_iWeightValue;
                     dist[e->m_iNodeIndexB].m_second_pre_vertex = v;
-                    mh.Insert(&dist[e->m_iNodeIndexB]);
+                    //mh.Insert(&dist[e->m_iNodeIndexB]);
                 }
             }
         }

@@ -1,8 +1,7 @@
 #ifndef TICKETINFO_H
 #define TICKETINFO_H
-
+#include "Log.h"
 #include <QWidget>
-
 namespace Ui {
 class ticketInfo;
 }
@@ -20,6 +19,7 @@ public:
                         QString time1,
                         int price,
                         QString chi,
+                        Log* next,
                         QWidget *parent = nullptr);
     ~ticketInfo();
 

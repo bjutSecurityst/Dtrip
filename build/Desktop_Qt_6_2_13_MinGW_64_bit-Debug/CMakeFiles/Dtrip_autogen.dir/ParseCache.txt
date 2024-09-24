@@ -363,8 +363,10 @@ E:/Qtproject/Dtrip/ticketinfo.cpp
 E:/Qtproject/Dtrip/CMap.h
 E:/Qtproject/Dtrip/ticketinfo.h
  mmc:Q_OBJECT
+ mdp:E:/Qtproject/Dtrip/Log.h
  mdp:E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/moc_predefs.h
  mdp:E:/Qtproject/Dtrip/ticketinfo.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/QString
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qalgorithms.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qanystringview.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qarraydata.h

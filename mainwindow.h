@@ -37,14 +37,19 @@ private slots:
 
     void on_verticalScrollBar_2_valueChanged(int value);
 
+    void setLog(string s);
+
+    void on_button_swap_clicked();
+
 private:
     Ui::MainWindow *ui;
     int myTimerId;
     int picId;
-    int ticketnum=0;
+    int ticketnum=0,ticket_checkednum=0;
     QTimer *timer;
     Dist *dist;
     bool btvisible=true;
+    QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
     Log logs[1000];
     void Timerout();
