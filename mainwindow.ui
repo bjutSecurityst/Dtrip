@@ -173,10 +173,10 @@
    <widget class="QLabel" name="labelicon0">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>230</x>
       <y>10</y>
-      <width>291</width>
-      <height>51</height>
+      <width>311</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -189,9 +189,9 @@
    <widget class="QPushButton" name="backgroundsky">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>80</y>
-      <width>691</width>
+      <width>701</width>
       <height>241</height>
      </rect>
     </property>
@@ -220,7 +220,7 @@
       <height>51</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="9,1,10">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="9,1,10,0">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
        <item>
@@ -240,23 +240,47 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEditdep">
-         <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <property name="cursorPosition">
-          <number>0</number>
-         </property>
-         <property name="placeholderText">
-          <string>北京</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLineEdit" name="lineEditdep">
+           <property name="styleSheet">
+            <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="cursorPosition">
+            <number>0</number>
+           </property>
+           <property name="placeholderText">
+            <string>北京</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:rgb(143, 143, 143);
+font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
@@ -292,25 +316,81 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEditari">
-         <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <property name="cursorPosition">
-          <number>0</number>
-         </property>
-         <property name="placeholderText">
-          <string>东京</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLineEdit" name="lineEditari">
+           <property name="styleSheet">
+            <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="cursorPosition">
+            <number>0</number>
+           </property>
+           <property name="placeholderText">
+            <string>东京</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:rgb(143, 143, 143);
+font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Minimum</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>15</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>38</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>
@@ -330,7 +410,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>200</x>
       <y>90</y>
       <width>111</width>
       <height>51</height>
@@ -368,7 +448,7 @@
    <widget class="QPushButton" name="home_background">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>80</y>
       <width>271</width>
       <height>71</height>
@@ -400,7 +480,7 @@
       <height>51</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="9,1,10">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="9,1,10,0">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
        <item>
@@ -423,7 +503,7 @@
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>0</hour>
+           <hour>8</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -514,6 +594,19 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>38</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>
@@ -631,9 +724,9 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>350</y>
-      <width>711</width>
+      <width>721</width>
       <height>301</height>
      </rect>
     </property>
@@ -661,6 +754,22 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>30</y>
+      <width>56</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>登录</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>backgroundsky</zorder>
    <zorder>home_background</zorder>
    <zorder>layoutbutton</zorder>
@@ -679,6 +788,7 @@
    <zorder>label_11</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>verticalScrollBar_2</zorder>
+   <zorder>pushButton_5</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -164,9 +164,25 @@ void MainWindow::on_pushButton_4_clicked()
 {
     int nodeNum=16, arcNum=241, begin,end;
     int i,j,k;
-    bool label;
-    ticketnum=0;
-    ticket_checkednum=0;
+    bool label,labeldep=false,labelari=false;
+    for(i=0;i<16;i++){
+        if(ui->lineEditdep->text()==citys[i]) labeldep=true;
+        if(ui->lineEditari->text()==citys[i]) labelari=true;
+    }
+    if(labeldep==false) {
+        ui->lineEditdep->setText("");
+        ui->lineEditdep->setPlaceholderText("请输入正确的始发地");
+        ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+
+    }
+    if(labelari==false) {
+        ui->lineEditari->setText("");
+        ui->lineEditari->setPlaceholderText("请输入正确的目的地");
+        ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+    }
+    if(labeldep==false || labelari==false) return;
+    ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
+    ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
     while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
     {
         if (QWidget* widget = item->widget())
@@ -174,9 +190,11 @@ void MainWindow::on_pushButton_4_clicked()
 
         delete item;
     }
-    for(i=0;i<1000;i++){
+    for(i=0;i<=ticketnum;i++){
         logs[i].clear();
     }
+    ticketnum=0;
+    ticket_checkednum=0;
     QDate curDate =ui->dateEdit->date();
     QString year,month,day;
     QString company,ID,sou,des,time0,time1,chi;
@@ -244,12 +262,12 @@ void MainWindow::on_pushButton_4_clicked()
     setLog(s1);
     ui->label_10->setVisible(false);
     ui->label_11->setVisible(false);
-    if(logs[2].ID==""){
+    if(logs[2].ID=="" || logs[2].des=="不可达"){
         k=2;
-        if(logs[1].ID=="") k=1;
-        if(logs[0].ID=="") {
+        if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
+        if(logs[0].ID=="" || logs[0].des=="不可达") {
             k=0;
-            ticketInfo* ticket0=new ticketInfo("没有航空公司","123456","不可达","不可达","","",0,"0%",NULL);
+            ticketInfo* ticket0=new ticketInfo("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%",NULL);
             ui->verticalLayout_2->addWidget(ticket0);
         }
         for(i=0;i<k;i++){
@@ -380,6 +398,7 @@ void MainWindow::setLog(string s){
                     i++;
                 }
                 logs[j].setLog(company,ID,sou,des,time0,time1,price,chi);
+                logs[j].next=NULL;
                 j++;
             }
             //QuickSort2(logs,j);
@@ -546,7 +565,66 @@ void MainWindow::setLog(string s){
                 qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
             }
         }
+        if(ticketnum<0) ticketnum=0;
         QuickSort2(logs,ticketnum);
         ticket_checkednum=ticketnum;
     }
 }
+
+void MainWindow::on_pushButton_5_clicked()
+{
+
+}
+
+
+void MainWindow::on_lineEditdep_textChanged(const QString &arg1)
+{
+    int i,j,k;
+    bool label,labeldep=false,labelari=false;
+    if(ui->lineEditdep->text()!=""){
+        for(i=0;i<16;i++){
+            if(ui->lineEditdep->text()[0]==citys[i][0]) {
+                if(labeldep) {
+                    ui->label_12->setText(ui->label_12->text()+"/"+citys[i].last(citys[i].length()-1));
+                    ui->label_12->setMinimumWidth(90);
+                }
+                else {
+                    ui->label_12->setText(citys[i]);
+                    ui->label_12->setMinimumWidth(0);
+                }
+                labeldep=true;
+            }
+        }
+    }
+    else {
+        ui->label_12->setText("");
+        ui->label_12->setMinimumWidth(0);
+    }
+}
+
+
+void MainWindow::on_lineEditari_textChanged(const QString &arg1)
+{
+    int i;
+    bool label,labelari=false;
+    if(ui->lineEditari->text()!=""){
+        for(i=0;i<16;i++){
+            if(ui->lineEditari->text()[0]==citys[i][0]) {
+                if(labelari) {
+                    ui->label_13->setText(ui->label_13->text()+"/"+citys[i].last(citys[i].length()-1));
+                    ui->label_13->setMinimumWidth(90);
+                }
+                else {
+                    ui->label_13->setText(citys[i]);
+                    ui->label_13->setMinimumWidth(0);
+                }
+                labelari=true;
+            }
+        }
+    }
+    else {
+        ui->label_13->setText("");
+        ui->label_13->setMinimumWidth(0);
+    }
+}
+

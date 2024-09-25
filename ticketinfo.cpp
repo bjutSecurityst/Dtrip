@@ -18,7 +18,7 @@ ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QStrin
     QString a="";
     QString IDS=ID,timeload;
     bool ID_visible=true;
-    if(p!=NULL){
+    if(p!=NULL && p->company!=""){
         timeload=p->time1;
         i=0;
         while(p->next!=NULL){
@@ -91,6 +91,7 @@ QString timeDifferString(QString time0,QString time1,int mode){
         times_h-=1;
     }
     if(mode==0) return time_split=QString::number(times_h)+"h"+QString::number(times_m)+ "m";
+    else if(time0=="00:00" && time1=="25:00") return time_split="当前查询条件\n下今天内无法完\n成转机";
     else return time_split=QString::number(times_h)+"小时"+QString::number(times_m)+ "分";
 }
 

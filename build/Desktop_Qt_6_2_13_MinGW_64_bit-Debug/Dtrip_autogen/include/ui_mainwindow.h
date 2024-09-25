@@ -21,6 +21,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollBar>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -45,11 +46,17 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout;
     QLabel *label_2;
+    QHBoxLayout *horizontalLayout_4;
     QLineEdit *lineEditdep;
+    QLabel *label_12;
     QLabel *label_3;
     QVBoxLayout *verticalLayout_3;
     QLabel *label;
+    QHBoxLayout *horizontalLayout_5;
     QLineEdit *lineEditari;
+    QLabel *label_13;
+    QSpacerItem *horizontalSpacer_3;
+    QSpacerItem *horizontalSpacer;
     QPushButton *layoutbutton;
     QLabel *label_4;
     QPushButton *easystay;
@@ -64,6 +71,7 @@ public:
     QVBoxLayout *verticalLayout_5;
     QLabel *label_7;
     QComboBox *comboBox;
+    QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton;
     QPushButton *pushButton_4;
     QLabel *label_8;
@@ -73,6 +81,7 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout_2;
     QScrollBar *verticalScrollBar_2;
+    QPushButton *pushButton_5;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -152,11 +161,11 @@ public:
 
         labelicon0 = new QLabel(centralwidget);
         labelicon0->setObjectName(QString::fromUtf8("labelicon0"));
-        labelicon0->setGeometry(QRect(240, 10, 291, 51));
+        labelicon0->setGeometry(QRect(230, 10, 311, 61));
         labelicon0->setScaledContents(true);
         backgroundsky = new QPushButton(centralwidget);
         backgroundsky->setObjectName(QString::fromUtf8("backgroundsky"));
-        backgroundsky->setGeometry(QRect(190, 80, 691, 241));
+        backgroundsky->setGeometry(QRect(180, 80, 701, 241));
         backgroundsky->setIconSize(QSize(300, 150));
         backgroundsky->setAutoDefault(false);
         backgroundsky->setFlat(false);
@@ -176,13 +185,27 @@ public:
 
         verticalLayout->addWidget(label_2);
 
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         lineEditdep = new QLineEdit(verticalLayoutWidget_2);
         lineEditdep->setObjectName(QString::fromUtf8("lineEditdep"));
         lineEditdep->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         lineEditdep->setFrame(false);
         lineEditdep->setCursorPosition(0);
 
-        verticalLayout->addWidget(lineEditdep);
+        horizontalLayout_4->addWidget(lineEditdep);
+
+        label_12 = new QLabel(verticalLayoutWidget_2);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setMinimumSize(QSize(0, 0));
+        label_12->setStyleSheet(QString::fromUtf8("color:rgb(143, 143, 143);\n"
+"font: 12pt \"Microsoft YaHei UI\";"));
+        label_12->setWordWrap(true);
+
+        horizontalLayout_4->addWidget(label_12);
+
+
+        verticalLayout->addLayout(horizontalLayout_4);
 
 
         horizontalLayout_2->addLayout(verticalLayout);
@@ -204,16 +227,39 @@ public:
 
         verticalLayout_3->addWidget(label);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         lineEditari = new QLineEdit(verticalLayoutWidget_2);
         lineEditari->setObjectName(QString::fromUtf8("lineEditari"));
         lineEditari->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         lineEditari->setFrame(false);
         lineEditari->setCursorPosition(0);
 
-        verticalLayout_3->addWidget(lineEditari);
+        horizontalLayout_5->addWidget(lineEditari);
+
+        label_13 = new QLabel(verticalLayoutWidget_2);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+        label_13->setMinimumSize(QSize(0, 0));
+        label_13->setStyleSheet(QString::fromUtf8("color:rgb(143, 143, 143);\n"
+"font: 12pt \"Microsoft YaHei UI\";"));
+        label_13->setScaledContents(false);
+        label_13->setWordWrap(true);
+
+        horizontalLayout_5->addWidget(label_13);
+
+        horizontalSpacer_3 = new QSpacerItem(15, 20, QSizePolicy::Policy::Minimum, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_5);
 
 
         horizontalLayout_2->addLayout(verticalLayout_3);
+
+        horizontalSpacer = new QSpacerItem(38, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer);
 
         horizontalLayout_2->setStretch(0, 9);
         horizontalLayout_2->setStretch(1, 1);
@@ -223,7 +269,7 @@ public:
         layoutbutton->setGeometry(QRect(200, 150, 531, 71));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(210, 90, 111, 51));
+        label_4->setGeometry(QRect(200, 90, 111, 51));
         label_4->setStyleSheet(QString::fromUtf8("font: 18pt \"Microsoft YaHei UI\";"));
         label_4->setTextFormat(Qt::TextFormat::AutoText);
         label_4->setScaledContents(true);
@@ -233,7 +279,7 @@ public:
         easystay->setGeometry(QRect(670, 100, 181, 31));
         home_background = new QPushButton(centralwidget);
         home_background->setObjectName(QString::fromUtf8("home_background"));
-        home_background->setGeometry(QRect(190, 80, 271, 71));
+        home_background->setGeometry(QRect(180, 80, 271, 71));
         layoutbutton_2 = new QPushButton(centralwidget);
         layoutbutton_2->setObjectName(QString::fromUtf8("layoutbutton_2"));
         layoutbutton_2->setGeometry(QRect(200, 230, 531, 71));
@@ -255,7 +301,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -294,6 +340,10 @@ public:
 
         horizontalLayout_3->addLayout(verticalLayout_5);
 
+        horizontalSpacer_2 = new QSpacerItem(38, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
         horizontalLayout_3->setStretch(0, 9);
         horizontalLayout_3->setStretch(1, 1);
         horizontalLayout_3->setStretch(2, 10);
@@ -330,7 +380,7 @@ public:
 ""));
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(190, 350, 711, 301));
+        verticalLayoutWidget->setGeometry(QRect(180, 350, 721, 301));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -341,6 +391,10 @@ public:
         verticalScrollBar_2->setMaximum(100);
         verticalScrollBar_2->setOrientation(Qt::Orientation::Vertical);
         verticalScrollBar_2->setInvertedAppearance(false);
+        pushButton_5 = new QPushButton(centralwidget);
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        pushButton_5->setGeometry(QRect(960, 30, 56, 21));
+        pushButton_5->setFlat(true);
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
         home_background->raise();
@@ -360,6 +414,7 @@ public:
         label_11->raise();
         verticalLayoutWidget->raise();
         verticalScrollBar_2->raise();
+        pushButton_5->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
@@ -386,10 +441,12 @@ public:
         label_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#454545;\">\345\207\272\345\217\221\345\234\260\357\274\232</span></p></body></html>", nullptr));
         lineEditdep->setText(QString());
         lineEditdep->setPlaceholderText(QCoreApplication::translate("MainWindow", "\345\214\227\344\272\254", nullptr));
+        label_12->setText(QString());
         label_3->setText(QCoreApplication::translate("MainWindow", "|", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#454545;\">\347\233\256\347\232\204\345\234\260\357\274\232</span></p></body></html>", nullptr));
         lineEditari->setText(QString());
         lineEditari->setPlaceholderText(QCoreApplication::translate("MainWindow", "\344\270\234\344\272\254", nullptr));
+        label_13->setText(QString());
         layoutbutton->setText(QString());
         label_4->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#ffffff;\">\351\242\204\345\256\232\346\234\272\347\245\250</span></p></body></html>", nullptr));
         easystay->setText(QString());
@@ -410,6 +467,7 @@ public:
         label_9->setText(QCoreApplication::translate("MainWindow", "\302\251 2024 bjutSecurityst  |   \344\272\254ICP\345\244\2071145141919\345\217\267   |    \344\275\277\347\224\250\346\235\241\346\254\276", nullptr));
         label_10->setText(QString());
         label_11->setText(QCoreApplication::translate("MainWindow", "\345\271\277\345\221\212\344\275\215\346\213\233\347\247\237", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "\347\231\273\345\275\225", nullptr));
     } // retranslateUi
 
 };

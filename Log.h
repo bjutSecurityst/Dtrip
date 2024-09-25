@@ -37,11 +37,12 @@ public:
             p=this->next;
             while(p->next!=NULL) {
                 q=p->next;
-                delete p;
+                p->clear();
                 p=q;
             }
-            delete p;
+            p->clear();
         }
+        this->next=NULL;
     }
 private:
 

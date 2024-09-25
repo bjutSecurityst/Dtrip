@@ -41,6 +41,12 @@ private slots:
 
     void on_button_swap_clicked();
 
+    void on_pushButton_5_clicked();
+
+    void on_lineEditdep_textChanged(const QString &arg1);
+
+    void on_lineEditari_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     int myTimerId;
