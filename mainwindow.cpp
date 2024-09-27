@@ -16,6 +16,7 @@
 #define WindowWidth 1280
 #define WindowHeight 720
 QPixmap changeImage(QPixmap img_in,int radius);
+void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode);
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -163,22 +164,43 @@ void MainWindow::on_pushButton_0_clicked()
 void MainWindow::on_pushButton_4_clicked()
 {
     int nodeNum=16, arcNum=241, begin,end;
-    int i,j,k;
+    int i=0,j,k;
     bool label,labeldep=false,labelari=false;
-    for(i=0;i<16;i++){
-        if(ui->lineEditdep->text()==citys[i]) labeldep=true;
-        if(ui->lineEditari->text()==citys[i]) labelari=true;
+    if(ui->lineEditdep->text()!=ui->lineEditari->text()) {
+        for(i=0;i<16;i++){
+            if(ui->lineEditdep->text()==citys[i]) labeldep=true;
+            if(ui->lineEditari->text()==citys[i]) labelari=true;
+        }
     }
-    if(labeldep==false) {
-        ui->lineEditdep->setText("");
-        ui->lineEditdep->setPlaceholderText("请输入正确的始发地");
+    if(labeldep==false && i!=0) {
+        if(ui->lineEditdep->text()=="") ui->lineEditdep->setPlaceholderText("请输入始发地");
+        else{
+            ui->lineEditdep->setText("");
+            ui->lineEditdep->setPlaceholderText("请输入正确的始发地");
+        }
         ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
 
     }
-    if(labelari==false) {
-        ui->lineEditari->setText("");
-        ui->lineEditari->setPlaceholderText("请输入正确的目的地");
+    if(labelari==false && i!=0) {
+        if(ui->lineEditari->text()=="") ui->lineEditari->setPlaceholderText("请输入目的地");
+        else{
+            ui->lineEditari->setText("");
+            ui->lineEditari->setPlaceholderText("请输入正确的目的地");
+        }
         ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+    }
+    if(i==0){
+        if(ui->lineEditdep->text()==""){
+            ui->lineEditdep->setPlaceholderText("请输入始发地");
+            ui->lineEditari->setPlaceholderText("请输入目的地");
+            ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+        }
+        else{
+            ui->lineEditari->setText("");
+            ui->lineEditari->setPlaceholderText("目的地不能等于始发地");
+            ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+        }
     }
     if(labeldep==false || labelari==false) return;
     ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
@@ -197,55 +219,15 @@ void MainWindow::on_pushButton_4_clicked()
     ticket_checkednum=0;
     QDate curDate =ui->dateEdit->date();
     QString year,month,day;
-    QString company,ID,sou,des,time0,time1,chi;
-    int price=0,price0=0;
+    int price=0,price0=0,mode,time_min,time_min0;
     year= QString::number(curDate.year());
     month= QString::number(curDate.month());
     day= QString::number(curDate.day());
-    QString fname,info0;
+    //根据下拉条目设置检索模式
+    if(ui->comboBox->currentIndex()<4 && ui->comboBox->currentIndex()>=0) mode=ui->comboBox->currentIndex();
+    else return;
     CMap* pMap = new CMap(nodeNum,arcNum);
-    QRegularExpression rxlen( "^(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$" );
-    QRegularExpressionMatch match;
-    for (i = 0; i < nodeNum;i++) {
-        Node* pNode0 = new Node(i);
-        pMap->addNode(pNode0);
-    }
-    for (i = 0; i < nodeNum;i++) {
-        for(j = i+1; j < nodeNum;j++) {
-            price=0;
-            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
-            QFile fs(fname);
-            if(fs.open(QIODeviceBase::ReadOnly)){
-                QTextStream in(&fs);
-                in.setEncoding(QStringConverter::System);
-                while (in.atEnd()==false){
-                    info0=in.readLine();
-                    match = rxlen.match(info0);
-                    price0=match.captured(7).toInt();
-                    if(price==0) price=price0;
-                    else if(price0<price) price=price0;
-                }
-                label=pMap->setValueToMatrixForDirectedGraph(i, j, price);
-            }
-            fs.close();
-            price=0;
-            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[j] + "-" + citys[i] + ".txt";
-            QFile fs1(fname);
-            if(fs1.open(QIODeviceBase::ReadOnly)){
-                QTextStream in1(&fs1);
-                in1.setEncoding(QStringConverter::System);
-                while (in1.atEnd()==false){
-                    info0=in1.readLine();
-                    match = rxlen.match(info0);
-                    price0=match.captured(7).toInt();
-                    if(price==0) price=price0;
-                    else if(price0<price) price=price0;
-                }
-                label=pMap->setValueToMatrixForDirectedGraph(j, i, price);
-            }
-            fs.close();
-        }
-    }
+    CMapSet(curDate,citys,pMap,mode);
     for(begin=0;begin<17;begin++){
         if(citys[begin]==ui->lineEditdep->text()) break;
     }
@@ -254,12 +236,12 @@ void MainWindow::on_pushButton_4_clicked()
     }
     //ui->label_11->setText(QString::number(end));
     dist = pMap->Dijkstra(begin);
-    //获取价格最低路径
+    //获取最低路径
     string s = pMap->visit_first(dist,begin,end);
-    setLog(s);
-    //获取价格次低路径
+    setLog(s,mode);
+    //获取次低路径
     string s1 = pMap->visit_second(dist,begin,end);
-    setLog(s1);
+    setLog(s1,mode);
     ui->label_10->setVisible(false);
     ui->label_11->setVisible(false);
     if(logs[2].ID=="" || logs[2].des=="不可达"){
@@ -289,7 +271,7 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
     if(ticketnum!=0){
         int i=0;
         int j=3;
-        j=(ticketnum-3)*((double)position/(double)100);
+        j=(ticketnum+1)*((double)position/(double)100);
         if(j<3)j=3;
         if(j>ticketnum) j=ticketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -314,7 +296,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
     if(ticketnum!=0){
         int i=0;
         int j=3;
-        j=(ticketnum-3)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)100);
+        j=(ticketnum+1)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)100);
         if(j<3)j=3;
         if(j>ticketnum) j=ticketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -335,7 +317,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
         ui->verticalLayout_2->addWidget(ticket2);
     }
 }
-void MainWindow::setLog(string s){
+void MainWindow::setLog(string s,int mode){
     QDate curDate =ui->dateEdit->date();
     QString year,month,day;
     QString company,ID,sou,des,time0,time1,chi;
@@ -344,20 +326,16 @@ void MainWindow::setLog(string s){
     month= QString::number(curDate.month());
     day= QString::number(curDate.day());
     QString fname,info0;
-    QRegularExpression rxlen( "^(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$" );
-    QRegularExpressionMatch match;
     QString qs=QString::fromStdString(s);
     QStringList qsl=qs.split(' ');
     QRegularExpression numbers( "0|[1-9]\\d{0,1}" );
     QRegularExpressionMatch matchnum;
-    QRegularExpression dot( "[,]" );
     QString coc="",ari="",beg="",las="";
     QStringList mid[5];
     Log *p,*q;
     int i=0,j=0,k=0;
     foreach (QString item, qsl) {
         matchnum = numbers.match(item);
-        match = dot.match(item);
         if(item=="不可达") return;
         if(matchnum.hasMatch()){
             if(item.toInt()<20){
@@ -459,7 +437,6 @@ void MainWindow::setLog(string s){
             else{
                 j=0;
                 Log logs0[1000];
-                QString pretime,backtime;
                 fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
@@ -485,13 +462,14 @@ void MainWindow::setLog(string s){
                         logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi);
                         j++;
                     }
-                    QuickSort3(logs0,j);
+                    if(mode==1) QuickSort(logs0,j,2);
                     for(i=0;i<j;i++){
                         qDebug() <<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
                     }
                     int log_number=0,l=ticketnum-1;
                     bool repeat=false;
                     for(i=ticket_checkednum;i<ticketnum;i++){
+                        if(mode==2) QuickSort_Turn(logs[i],logs0,j);
                         if(logs[i].time1.right(2)=="+1"){
                             logs[i].des="不可达";
                             continue;
@@ -499,14 +477,15 @@ void MainWindow::setLog(string s){
                         if(logs[i].des=="不可达") continue;
                         repeat=false;
                         log_number=0;
-                        k=modSearch(logs0,logs[i].time1,0,j+1);
-                        if(k==0 && timediffer(logs[i].time1,logs0[j-1].time0)<0) {
+                        if(mode==1) k=modSearch(logs0,logs[i].time1,0,j+1);
+                        else k=0;
+                        if(k==0 && timediffer(logs[i].time1,logs0[j-1].time0)<0 && mode==1) {
                             logs[i].des="不可达";
                             continue;
                         }
                         QString time_preserve=logs[i].time1;
-                        for(;(timediffer(time_preserve,logs0[k].time0)<600 && k<=j);k++){
-                            if(timediffer(time_preserve,logs0[k].time0)>60){
+                        for(; k<=j;k++){
+                            if(timediffer(time_preserve,logs0[k].time0)>60 && timediffer(time_preserve,logs0[k].time0)<600){
                                 if(!repeat) {
                                     p=&logs[i];
                                     while(p->next!=NULL){
@@ -566,7 +545,8 @@ void MainWindow::setLog(string s){
             }
         }
         if(ticketnum<0) ticketnum=0;
-        QuickSort2(logs,ticketnum);
+        if(mode==1) QuickSort(logs,ticketnum,2);
+        else if(mode==2) QuickSort(logs,ticketnum,1);
         ticket_checkednum=ticketnum;
     }
 }
@@ -583,14 +563,15 @@ void MainWindow::on_lineEditdep_textChanged(const QString &arg1)
     bool label,labeldep=false,labelari=false;
     if(ui->lineEditdep->text()!=""){
         for(i=0;i<16;i++){
-            if(ui->lineEditdep->text()[0]==citys[i][0]) {
+            if(citys[i].contains(ui->lineEditdep->text())) {
                 if(labeldep) {
                     ui->label_12->setText(ui->label_12->text()+"/"+citys[i].last(citys[i].length()-1));
                     ui->label_12->setMinimumWidth(90);
                 }
                 else {
                     ui->label_12->setText(citys[i]);
-                    ui->label_12->setMinimumWidth(0);
+                    if(citys[i].length()==4) ui->label_12->setMinimumWidth(70);
+                    else ui->label_12->setMinimumWidth(0);
                 }
                 labeldep=true;
             }
@@ -609,14 +590,15 @@ void MainWindow::on_lineEditari_textChanged(const QString &arg1)
     bool label,labelari=false;
     if(ui->lineEditari->text()!=""){
         for(i=0;i<16;i++){
-            if(ui->lineEditari->text()[0]==citys[i][0]) {
+            if(citys[i].contains(ui->lineEditari->text())) {
                 if(labelari) {
                     ui->label_13->setText(ui->label_13->text()+"/"+citys[i].last(citys[i].length()-1));
                     ui->label_13->setMinimumWidth(90);
                 }
                 else {
                     ui->label_13->setText(citys[i]);
-                    ui->label_13->setMinimumWidth(0);
+                    if(citys[i].length()==4) ui->label_13->setMinimumWidth(70);
+                    else ui->label_13->setMinimumWidth(0);
                 }
                 labelari=true;
             }
@@ -625,6 +607,91 @@ void MainWindow::on_lineEditari_textChanged(const QString &arg1)
     else {
         ui->label_13->setText("");
         ui->label_13->setMinimumWidth(0);
+    }
+}
+
+void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
+    int nodeNum=16, arcNum=241;
+    int i,j;
+    bool label;
+    QString year,month,day;
+    QString times0,times1;
+    int price=0,price0=0,time,time0;
+    year= QString::number(curDate.year());
+    month= QString::number(curDate.month());
+    day= QString::number(curDate.day());
+    QString fname,info0;
+    QRegularExpression rxlen( "^(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$" );
+    QRegularExpressionMatch match;
+    for (i = 0; i < nodeNum;i++) {
+        Node* pNode0 = new Node(i);
+        pMap->addNode(pNode0);
+    }
+    for (i = 0; i < nodeNum;i++) {
+        for(j = i+1; j < nodeNum;j++) {
+            price=0;
+            time=0;
+            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
+            QFile fs(fname);
+            if(fs.open(QIODeviceBase::ReadOnly)){
+                QTextStream in(&fs);
+                in.setEncoding(QStringConverter::System);
+                if(mode==1){
+                    while (in.atEnd()==false){
+                        info0=in.readLine();
+                        match = rxlen.match(info0);
+                        price0=match.captured(7).toInt();
+                        if(price==0) price=price0;
+                        else if(price0<price) price=price0;
+                    }
+                    label=pMap->setValueToMatrixForDirectedGraph(i, j, price);
+                }
+                else if(mode==2){
+                    while (in.atEnd()==false){
+                        info0=in.readLine();
+                        match = rxlen.match(info0);
+                        times0 = match.captured(5);
+                        times1 = match.captured(6);
+                        time0 = timediffer(times0,times1);
+                        if(time==0) time=time0;
+                        else if(time0<time) time=time0;
+                    }
+                    label=pMap->setValueToMatrixForDirectedGraph(i, j, time);
+                }
+            }
+            fs.close();
+            price=0;
+            time=0;
+            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[j] + "-" + citys[i] + ".txt";
+            QFile fs1(fname);
+            if(fs1.open(QIODeviceBase::ReadOnly)){
+                QTextStream in1(&fs1);
+                in1.setEncoding(QStringConverter::System);
+                if(mode==1){
+                    while (in1.atEnd()==false){
+                        info0=in1.readLine();
+                        match = rxlen.match(info0);
+                        price0=match.captured(7).toInt();
+                        if(price==0) price=price0;
+                        else if(price0<price) price=price0;
+                    }
+                    label=pMap->setValueToMatrixForDirectedGraph(j, i, price);
+                }
+                else if(mode==2){
+                    while (in1.atEnd()==false){
+                        info0=in1.readLine();
+                        match = rxlen.match(info0);
+                        times0 = match.captured(5);
+                        times1 = match.captured(6);
+                        time0 = timediffer(times0,times1);
+                        if(time==0) time=time0;
+                        else if(time0<time) time=time0;
+                    }
+                    label=pMap->setValueToMatrixForDirectedGraph(j, i, time);
+                }
+            }
+            fs.close();
+        }
     }
 }
 

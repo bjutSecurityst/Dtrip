@@ -13,6 +13,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QHBoxLayout>
@@ -69,7 +70,9 @@ public:
     QDateEdit *dateEdit;
     QLabel *label_6;
     QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_6;
     QLabel *label_7;
+    QCheckBox *checkBox;
     QComboBox *comboBox;
     QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton;
@@ -301,7 +304,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -320,13 +323,25 @@ public:
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
         label_7 = new QLabel(verticalLayoutWidget_5);
         label_7->setObjectName(QString::fromUtf8("label_7"));
         label_7->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         label_7->setAlignment(Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter);
         label_7->setMargin(0);
 
-        verticalLayout_5->addWidget(label_7);
+        horizontalLayout_6->addWidget(label_7);
+
+        checkBox = new QCheckBox(verticalLayoutWidget_5);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+
+        horizontalLayout_6->addWidget(checkBox);
+
+        horizontalLayout_6->setStretch(0, 2);
+        horizontalLayout_6->setStretch(1, 1);
+
+        verticalLayout_5->addLayout(horizontalLayout_6);
 
         comboBox = new QComboBox(verticalLayoutWidget_5);
         comboBox->addItem(QString());
@@ -455,6 +470,7 @@ public:
         label_5->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#454545;\">\345\207\272\350\241\214\346\227\245\346\234\237\357\274\232</span></p></body></html>", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "|", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#454545;\">\346\237\245\350\257\242\346\235\241\344\273\266\357\274\232</span></p></body></html>", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "\346\267\261\345\272\246\346\220\234\347\264\242", nullptr));
         comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "\346\231\272\350\203\275\346\243\200\347\264\242", nullptr));
         comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "\350\264\271\347\224\250\346\234\200\345\260\221", nullptr));
         comboBox->setItemText(2, QCoreApplication::translate("MainWindow", "\346\227\266\351\227\264\346\234\200\347\237\255", nullptr));

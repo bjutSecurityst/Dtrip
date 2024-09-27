@@ -37,7 +37,7 @@ private slots:
 
     void on_verticalScrollBar_2_valueChanged(int value);
 
-    void setLog(string s);
+    void setLog(string s,int mode);
 
     void on_button_swap_clicked();
 

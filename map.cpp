@@ -69,15 +69,15 @@ void Map::wheelEvent(QWheelEvent *event)
     int i;
     QPoint p( -100, 100);
     QPoint q( 100, -100);
-    double ratio=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(p.rx()-q.rx()+60)*18;
+    double ratio=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(double)(p.rx()-q.rx()+60)*18-16;
     if(ratio>99) ratio=99;
     ui->horizontalSlider->setSliderPosition(ratio);
-    ui->label->setNum(ratio);
+    ui->label->setNum((int)ratio);
     for(i=0;i<16;i++){
         buttons[i]->move(ui->graphicsView->mapFromScene(cityp[i]).rx(),ui->graphicsView->mapFromScene(cityp[i]).ry());
     }
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
-    if(ratio<36) {
+    if(ratio<16) {
         for(i=0;i<16;i++){
             buttons[i]->setVisible(false);
         }
@@ -107,7 +107,7 @@ void Map::on_MyGraphicsView_rubberBandChanged()
     int i;
     QPoint p( -100, 100);
     QPoint q( 100, -100);
-    double ratio=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(p.rx()-q.rx()+60)*18;
+    double ratio=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(double)(p.rx()-q.rx()+60)*18-16;
     for(i=0;i<16;i++){
         buttons[i]->move(ui->graphicsView->mapFromScene(cityp[i]).rx(),ui->graphicsView->mapFromScene(cityp[i]).ry());
     }

@@ -9,6 +9,10 @@
 #include "Log.h"
 using namespace std;
 #define THRESHOLD 8
+void QuickSort(Log* array, int n,int mode);
+void ModQuickSort1(Log* array, int left, int right);
+int partition1(Log* array, int left, int right);
+void insertSort1(Log* array, int n);
 void ModQuickSort2(Log* array, int left, int right);
 int partition2(Log* array, int left, int right);
 void insertSort2(Log* array, int n);
@@ -19,9 +23,56 @@ void ModQuickSort4(Log* array, int left, int right);
 int partition4(Log* array, int left, int right);
 void insertSort4(Log* array, int n);
 int timediffer(QString time0,QString time1);
-void QuickSort2(Log* array, int n) {
-    ModQuickSort2(array, 0, n - 1);
-    insertSort2(array, n);
+void ModQuickSort_Turn(Log logs,Log* array, int left, int right);
+int partition_Turn(Log logs,Log* array, int left, int right);
+void insertSort_Turn(Log logs,Log* array, int n);
+void ModQuickSort1(Log* array, int left, int right) {
+    if (right - left + 1 > THRESHOLD) {
+        int j;
+        int pivot = (left+right)/2;
+        swap(array[pivot], array[right]);
+        pivot = partition1(array, left, right);
+        ModQuickSort1(array, left, pivot - 1);
+        ModQuickSort1(array, pivot + 1, right);
+    }
+}
+int partition1(Log* array, int left, int right) {
+    int l = left, r = right;
+    int i;
+    Log t = array[r];
+    while (l != r) {
+        while (r > l) {
+            if (timediffer(array[l].time0,array[l].time1) <= timediffer(t.time0,t.time1)) l++;
+            else break;
+        }
+        if (l < r) {
+            array[r] = array[l];
+            r--;
+        }
+        while (r > l) {
+            if (timediffer(array[r].time0,array[r].time1) >= timediffer(t.time0,t.time1)) r--;
+            else break;
+        }
+        if (l < r) {
+            array[l] = array[r];
+            l++;
+        }
+    }
+    array[l] = t;
+    return l;
+}
+void insertSort1(Log* array, int n) {
+    int  i, j;
+    Log t;
+    for (i = 1; i < n; i++) {
+        t = array[i];
+        int j = i - 1;
+        while (j >= 0 && timediffer(t.time0,t.time1) < timediffer(array[j].time0,array[j].time1)) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+        array[j + 1] = t;
+    }
 }
 void ModQuickSort2(Log* array, int left, int right) {
     if (right - left + 1 > THRESHOLD) {
@@ -71,10 +122,6 @@ void insertSort2(Log* array, int n) {
         array[j + 1] = t;
     }
 }
-void QuickSort3(Log* array, int n) {
-    ModQuickSort3(array, 0, n - 1);
-    insertSort3(array, n);
-}
 void ModQuickSort3(Log* array, int left, int right) {
     if (right - left + 1 > THRESHOLD) {
         int j;
@@ -123,9 +170,24 @@ void insertSort3(Log* array, int n) {
         array[j + 1] = t;
     }
 }
-void QuickSort4(Log* array, int n) {
-    ModQuickSort4(array, 0, n - 1);
-    insertSort4(array, n);
+void QuickSort(Log* array, int n,int mode) {
+    if(mode==1){
+        ModQuickSort1(array, 0, n - 1);
+        insertSort1(array, n);
+    }
+    else if(mode==2){
+        ModQuickSort2(array, 0, n - 1);
+        insertSort2(array, n);
+    }
+    else if(mode==3){
+        ModQuickSort3(array, 0, n - 1);
+        insertSort3(array, n);
+    }
+    else if(mode==4){
+        ModQuickSort4(array, 0, n - 1);
+        insertSort4(array, n);
+    }
+
 }
 void ModQuickSort4(Log* array, int left, int right) {
     if (right - left + 1 > THRESHOLD) {
@@ -171,6 +233,73 @@ void insertSort4(Log* array, int n) {
         while (j >= 0 && timediffer("00:00",t.time1) < timediffer("00:00",array[j].time1)) {
             array[j + 1] = array[j];
             j = j - 1;
+        }
+        array[j + 1] = t;
+    }
+}
+void QuickSort_Turn(Log logs,Log* array,int n){
+    ModQuickSort_Turn(logs,array, 0, n - 1);
+    insertSort_Turn(logs,array, n);
+}
+int partition_Turn(Log logs,Log* array, int left, int right) {
+    int l = left, r = right;
+    int i,timeminorl,timeminort,timeminorr;
+    Log t = array[r];
+    while (l != r) {
+        while (r > l) {
+            timeminorl=timediffer(logs.time1,array[l].time0);
+            if(timeminorl<0) timeminorl=60000;
+            timeminort=timediffer(logs.time1,t.time0);
+            if(timeminort<0) timeminort=60000;
+            if (timediffer(array[l].time0,array[l].time1)+timeminorl <= timediffer(t.time0,t.time1)+timeminort) l++;
+            else break;
+        }
+        if (l < r) {
+            array[r] = array[l];
+            r--;
+        }
+        while (r > l) {
+            timeminort=timediffer(logs.time1,t.time0);
+            if(timeminort<0) timeminort=60000;
+            timeminorr=timediffer(logs.time1,array[r].time0);
+            if(timeminorr<0) timeminorr=60000;
+            if (timediffer(array[r].time0,array[r].time1)+timeminorr >= timediffer(t.time0,t.time1)+timeminort) r--;
+            else break;
+        }
+        if (l < r) {
+            array[l] = array[r];
+            l++;
+        }
+    }
+    array[l] = t;
+    return l;
+}
+void ModQuickSort_Turn(Log logs, Log* array, int left, int right){
+    if (right - left + 1 > THRESHOLD) {
+        int j;
+        int pivot = (left+right)/2;
+        swap(array[pivot], array[right]);
+        pivot = partition_Turn(logs, array, left, right);
+        ModQuickSort_Turn(logs, array, left, pivot - 1);
+        ModQuickSort_Turn(logs, array, pivot + 1, right);
+    }
+}
+void insertSort_Turn(Log logs,Log* array, int n){
+    int  i, j,timeminort,timeminorj;
+    Log t;
+    for (i = 1; i < n; i++) {
+        t = array[i];
+        int j = i - 1;
+        while (j >= 0) {
+            timeminort=timediffer(logs.time1,array[j].time0);
+            timeminorj=timediffer(logs.time0,t.time0);
+            if(timeminorj<0) timeminorj=60000;
+            if(timeminort<0) timeminort=60000;
+            if(timediffer(t.time0,t.time1)+timeminorj < timediffer(array[j].time0,array[j].time1)+timeminort){
+            array[j + 1] = array[j];
+            j = j - 1;
+            }
+            else break;
         }
         array[j + 1] = t;
     }
