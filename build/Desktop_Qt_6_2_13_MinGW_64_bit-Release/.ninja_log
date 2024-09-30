@@ -1,0 +1,13 @@
+# ninja log v6
+2	434	7494058505900548	Dtrip_autogen/timestamp	80b1bfdc8a715799
+2	434	7494058505900548	Dtrip_autogen/mocs_compilation.cpp	80b1bfdc8a715799
+2	434	7494058505900548	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/timestamp	80b1bfdc8a715799
+2	434	7494058505900548	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/mocs_compilation.cpp	80b1bfdc8a715799
+437	484	7494058506776409	Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp	d57ebfeb711ed941
+437	484	7494058506776409	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp	d57ebfeb711ed941
+500	624	7494058506997906	CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj	ccd402941a5192fa
+494	1769	7494058506907555	CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj	56a5133419d5ae38
+487	1875	7494058506885221	CMakeFiles/Dtrip.dir/main.cpp.obj	46e13c6f4c9e4ae9
+484	2068	7494058506799417	CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj	5be22c98a09ac3f1
+496	2103	7494058506977620	CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj	7e8733b2c74d0248
+489	4309	7494058506907555	CMakeFiles/Dtrip.dir/mainwindow.cpp.obj	6c208984da7852d9

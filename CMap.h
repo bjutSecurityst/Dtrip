@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <assert.h>
 #include <string.h>
@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "Edge.h"
 #include "MinHeap.h"
+#include "mainwindow.h"
 using namespace std;
 #ifndef CMAP_H
 #define CMAP_H
@@ -184,10 +185,10 @@ public:
         else {
             Edge* edge0 = m_pNodeArray[row].next;
             while (edge0->next != NULL) {
-                if (edge0->m_iNodeIndexA == row && edge0->m_iNodeIndexB == col) {
-                    edge0->m_iWeightValue = val;
-                    return false;
-                }
+                // if (edge0->m_iNodeIndexA == row && edge0->m_iNodeIndexB == col) {
+                //     edge0->m_iWeightValue = val;
+                //     return false;
+                // }
                 edge0 = edge0->next;
             }
             edge0->next = new Edge(row, col, val);
@@ -391,6 +392,63 @@ public:
         }
         return dist;
     }
+    Dist* DijkstraPlus(int begin) {
+        Dist* dist = new Dist[m_iCapacity];
+        DNODE *p,*q;
+        int i,j,k;
+        resetNode();
+        for (i = 0; i < m_iCapacity; i++) {
+            dist[i].m_vertex = i;
+            for(j=0;j<6;j++){
+                if(i==begin) {
+                    dist[i].m_length_list[j] = 0;
+                }
+                else {
+                    dist[i].m_length_list[j] = INT_MAX;
+                }
+                dist[i].m_pre_vertex_list[j] = begin;
+            }
+            dist[i].m_pre_vertex = begin;
+            if(i==begin) dist[i].m_length=0;
+            else dist[i].m_length = INT_MAX;
+        }
+        MinHeap mh=MinHeap(m_edgesNumber);
+        mh.Insert(&dist[begin]);
+        j=0,k=0;
+        for (i = 0; i < m_iCapacity; i++) {
+            bool found = false;
+            Dist tempdist;
+            while (!mh.isempty()) {
+                tempdist = *mh.RemoveMin();
+                if (getmVisited(tempdist.m_vertex) == false) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) break;
+            int v = tempdist.m_vertex;
+            m_pNodeArray[v].m_bVisited = true;
+            for (Edge* e = firstEdge(v); e != NULL; e = nextEdge(e)) {
+                if (dist[e->m_iNodeIndexB].m_length > dist[v].m_length + e->m_iWeightValue) {
+                    dist[e->m_iNodeIndexB].m_length = dist[v].m_length + e->m_iWeightValue;
+                    dist[e->m_iNodeIndexB].m_pre_vertex = v;
+                    dist[e->m_iNodeIndexB].m_length_list[0] = dist[v].m_length + e->m_iWeightValue;
+                    dist[e->m_iNodeIndexB].m_pre_vertex_list[0] = v;
+                    mh.Insert(&dist[e->m_iNodeIndexB]);
+                    continue;
+                }
+                for(j=0;j<6;j++){
+                    if ((dist[e->m_iNodeIndexB].m_length_list[j] < dist[v].m_length + e->m_iWeightValue)&&(dist[e->m_iNodeIndexB].m_length_list[j+1] > dist[v].m_length + e->m_iWeightValue)) {
+                        dist[e->m_iNodeIndexB].m_length_list[j+1] = dist[v].m_length + e->m_iWeightValue;
+                        dist[e->m_iNodeIndexB].m_pre_vertex_list[j+1] = v;
+                        mh.Insert(&dist[e->m_iNodeIndexB]);
+                        break;
+                    }
+                }
+            }
+        }
+        return dist;
+    }
     string visit_first(Dist* tempdist, int dep,int ari) {
         int a=ari;
         string s;
@@ -428,6 +486,35 @@ public:
             s= "< " + to_string(dep) + s + " : " + to_string(tempdist[ari].m_second_length) + " " + to_string(tempdist[ari].m_vertex) + " >";
         }
         return s;
+    }
+    QStringList visit_plus(Dist* tempdist, int dep,int ari ,int Ari,bool* blist) {
+        int a=ari,i,j;
+        bool same;
+        QString s;
+        QStringList list,list0;
+        blist[ari]=true;
+        bool blist0[16];
+        for(i=0;i<16;i++){
+            blist0[i]=blist[i];
+        }
+        if(tempdist[ari].m_pre_vertex_list[0]==dep && Ari!=ari){
+            if(ari==dep) s="< " + QString::number(dep);
+            else s="< " + QString::number(dep)+" "+QString::number(ari);
+            list.append(s);
+            return list;
+        }
+        for(i=0;i<6;i++){
+            if (tempdist[ari].m_length_list[i] != INT_MAX && blist[tempdist[ari].m_pre_vertex_list[i]]!=true) {
+                list0 = visit_plus(tempdist, dep, tempdist[ari].m_pre_vertex_list[i], Ari,blist0);
+                while (!list0.empty()) {
+                    if (Ari != ari) s = list0[0] + " " + QString::number(ari);
+                    else s = list0[0] + " : " + QString::number(tempdist[ari].m_length_list[i]) + " " + QString::number(tempdist[ari].m_vertex) + " >";
+                    list.append(s);
+                    list0.removeFirst();
+                }
+            }
+        }
+        return list;
     }
     //最小生成树-克鲁斯卡尔算法
     void kruskalTree()

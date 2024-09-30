@@ -5,6 +5,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   E:/Qtproject/Dtrip/Log.h \
   E:/Qtproject/Dtrip/MinHeap.h \
   E:/Qtproject/Dtrip/Node.h \
+  E:/Qtproject/Dtrip/mainwindow.h \
   E:/Qtproject/Dtrip/map.h \
   E:/Qtproject/Dtrip/ticketinfo.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \

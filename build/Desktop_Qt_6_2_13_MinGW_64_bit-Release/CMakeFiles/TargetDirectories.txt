@@ -1,0 +1,9 @@
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/Dtrip.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/edit_cache.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/rebuild_cache.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/list_install_components.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/install.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/install/local.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/install/strip.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/Dtrip_autogen_timestamp_deps.dir
+E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/CMakeFiles/Dtrip_autogen.dir

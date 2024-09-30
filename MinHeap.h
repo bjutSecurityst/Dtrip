@@ -18,7 +18,10 @@ struct Dist {
     int m_pre_vertex;
     int m_second_length;
     int m_second_pre_vertex;
+    int m_length_list[100];
+    int m_pre_vertex_list[100];
 };
+
 class MinHeap {
 private:
     Dist** heapArray;

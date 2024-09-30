@@ -75,6 +75,9 @@ MainWindow::MainWindow(QWidget *parent)
     imgGg.load("E:/Qtproject/Dtrip/广告位招租.jpg");
     ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),40));
     ui->label_10->setScaledContents(true);
+    ui->pushButton_6->setVisible(false);
+    ui->pushButton_7->setVisible(false);
+    ui->label_14->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -226,24 +229,117 @@ void MainWindow::on_pushButton_4_clicked()
     //根据下拉条目设置检索模式
     if(ui->comboBox->currentIndex()<4 && ui->comboBox->currentIndex()>=0) mode=ui->comboBox->currentIndex();
     else return;
-    CMap* pMap = new CMap(nodeNum,arcNum);
-    CMapSet(curDate,citys,pMap,mode);
-    for(begin=0;begin<17;begin++){
-        if(citys[begin]==ui->lineEditdep->text()) break;
+    bool deepmode=ui->checkBox->checkState();
+    clock_t c_start, c_end;
+    c_start = clock();
+    if(deepmode && mode!=3 && mode!=0){
+        mode=mode+4;
+        CMap* pMap = new CMap(nodeNum,10000);
+        CMapSet(curDate,citys,pMap,mode-4);
+        for(begin=0;begin<17;begin++){
+            if(citys[begin]==ui->lineEditdep->text()) break;
+        }
+        for(end=0;end<17;end++){
+            if(citys[end]==ui->lineEditari->text()) break;
+        }
+        dist = pMap->DijkstraPlus(begin);
+        for(i=0;i<16;i++) {
+            qDebug() << dist[i].m_vertex;
+            for(j=0;j<6;j++){
+                qDebug() << dist[i].m_pre_vertex_list[j];
+            }
+            qDebug() << "\n";
+        }
+        //获取最低路径
+        bool blist[16];
+        for(i=0;i<16;i++) {
+            blist[i]=false;
+        }
+        QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+        for(i=0;i<list.size();i++) {
+            qDebug() << list[i] << "\n";
+        }
+        while (!list.empty()) {
+            setLog(list[0].toStdString(),mode);
+            list.removeFirst();
+        }
     }
-    for(end=0;end<17;end++){
-        if(citys[end]==ui->lineEditari->text()) break;
+    else{
+        CMap* pMap = new CMap(nodeNum,arcNum);
+        CMapSet(curDate,citys,pMap,mode);
+        for(begin=0;begin<17;begin++){
+            if(citys[begin]==ui->lineEditdep->text()) break;
+        }
+        for(end=0;end<17;end++){
+            if(citys[end]==ui->lineEditari->text()) break;
+        }
+        //ui->label_11->setText(QString::number(end));
+        if(mode==3 || mode==0) {
+            string s="< "+to_string(begin)+" : 999 "+to_string(end)+" >";
+            setLog(s,mode);
+            if(mode==0 && ticketnum<10){
+                dist = pMap->Dijkstra(begin);
+                //获取最低路径
+                string s = pMap->visit_first(dist,begin,end);
+                setLog(s,1);
+                if(ticketnum<10){
+                    string s1 = pMap->visit_second(dist,begin,end);
+                    setLog(s1,1);
+                    if(ticketnum<3){
+                        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+                        {
+                            if (QWidget* widget = item->widget())
+                                widget->deleteLater();
+
+                            delete item;
+                        }
+                        for(i=0;i<=ticketnum;i++){
+                            logs[i].clear();
+                        }
+                        ticketnum=0;
+                        ticket_checkednum=0;
+                        pMap = new CMap(nodeNum,10000);
+                        CMapSet(curDate,citys,pMap,1);
+                        dist = pMap->DijkstraPlus(begin);
+                        for(i=0;i<16;i++) {
+                            qDebug() << dist[i].m_vertex;
+                            for(j=0;j<6;j++){
+                                qDebug() << dist[i].m_pre_vertex_list[j];
+                            }
+                            qDebug() << "\n";
+                        }
+                        //获取最低路径
+                        bool blist[16];
+                        for(i=0;i<16;i++) {
+                            blist[i]=false;
+                        }
+                        QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+                        for(i=0;i<list.size();i++) {
+                            qDebug() << list[i] << "\n";
+                        }
+                        while (!list.empty()) {
+                            setLog(list[0].toStdString(),1);
+                            list.removeFirst();
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            dist = pMap->Dijkstra(begin);
+            //获取最低路径
+            string s = pMap->visit_first(dist,begin,end);
+            setLog(s,mode);
+            //获取次低路径
+            string s1 = pMap->visit_second(dist,begin,end);
+            setLog(s1,mode);
+        }
     }
-    //ui->label_11->setText(QString::number(end));
-    dist = pMap->Dijkstra(begin);
-    //获取最低路径
-    string s = pMap->visit_first(dist,begin,end);
-    setLog(s,mode);
-    //获取次低路径
-    string s1 = pMap->visit_second(dist,begin,end);
-    setLog(s1,mode);
     ui->label_10->setVisible(false);
     ui->label_11->setVisible(false);
+    ui->label_14->setVisible(true);
+    ui->pushButton_6->setVisible(true);
+    ui->pushButton_7->setVisible(true);
     if(logs[2].ID=="" || logs[2].des=="不可达"){
         k=2;
         if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
@@ -263,12 +359,15 @@ void MainWindow::on_pushButton_4_clicked()
             ui->verticalLayout_2->addWidget(ticket0);
         }
     }
+    c_end = clock();
+    ui->label_14->setText("查询用时："+QString::number((double)(c_end - c_start) / CLOCKS_PER_SEC)+"s");
+    printf("time=%f\n", (double)(c_end - c_start) / CLOCKS_PER_SEC);
 }
 
 
 void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
 {
-    if(ticketnum!=0){
+    if(ticketnum>2){
         int i=0;
         int j=3;
         j=(ticketnum+1)*((double)position/(double)100);
@@ -293,7 +392,7 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
 
 void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 {
-    if(ticketnum!=0){
+    if(ticketnum>2){
         int i=0;
         int j=3;
         j=(ticketnum+1)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)100);
@@ -309,6 +408,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 
             delete item;
         }
+        ticket_now=j-3;
         ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next);
         ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next);
         ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next);
@@ -321,7 +421,7 @@ void MainWindow::setLog(string s,int mode){
     QDate curDate =ui->dateEdit->date();
     QString year,month,day;
     QString company,ID,sou,des,time0,time1,chi;
-    int price=0,price0=0;
+    int price=0,price0=0,price_max=0;
     year= QString::number(curDate.year());
     month= QString::number(curDate.month());
     day= QString::number(curDate.day());
@@ -346,6 +446,7 @@ void MainWindow::setLog(string s,int mode){
                 }
                 ari=citys[item.toInt()];
             }
+            else if(price_max<item.toInt()) price_max=item.toInt();
         }
     }
     mid->removeLast();
@@ -387,6 +488,7 @@ void MainWindow::setLog(string s,int mode){
         ticketnum=j;
         ticket_checkednum=ticketnum;
         fs.close();
+        QuickSort(logs,ticketnum,2);
     }
     else{
         las=mid->first();
@@ -462,14 +564,14 @@ void MainWindow::setLog(string s,int mode){
                         logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi);
                         j++;
                     }
-                    if(mode==1) QuickSort(logs0,j,2);
+                    if(mode==1 || mode==5) QuickSort(logs0,j,2);
                     for(i=0;i<j;i++){
                         qDebug() <<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
                     }
                     int log_number=0,l=ticketnum-1;
                     bool repeat=false;
                     for(i=ticket_checkednum;i<ticketnum;i++){
-                        if(mode==2) QuickSort_Turn(logs[i],logs0,j);
+                        if(mode==2 || mode==6) QuickSort_Turn(logs[i],logs0,j);
                         if(logs[i].time1.right(2)=="+1"){
                             logs[i].des="不可达";
                             continue;
@@ -477,9 +579,9 @@ void MainWindow::setLog(string s,int mode){
                         if(logs[i].des=="不可达") continue;
                         repeat=false;
                         log_number=0;
-                        if(mode==1) k=modSearch(logs0,logs[i].time1,0,j+1);
+                        if(mode==1 || mode==5) k=modSearch(logs0,logs[i].time1,0,j+1);
                         else k=0;
-                        if(k==0 && timediffer(logs[i].time1,logs0[j-1].time0)<0 && mode==1) {
+                        if(k==0 && timediffer(logs[i].time1,logs0[j-1].time0)<0 && (mode==1 || mode==5)) {
                             logs[i].des="不可达";
                             continue;
                         }
@@ -514,7 +616,7 @@ void MainWindow::setLog(string s,int mode){
                                     q->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi);
                                 }
                                 log_number++;
-                                if(log_number>=3) break;
+                                if(log_number>=3 && mode<4) break;//&&mode<4
                             }
                         }
                         if(log_number==0) logs[i].des="不可达";
@@ -540,13 +642,20 @@ void MainWindow::setLog(string s,int mode){
                 i--;
                 ticketnum--;
             }
+            // else if(logs[i].price>(price_max+1000) && mode==5){
+            //     for(j=i;j<=ticketnum;j++){
+            //         logs[j]=logs[j+1];
+            //     }
+            //     i--;
+            //     ticketnum--;
+            // }
             else{
                 qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
             }
         }
         if(ticketnum<0) ticketnum=0;
-        if(mode==1) QuickSort(logs,ticketnum,2);
-        else if(mode==2) QuickSort(logs,ticketnum,1);
+        if(mode==1 || mode==5) QuickSort(logs,ticketnum,2);
+        else if(mode==2 || mode==6) QuickSort(logs,ticketnum,1);
         ticket_checkednum=ticketnum;
     }
 }
@@ -658,6 +767,24 @@ void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
                     }
                     label=pMap->setValueToMatrixForDirectedGraph(i, j, time);
                 }
+                else if(mode==5){
+                    while (in.atEnd()==false){
+                        info0=in.readLine();
+                        match = rxlen.match(info0);
+                        price=match.captured(7).toInt();
+                        label=pMap->setValueToMatrixForDirectedGraph(i, j, price);
+                    }
+                }
+                else if(mode==6){
+                    while (in.atEnd()==false){
+                        info0=in.readLine();
+                        match = rxlen.match(info0);
+                        times0 = match.captured(5);
+                        times1 = match.captured(6);
+                        time = timediffer(times0,times1);
+                        label=pMap->setValueToMatrixForDirectedGraph(i, j, time);
+                    }
+                }
             }
             fs.close();
             price=0;
@@ -689,9 +816,81 @@ void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
                     }
                     label=pMap->setValueToMatrixForDirectedGraph(j, i, time);
                 }
+                else if(mode==5){
+                    while (in1.atEnd()==false){
+                        info0=in1.readLine();
+                        match = rxlen.match(info0);
+                        price=match.captured(7).toInt();
+                        label=pMap->setValueToMatrixForDirectedGraph(j, i, price);
+                    }
+                }
+                else if(mode==6){
+                    while (in1.atEnd()==false){
+                        info0=in1.readLine();
+                        match = rxlen.match(info0);
+                        times0 = match.captured(5);
+                        times1 = match.captured(6);
+                        time = timediffer(times0,times1);
+                        label=pMap->setValueToMatrixForDirectedGraph(j, i, time);
+                    }
+                }
             }
             fs.close();
         }
+    }
+}
+
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    if(ticketnum>2 && ticket_now<ticketnum-3){
+        int i=0,j;
+        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                ui->verticalLayout_2->removeItem(spaerItem);
+
+            delete item;
+        }
+        ticket_now=ticket_now+1;
+        j=ticket_now+3;
+        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next);
+        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next);
+        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next);
+        ui->verticalLayout_2->addWidget(ticket0);
+        ui->verticalLayout_2->addWidget(ticket1);
+        ui->verticalLayout_2->addWidget(ticket2);
+        ui->verticalScrollBar_2->setValue(j/(double)(ticketnum+1)*100);
+    }
+}
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    if(ticketnum>2 && ticket_now>0){
+        int i=0,j;
+        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                ui->verticalLayout_2->removeItem(spaerItem);
+
+            delete item;
+        }
+        ticket_now=ticket_now-1;
+        j=ticket_now+3;
+        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next);
+        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next);
+        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next);
+        ui->verticalLayout_2->addWidget(ticket0);
+        ui->verticalLayout_2->addWidget(ticket1);
+        ui->verticalLayout_2->addWidget(ticket2);
+        ui->verticalScrollBar_2->setValue(j/(double)(ticketnum+1)*100);
     }
 }
 
