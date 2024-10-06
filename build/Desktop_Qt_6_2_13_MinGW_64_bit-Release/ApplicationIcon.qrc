@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>trip.png</file>
+        <file>ApplicationIcon.png</file>
+    </qresource>
+</RCC>

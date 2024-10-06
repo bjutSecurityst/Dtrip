@@ -1,0 +1,31 @@
+QPushButton
+{
+    /*字体为微软雅黑*/
+    font-family:Microsoft Yahei;
+    /*字体大小为12点*/
+    font-size:12pt;
+    /*字体颜色为黑色*/    
+    color:black;
+    /*背景颜色*/  
+    background-color: #FFCF4C;
+    /*边框圆角半径为5像素*/ 
+    border-radius:5px;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    background-color: #F0CF5C;
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    background-color: #F0CF5C;
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:2px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:2px;
+}

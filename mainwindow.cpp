@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QRegularExpression>
 #include "QuickSort.h"
+#include "login.h"
 #pragma comment(lib,"winmm.lib")
 #pragma comment(lib,"MSIMG32.LIB")
 #define TIMEOUT 4000
@@ -66,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     timer=new QTimer;
     timer->start(TIMEOUT);
     QImage img;
-    img.load("E:/Qtproject/Dtrip/scene0.jpg");
+    img.load(pathCreator("/scene0.jpg"));
     ui->label_8->setPixmap(changeImage(QPixmap::fromImage(img),30));
     ui->label_8->setScaledContents(true);
     connect(timer,&QTimer::timeout,this,&MainWindow::Timerout);
@@ -662,7 +663,8 @@ void MainWindow::setLog(string s,int mode){
 
 void MainWindow::on_pushButton_5_clicked()
 {
-
+    Login* login=new Login();
+    login->show();
 }
 
 
