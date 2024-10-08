@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QWidget>
+#include "Log.h"
 
 namespace Ui {
 class Login;
@@ -18,9 +19,16 @@ public:
 private slots:
     void on_pushButton_5_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_radioButton_2_clicked();
+signals:
+    void sendToMainWindow(QString name,Log* logs,int myticketnum);
 private:
     Ui::Login *ui;
     QString name;
+    int log_mode=0,myticketnum=0;
+    Log logs[1000];
 };
 
 #endif // LOGIN_H

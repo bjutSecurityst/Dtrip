@@ -8,20 +8,28 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/MyGraphicsView.cpp \
 	E:/Qtproject/Dtrip/MyGraphicsView.h \
 	E:/Qtproject/Dtrip/Node.h \
+	E:/Qtproject/Dtrip/QuickSort.cpp \
 	E:/Qtproject/Dtrip/QuickSort.h \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeRCCompiler.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/moc_predefs.h \
+	E:/Qtproject/Dtrip/login.cpp \
+	E:/Qtproject/Dtrip/login.h \
 	E:/Qtproject/Dtrip/main.cpp \
 	E:/Qtproject/Dtrip/mainwindow.cpp \
 	E:/Qtproject/Dtrip/mainwindow.h \
 	E:/Qtproject/Dtrip/map.cpp \
 	E:/Qtproject/Dtrip/map.h \
+	E:/Qtproject/Dtrip/mysqlite.cpp \
+	E:/Qtproject/Dtrip/mysqlite.h \
 	E:/Qtproject/Dtrip/ticketinfo.cpp \
 	E:/Qtproject/Dtrip/ticketinfo.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/QCoreApplication \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/QDir \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/QObject \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QString \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QTimer \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qalgorithms.h \
@@ -47,15 +55,24 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qcontainerinfo.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qcontainertools_impl.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qcontiguouscache.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qcoreapplication.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qcoreapplication_platform.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qcoreevent.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdatastream.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdatetime.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdebug.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qdir.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qeventloop.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qfile.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qfiledevice.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qfileinfo.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qflags.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qgenericatomic.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qglobal.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qglobalstatic.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qhash.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qhashfunctions.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevice.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevicebase.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qiterable.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qiterator.h \
@@ -69,6 +86,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qmetacontainer.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qmetatype.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qnamespace.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qnativeinterface.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qnumeric.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qobject.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qobject_impl.h \
@@ -134,6 +152,14 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/include/QtGui/qtransform.h \
 	F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs.h \
 	F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs_win.h \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/QSqlDatabase \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/QSqlError \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/QSqlQuery \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/qsqldatabase.h \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/qsqlerror.h \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/qsqlquery.h \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/qtsql-config.h \
+	F:/Qt/6.2.13/mingw_64/include/QtSql/qtsqlglobal.h \
 	F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
 	F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsView \
 	F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
@@ -213,6 +239,14 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake \
+	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessTargets.cmake \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake \
 	F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake \
@@ -286,6 +320,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/c++0x_warning.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/char_traits.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/charconv.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/codecvt.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/concept_check.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/cpp_type_traits.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/cxxabi_forced.h \
@@ -296,6 +331,10 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/exception.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/exception_defines.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/exception_ptr.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_dir.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_fwd.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_ops.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_path.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/functexcept.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/functional_hash.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/hash_bytes.h \
@@ -306,8 +345,11 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/list.tcc \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_classes.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_classes.tcc \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_conv.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_facets.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_facets.tcc \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_facets_nonio.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/locale_facets_nonio.tcc \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/localefwd.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/max_size_type.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/memoryfwd.h \
@@ -320,6 +362,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/postypes.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/predefined_ops.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ptr_traits.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/quoted_string.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/range_access.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ranges_algo.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/ranges_algobase.h \
@@ -371,12 +414,15 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/chrono \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/clocale \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cmath \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/codecvt \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/compare \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/concepts \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstddef \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstdint \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstdio \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstdlib \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cstring \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ctime \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cwchar \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/cwctype \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/debug/assertions.h \
@@ -391,8 +437,10 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/numeric_traits.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/string_conversions.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/type_traits.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/filesystem \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/functional \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/initializer_list \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iomanip \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ios \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iosfwd \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iostream \
@@ -400,6 +448,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iterator \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/limits \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/list \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/locale \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/map \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/memory \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/new \
@@ -417,6 +466,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/streambuf \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/string \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/string_view \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/system_error \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/tr1/bessel_function.tcc \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/tr1/beta_function.tcc \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/tr1/ell_integral.tcc \
@@ -445,7 +495,9 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/gthr-default.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/gthr.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/messages_members.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32/bits/time_members.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/stdarg.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/stddef.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/stdint.h \
@@ -485,6 +537,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
+	E:/Qtproject/Dtrip/login.ui \
 	E:/Qtproject/Dtrip/mainwindow.ui \
 	E:/Qtproject/Dtrip/map.ui \
 	E:/Qtproject/Dtrip/ticketinfo.ui \

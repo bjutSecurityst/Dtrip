@@ -10,6 +10,7 @@
 #include "Node.h"
 #include "ticketinfo.h"
 #include "Log.h"
+#include "mysqlite.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -55,14 +56,18 @@ private:
     Ui::MainWindow *ui;
     int myTimerId;
     int picId;
-    int ticketnum=0,ticket_checkednum=0,ticket_now=0;
+    int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum;
     QTimer *timer;
     Dist *dist;
     bool btvisible=true;
     QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
     Log logs[4000];
+    MySQLite* mySQLdatabase= new MySQLite();
+    QString username;
+    Log* userLogs;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
+    void getLoginMessage(QString username,Log* mylog,int myticketnum);
 };
 #endif // MAINWINDOW_H

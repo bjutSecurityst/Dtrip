@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_6->setVisible(false);
     ui->pushButton_7->setVisible(false);
     ui->label_14->setVisible(false);
+    ui->pushButton_5->setStyleSheet("text-align:right;");
 }
 
 MainWindow::~MainWindow()
@@ -665,6 +666,7 @@ void MainWindow::on_pushButton_5_clicked()
 {
     Login* login=new Login();
     login->show();
+    connect(login,&Login::sendToMainWindow,this,&MainWindow::getLoginMessage);
 }
 
 
@@ -894,5 +896,11 @@ void MainWindow::on_pushButton_6_clicked()
         ui->verticalLayout_2->addWidget(ticket2);
         ui->verticalScrollBar_2->setValue(j/(double)(ticketnum+1)*100);
     }
+}
+void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum){
+    this->username=username;
+    this->myticketnum=myticketnum;
+    userLogs=mylog;
+    ui->pushButton_5->setText("你好！ "+username);
 }
 

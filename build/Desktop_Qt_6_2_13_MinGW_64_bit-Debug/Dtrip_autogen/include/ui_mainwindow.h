@@ -91,6 +91,7 @@ public:
     QWidget *horizontalLayoutWidget_2;
     QHBoxLayout *horizontalLayout_7;
     QPushButton *pushButton_5;
+    QSpacerItem *horizontalSpacer_4;
     QFrame *line;
     QPushButton *pushButton_8;
     QFrame *line_2;
@@ -314,7 +315,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -429,7 +430,7 @@ public:
         label_14->setGeometry(QRect(180, 320, 101, 31));
         horizontalLayoutWidget_2 = new QWidget(centralwidget);
         horizontalLayoutWidget_2->setObjectName(QString::fromUtf8("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(949, 20, 221, 31));
+        horizontalLayoutWidget_2->setGeometry(QRect(679, 20, 511, 31));
         horizontalLayout_7 = new QHBoxLayout(horizontalLayoutWidget_2);
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
         horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
@@ -438,6 +439,10 @@ public:
         pushButton_5->setFlat(true);
 
         horizontalLayout_7->addWidget(pushButton_5);
+
+        horizontalSpacer_4 = new QSpacerItem(11, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_4);
 
         line = new QFrame(horizontalLayoutWidget_2);
         line->setObjectName(QString::fromUtf8("line"));
@@ -465,9 +470,9 @@ public:
 
         horizontalLayout_7->addWidget(label_15);
 
-        horizontalLayout_7->setStretch(0, 1);
-        horizontalLayout_7->setStretch(2, 1);
-        horizontalLayout_7->setStretch(4, 1);
+        horizontalLayout_7->setStretch(0, 6);
+        horizontalLayout_7->setStretch(3, 1);
+        horizontalLayout_7->setStretch(5, 1);
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
         home_background->raise();

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>557</width>
-    <height>350</height>
+    <width>329</width>
+    <height>389</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,11 +18,11 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>281</width>
-     <height>301</height>
+     <width>291</width>
+     <height>351</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,3,0,0,2,0,0,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,3,0,0,2,0,0,0,0,0,0,0">
     <item>
      <spacer name="verticalSpacer_7">
       <property name="orientation">
@@ -136,6 +136,9 @@
         <property name="styleSheet">
          <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         </property>
+        <property name="echoMode">
+         <enum>QLineEdit::EchoMode::Password</enum>
+        </property>
         <property name="placeholderText">
          <string>登陆密码</string>
         </property>
@@ -235,6 +238,12 @@ selection-background-color: rgb(255, 170, 0);</string>
       </item>
       <item>
        <widget class="QLabel" name="label_6">
+        <property name="minimumSize">
+         <size>
+          <width>115</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="text">
          <string>和个人信息</string>
         </property>
@@ -318,21 +327,81 @@ selection-background-color: rgb(255, 170, 0);</string>
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="label_2">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>检测到您为新用户，请再次确认您的账号密码：</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::EchoMode::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>登陆密码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>以下为密保问题，请回答所在城市：</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+      </property>
+      <property name="placeholderText">
+       <string>请输入(找回密码用）</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_2">
+      <property name="text">
+       <string>我已确认</string>
+      </property>
+     </widget>
     </item>
     <item>
      <spacer name="verticalSpacer">
@@ -357,8 +426,8 @@ selection-background-color: rgb(255, 170, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>321</width>
-     <height>351</height>
+     <width>331</width>
+     <height>391</height>
     </rect>
    </property>
    <property name="text">
@@ -372,7 +441,7 @@ selection-background-color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>320</y>
+     <y>360</y>
      <width>291</width>
      <height>20</height>
     </rect>

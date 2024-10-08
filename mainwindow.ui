@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>8</hour>
+           <hour>0</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -813,13 +813,13 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>949</x>
+      <x>679</x>
       <y>20</y>
-      <width>221</width>
+      <width>511</width>
       <height>31</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,1,0,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="6,0,0,1,0,1">
      <item>
       <widget class="QPushButton" name="pushButton_5">
        <property name="text">
@@ -829,6 +829,19 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>11</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="Line" name="line">
