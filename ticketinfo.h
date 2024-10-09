@@ -20,11 +20,18 @@ public:
                         int price,
                         QString chi,
                         Log* next,
+                        Log* my,
                         QWidget *parent = nullptr);
     ~ticketInfo();
 
+private slots:
+    void on_pushButton_clicked();
+
+signals:
+    void sendToMainWindow(Log* tlog);
 private:
     Ui::ticketInfo *ui;
+    Log* tlog;
 };
 
 #endif // TICKETINFO_H

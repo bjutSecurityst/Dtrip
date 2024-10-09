@@ -21,7 +21,14 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_radioButton_2_clicked();
+    void on_checkBox_2_checkStateChanged(const Qt::CheckState &arg1);
+
+    void on_checkBox_2_stateChanged(int arg1);
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_3_clicked();
+
 signals:
     void sendToMainWindow(QString name,Log* logs,int myticketnum);
 private:

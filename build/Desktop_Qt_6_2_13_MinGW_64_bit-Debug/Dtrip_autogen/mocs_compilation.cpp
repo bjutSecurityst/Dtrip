@@ -3,4 +3,6 @@
 #include "EWIEGA46WW/moc_login.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
 #include "EWIEGA46WW/moc_map.cpp"
+#include "EWIEGA46WW/moc_passwordfix.cpp"
 #include "EWIEGA46WW/moc_ticketinfo.cpp"
+#include "EWIEGA46WW/moc_ticketwindow.cpp"

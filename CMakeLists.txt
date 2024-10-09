@@ -44,6 +44,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         login.h login.cpp login.ui
         QuickSort.cpp
         mysqlite.h mysqlite.cpp
+        passwordfix.h passwordfix.cpp passwordfix.ui
+        ticketwindow.h ticketwindow.cpp ticketwindow.ui
 
 
     )

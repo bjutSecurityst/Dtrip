@@ -24,8 +24,12 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/map.h \
 	E:/Qtproject/Dtrip/mysqlite.cpp \
 	E:/Qtproject/Dtrip/mysqlite.h \
+	E:/Qtproject/Dtrip/passwordfix.cpp \
+	E:/Qtproject/Dtrip/passwordfix.h \
 	E:/Qtproject/Dtrip/ticketinfo.cpp \
 	E:/Qtproject/Dtrip/ticketinfo.h \
+	E:/Qtproject/Dtrip/ticketwindow.cpp \
+	E:/Qtproject/Dtrip/ticketwindow.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QCoreApplication \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QDir \
@@ -540,5 +544,7 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/login.ui \
 	E:/Qtproject/Dtrip/mainwindow.ui \
 	E:/Qtproject/Dtrip/map.ui \
+	E:/Qtproject/Dtrip/passwordfix.ui \
 	E:/Qtproject/Dtrip/ticketinfo.ui \
+	E:/Qtproject/Dtrip/ticketwindow.ui \
 	F:/Qt/Tools/CMake_64/bin/cmake.exe

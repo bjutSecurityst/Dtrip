@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>389</height>
+    <width>331</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -19,7 +22,7 @@
      <x>20</x>
      <y>10</y>
      <width>291</width>
-     <height>351</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,3,0,0,2,0,0,0,0,0,0,0">
@@ -100,7 +103,7 @@
        <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       </property>
       <property name="placeholderText">
-       <string>账号(英文数字)</string>
+       <string>账号 (英文数字)</string>
       </property>
      </widget>
     </item>
@@ -140,7 +143,7 @@
          <enum>QLineEdit::EchoMode::Password</enum>
         </property>
         <property name="placeholderText">
-         <string>登陆密码</string>
+         <string>登陆密码 (长度&gt;=6)</string>
         </property>
        </widget>
       </item>
@@ -212,9 +215,9 @@ selection-background-color: rgb(255, 170, 0);</string>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,20,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,20,0">
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QCheckBox" name="checkBox">
         <property name="maximumSize">
          <size>
           <width>270</width>
@@ -397,7 +400,7 @@ selection-background-color: rgb(255, 170, 0);</string>
      </widget>
     </item>
     <item>
-     <widget class="QRadioButton" name="radioButton_2">
+     <widget class="QCheckBox" name="checkBox_2">
       <property name="text">
        <string>我已确认</string>
       </property>
@@ -427,7 +430,7 @@ selection-background-color: rgb(255, 170, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>331</width>
-     <height>391</height>
+     <height>441</height>
     </rect>
    </property>
    <property name="text">
@@ -441,7 +444,7 @@ selection-background-color: rgb(255, 170, 0);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>410</y>
      <width>291</width>
      <height>20</height>
     </rect>

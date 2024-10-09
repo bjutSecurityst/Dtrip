@@ -1,12 +1,13 @@
 #include "ticketinfo.h"
 #include "ui_ticketinfo.h"
 QString timeDifferString(QString time0,QString time1,int mode);
-ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,Log* next,QWidget *parent)
+ticketInfo::ticketInfo(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,Log* next,Log* my,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ticketInfo)
 {
     ui->setupUi(this);
     int i=0,j;
+    tlog=my;
     setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
     QString time_split=timeDifferString(time0,time1,1);
     QImage img;
@@ -93,5 +94,11 @@ QString timeDifferString(QString time0,QString time1,int mode){
     if(mode==0) return time_split=QString::number(times_h)+"h"+QString::number(times_m)+ "m";
     else if(time0=="00:00" && time1=="25:00") return time_split="当前查询条件\n下今天内无法完\n成转机";
     else return time_split=QString::number(times_h)+"小时"+QString::number(times_m)+ "分";
+}
+
+
+void ticketInfo::on_pushButton_clicked()
+{
+    emit sendToMainWindow(tlog);
 }
 

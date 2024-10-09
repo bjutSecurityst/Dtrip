@@ -52,6 +52,8 @@ private slots:
 
     void on_pushButton_6_clicked();
 
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     int myTimerId;
@@ -69,5 +71,6 @@ private:
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
     void getLoginMessage(QString username,Log* mylog,int myticketnum);
+    void getticketInfoMessage(Log* tlog);
 };
 #endif // MAINWINDOW_H

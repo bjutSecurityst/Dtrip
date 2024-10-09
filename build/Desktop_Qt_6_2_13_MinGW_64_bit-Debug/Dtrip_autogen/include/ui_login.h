@@ -11,11 +11,11 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -41,7 +41,7 @@ public:
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton_2;
     QHBoxLayout *horizontalLayout_5;
-    QRadioButton *radioButton;
+    QCheckBox *checkBox;
     QLabel *label_5;
     QLabel *label_6;
     QSpacerItem *verticalSpacer_3;
@@ -54,7 +54,7 @@ public:
     QLineEdit *lineEdit_3;
     QLabel *label_7;
     QLineEdit *lineEdit_4;
-    QRadioButton *radioButton_2;
+    QCheckBox *checkBox_2;
     QSpacerItem *verticalSpacer;
     QPushButton *pushButton_4;
     QLabel *label_4;
@@ -63,10 +63,11 @@ public:
     {
         if (Login->objectName().isEmpty())
             Login->setObjectName(QString::fromUtf8("Login"));
-        Login->resize(329, 389);
+        Login->resize(331, 441);
+        Login->setAutoFillBackground(false);
         verticalLayoutWidget = new QWidget(Login);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(20, 10, 291, 351));
+        verticalLayoutWidget->setGeometry(QRect(20, 10, 291, 391));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -155,11 +156,11 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        radioButton = new QRadioButton(verticalLayoutWidget);
-        radioButton->setObjectName(QString::fromUtf8("radioButton"));
-        radioButton->setMaximumSize(QSize(270, 16777215));
+        checkBox = new QCheckBox(verticalLayoutWidget);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+        checkBox->setMaximumSize(QSize(270, 16777215));
 
-        horizontalLayout_5->addWidget(radioButton);
+        horizontalLayout_5->addWidget(checkBox);
 
         label_5 = new QLabel(verticalLayoutWidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
@@ -173,7 +174,6 @@ public:
 
         horizontalLayout_5->addWidget(label_6);
 
-        horizontalLayout_5->setStretch(0, 1);
         horizontalLayout_5->setStretch(1, 20);
 
         verticalLayout->addLayout(horizontalLayout_5);
@@ -241,10 +241,10 @@ public:
 
         verticalLayout->addWidget(lineEdit_4);
 
-        radioButton_2 = new QRadioButton(verticalLayoutWidget);
-        radioButton_2->setObjectName(QString::fromUtf8("radioButton_2"));
+        checkBox_2 = new QCheckBox(verticalLayoutWidget);
+        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
 
-        verticalLayout->addWidget(radioButton_2);
+        verticalLayout->addWidget(checkBox_2);
 
         verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -255,11 +255,11 @@ public:
         pushButton_4 = new QPushButton(Login);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setEnabled(false);
-        pushButton_4->setGeometry(QRect(0, 0, 331, 391));
+        pushButton_4->setGeometry(QRect(0, 0, 331, 441));
         pushButton_4->setCheckable(false);
         label_4 = new QLabel(Login);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(20, 360, 291, 20));
+        label_4->setGeometry(QRect(20, 410, 291, 20));
         label_4->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButton_4->raise();
         verticalLayoutWidget->raise();
@@ -278,11 +278,11 @@ public:
         Login->setWindowTitle(QCoreApplication::translate("Login", "Form", nullptr));
         label->setText(QCoreApplication::translate("Login", "\350\264\246\345\217\267\345\257\206\347\240\201\347\231\273\345\275\225", nullptr));
         pushButton_5->setText(QCoreApplication::translate("Login", "\350\277\224\345\233\236\343\200\213", nullptr));
-        lineEdit->setPlaceholderText(QCoreApplication::translate("Login", "\350\264\246\345\217\267(\350\213\261\346\226\207\346\225\260\345\255\227)", nullptr));
-        lineEdit_2->setPlaceholderText(QCoreApplication::translate("Login", "\347\231\273\351\231\206\345\257\206\347\240\201", nullptr));
+        lineEdit->setPlaceholderText(QCoreApplication::translate("Login", "\350\264\246\345\217\267 (\350\213\261\346\226\207\346\225\260\345\255\227)", nullptr));
+        lineEdit_2->setPlaceholderText(QCoreApplication::translate("Login", "\347\231\273\351\231\206\345\257\206\347\240\201 (\351\225\277\345\272\246>=6)", nullptr));
         pushButton->setText(QCoreApplication::translate("Login", "\345\277\230\350\256\260\345\257\206\347\240\201", nullptr));
         pushButton_2->setText(QCoreApplication::translate("Login", "\347\231\273 \345\275\225", nullptr));
-        radioButton->setText(QString());
+        checkBox->setText(QString());
         label_5->setText(QCoreApplication::translate("Login", "TextLabel", nullptr));
         label_6->setText(QCoreApplication::translate("Login", "\345\222\214\344\270\252\344\272\272\344\277\241\346\201\257", nullptr));
         pushButton_3->setText(QCoreApplication::translate("Login", "\346\233\264\346\224\271\345\257\206\347\240\201", nullptr));
@@ -291,7 +291,7 @@ public:
         lineEdit_3->setPlaceholderText(QCoreApplication::translate("Login", "\347\231\273\351\231\206\345\257\206\347\240\201", nullptr));
         label_7->setText(QCoreApplication::translate("Login", "\344\273\245\344\270\213\344\270\272\345\257\206\344\277\235\351\227\256\351\242\230\357\274\214\350\257\267\345\233\236\347\255\224\346\211\200\345\234\250\345\237\216\345\270\202\357\274\232", nullptr));
         lineEdit_4->setPlaceholderText(QCoreApplication::translate("Login", "\350\257\267\350\276\223\345\205\245(\346\211\276\345\233\236\345\257\206\347\240\201\347\224\250\357\274\211", nullptr));
-        radioButton_2->setText(QCoreApplication::translate("Login", "\346\210\221\345\267\262\347\241\256\350\256\244", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("Login", "\346\210\221\345\267\262\347\241\256\350\256\244", nullptr));
         pushButton_4->setText(QString());
         label_4->setText(QCoreApplication::translate("Login", "Dtrip \302\251 2024 bjutSecurityst  |   \344\272\254ICP\345\244\207114514\345\217\267  ", nullptr));
     } // retranslateUi

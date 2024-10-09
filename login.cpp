@@ -9,6 +9,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include "sqlite3.h"
+#include "passwordfix.h"
 #pragma comment(lib,"sqlcipher.LIB")
 
 Login::Login(QWidget *parent)
@@ -17,6 +18,7 @@ Login::Login(QWidget *parent)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_QuitOnClose,false);
+    setAttribute(Qt::WA_TranslucentBackground, true);
     this->setWindowFlags(Qt::FramelessWindowHint);
     QString display1="服务政策";
     QString urlStyle1="<a style='color:blue; text-decoration:none;' href=https://contents.ctrip.com/huodong/privacypolicypc/index?type=0>";
@@ -36,7 +38,7 @@ Login::Login(QWidget *parent)
     ui->pushButton_5->setStyleSheet("text-align:right;");
     ui->label_2->setVisible(false);
     ui->label_7->setVisible(false);
-    ui->radioButton_2->setVisible(false);
+    ui->checkBox_2->setVisible(false);
     ui->lineEdit_3->setVisible(false);
     ui->lineEdit_4->setVisible(false);
     QFile file(pathCreator("qss/登录.qss"));
@@ -60,12 +62,35 @@ void Login::on_pushButton_5_clicked()
 
 void Login::on_pushButton_2_clicked()
 {
+    if(!ui->checkBox->isChecked()){
+        ui->label_2->setVisible(true);
+        ui->label_2->setText("请勾选我已阅读并同意Dtrip的服务政策和个人隐私保护政策");
+        return;
+    }
+    else if(log_mode==0) {
+        ui->label_2->setVisible(false);
+        ui->label_2->setText("检测到您为新用户，请再次确认您的账号密码：");
+    }
+    if(ui->lineEdit->text()==""){
+        ui->lineEdit->setPlaceholderText("用户名不能为空");
+        ui->lineEdit->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+        return;
+    }
+    ui->lineEdit->setPlaceholderText("账号(英文数字)");
+    ui->lineEdit->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
     qDebug() << QSqlDatabase::drivers();
     bool dbExist = QFile::exists(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
-    if (dbExist)
+    if (dbExist && log_mode==0)
     {
+        if(ui->lineEdit_2->text()==""){
+            ui->lineEdit_2->setPlaceholderText("密码不能为空");
+            ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            return;
+        }
+        ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
+        ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
         QSqlDatabase database2;
         database2 = QSqlDatabase::addDatabase("QSQLITE","read_connection_2");
         database2.setDatabaseName(pathCreator("dbs/users.db"));
@@ -86,17 +111,22 @@ void Login::on_pushButton_2_clicked()
             database.setDatabaseName(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
             database.setUserName(ui->lineEdit->text());
             database.setPassword(ui->lineEdit_2->text());
-            database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc");
+            database.setConnectOptions("QSQLITE_USE_CIPHER=sqlcipher; SQLCIPHER_LEGACY=1; SQLCIPHER_LEGACY_PAGE_SIZE=4096");
             if (!database.open())
             {
                 qDebug() << "Error: Failed to connect database." << database.lastError();
                 database.close();
                 QSqlDatabase::removeDatabase("read_connection");
                 QSqlDatabase::removeDatabase("read_connection_2");
+                ui->lineEdit_2->setText("");
+                ui->lineEdit_2->setPlaceholderText("密码错误");
+                ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
                 return;
             }
             else
             {
+                ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
+                ui->lineEdit_2->setStyleSheet("color:rgb(0,0,0);");
                 QString company,ID,sou,des,time0,time1,chi;
                 Log *p,*q;
                 int price=0,j=0,next;
@@ -146,6 +176,8 @@ void Login::on_pushButton_2_clicked()
         }
         database2.close();
         name=ui->lineEdit->text();
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
         QSqlDatabase::removeDatabase("read_connection");
         QSqlDatabase::removeDatabase("read_connection_2");
         emit sendToMainWindow(name,logs,myticketnum);
@@ -157,7 +189,7 @@ void Login::on_pushButton_2_clicked()
             log_mode=1;
             ui->label_2->setVisible(true);
             ui->label_7->setVisible(true);
-            ui->radioButton_2->setVisible(true);
+            ui->checkBox_2->setVisible(true);
             ui->lineEdit_3->setVisible(true);
             ui->lineEdit_4->setVisible(true);
             ui->pushButton_2->setDisabled(true);
@@ -165,11 +197,51 @@ void Login::on_pushButton_2_clicked()
             QSqlDatabase::removeDatabase(name0);
             return;
         }
+        dbExist = QFile::exists(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
+        if (dbExist){
+            ui->lineEdit->setText("");
+            ui->lineEdit->setPlaceholderText("该用户已存在！");
+            ui->lineEdit->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            return;
+        }
+        ui->lineEdit->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
+        ui->lineEdit->setPlaceholderText("账号(英文数字)");
+        if(ui->lineEdit_2->text()==""){
+            ui->lineEdit_2->setPlaceholderText("密码不能为空");
+            ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            return;
+        }
+        ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
+        ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
+        if(ui->lineEdit_2->text()!=ui->lineEdit_3->text()){
+            ui->label_2->setText("密码不一致，请再次确认您的密码");
+            ui->label_2->setStyleSheet("color:rgb(255,0,0);");
+            ui->lineEdit_3->setText("");
+            return;
+        }
+        ui->label_2->setStyleSheet("color:rgb(0,0,0);");
+        if(ui->lineEdit_4->text()==""){
+            ui->label_7->setText("以下为密保问题，请回答所在城市：");
+            ui->label_7->setStyleSheet("color:rgb(255,0,0);");
+            ui->lineEdit_3->setStyleSheet("font-size:12pt; color:rgb(255,0,0);");
+            ui->lineEdit_3->setPlaceholderText("请回答");
+            return;
+        }
+        ui->lineEdit_3->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
+        ui->lineEdit_3->setPlaceholderText("请输入(找回密码用)");
+        if(ui->lineEdit_2->text().length()<6){
+            ui->label_2->setText("密码不安全，请确保密码长度>=6");
+            ui->label_2->setStyleSheet("color:rgb(255,0,0);");
+            ui->lineEdit_2->setText("");
+            ui->lineEdit_3->setText("");
+            return;
+        }
+        ui->label_2->setStyleSheet("color:rgb(0,0,0);");
         qDebug() << pathCreator("dbs/"+ui->lineEdit->text()+".db");
         database.setDatabaseName(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
         database.setUserName(ui->lineEdit->text());
         database.setPassword(ui->lineEdit_2->text());
-        database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc");
+        database.setConnectOptions("QSQLITE_USE_CIPHER=sqlcipher; SQLCIPHER_LEGACY=1; SQLCIPHER_LEGACY_PAGE_SIZE=4096; QSQLITE_CREATE_KEY");
         if (!database.open())
         {
             qDebug() << "Error: Failed to connect database." << database.lastError();
@@ -236,10 +308,31 @@ void Login::on_pushButton_2_clicked()
     }
 }
 
-
-void Login::on_radioButton_2_clicked()
+void Login::on_checkBox_2_checkStateChanged(const Qt::CheckState &arg1)
 {
-    if(log_mode==1 && ui->radioButton_2->isChecked()) ui->pushButton_2->setDisabled(false);
+    if(log_mode==1 && ui->checkBox_2->isChecked()) ui->pushButton_2->setDisabled(false);
     else if(log_mode==1) ui->pushButton_2->setDisabled(true);
+}
+
+
+
+void Login::on_checkBox_2_stateChanged(int arg1)
+{
+    if(log_mode==1 && ui->checkBox_2->isChecked()) ui->pushButton_2->setDisabled(false);
+    else if(log_mode==1) ui->pushButton_2->setDisabled(true);
+}
+
+
+void Login::on_pushButton_clicked()
+{
+    Passwordfix* fix=new Passwordfix(ui->lineEdit->text(),"",0);
+    fix->show();
+}
+
+
+void Login::on_pushButton_3_clicked()
+{
+    Passwordfix* fix=new Passwordfix(ui->lineEdit->text(),ui->lineEdit_2->text(),1);
+    fix->show();
 }
 
