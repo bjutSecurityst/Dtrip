@@ -11,17 +11,7 @@ class ticketInfo : public QWidget
     Q_OBJECT
 
 public:
-    explicit ticketInfo(QString company,
-                        QString ID,
-                        QString sou,
-                        QString des,
-                        QString time0,
-                        QString time1,
-                        int price,
-                        QString chi,
-                        Log* next,
-                        Log* my,
-                        QWidget *parent = nullptr);
+    explicit ticketInfo(Log* my,int mode,QWidget *parent = nullptr);
     ~ticketInfo();
 
 private slots:

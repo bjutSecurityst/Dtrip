@@ -32,11 +32,11 @@ Map::Map(QDate curDate,QWidget *parent)
     ui->label->setNum(100);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
-    for(i=0;i<16;i++){
-        for(j=i+1;j<16;j++){
-            addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
-        }
-    }
+    // for(i=0;i<16;i++){
+    //     for(j=i+1;j<16;j++){
+    //         addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
+    //     }
+    // }
     for(i=0;i<16;i++){
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);

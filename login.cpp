@@ -42,7 +42,6 @@ Login::Login(QWidget *parent)
     ui->lineEdit_3->setVisible(false);
     ui->lineEdit_4->setVisible(false);
     QFile file(pathCreator("qss/登录.qss"));
-    //QFile file("登录.qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = tr(file.readAll());
     ui->pushButton_2->setStyleSheet(styleSheet);
@@ -127,7 +126,7 @@ void Login::on_pushButton_2_clicked()
             {
                 ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
                 ui->lineEdit_2->setStyleSheet("color:rgb(0,0,0);");
-                QString company,ID,sou,des,time0,time1,chi;
+                QString company,ID,sou,des,time0,time1,chi,date;
                 Log *p,*q;
                 int price=0,j=0,next;
                 query.exec("SELECT * FROM users");
@@ -148,15 +147,16 @@ void Login::on_pushButton_2_clicked()
                         price = query.value(7).toInt();
                         chi = query.value(8).toString();
                         next = query.value(9).toInt();
+                        date = query.value(10).toString();
                         if(next==1){
-                            logs[j].setLog(company,ID,sou,des,time0,time1,price,chi);
+                            logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
                             logs[j].next=NULL;
                             p=&logs[j];
                             j++;
                         }
                         else{
                             Log* log0=new Log();
-                            log0->setLog(company,ID,sou,des,time0,time1,price,chi);
+                            log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
                             log0->next=NULL;
                             p->next=log0;
                             p=p->next;
@@ -250,7 +250,7 @@ void Login::on_pushButton_2_clicked()
         {
             //创建表格
             QSqlQuery sql_query(database);
-            QString create_sql = "create table ticket (uid int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int)";
+            QString create_sql = "create table ticket (uid int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {

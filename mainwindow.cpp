@@ -12,6 +12,8 @@
 #include "QuickSort.h"
 #include "login.h"
 #include "ticketwindow.h"
+//#include "mysqlite.h"
+#include <QMessageBox>
 #pragma comment(lib,"winmm.lib")
 #pragma comment(lib,"MSIMG32.LIB")
 #define TIMEOUT 4000
@@ -142,9 +144,104 @@ void MainWindow::getMapMessage(QString a,QString b,QDate curdate){
     ui->dateEdit->setDate(curdate);
 }
 void MainWindow::getticketInfoMessage(Log* tlog){
-    this->hide();
-    ticketWindow *t=new ticketWindow(tlog);
-    t->show();
+    if(!login){
+        QMessageBox msgBox;
+        msgBox.setText("请先登录");
+        msgBox.setInformativeText("点击OK返回主界面");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+    }
+    else{
+        ticketWindow *t=new ticketWindow(tlog);
+        connect(t,&ticketWindow::sendToMainWindow,this,&MainWindow::getticketwindowMessage);
+        t->show();
+    }
+}
+void MainWindow::getticketwindowMessage(Log* tlog){
+    if(userLogs==NULL) userLogs=tlog;
+    else userLogs->next=tlog;
+    Log *p=tlog;
+    QString password;
+    bool open=openDatabasegetPassword(&password,username);
+    if(!open) return;
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
+    qDebug() << QSqlDatabase::drivers();
+    database.setDatabaseName(pathCreator("dbs/"+username+".db"));
+    database.setUserName(username);
+    database.setPassword(password);
+    QString a="QSQLITE_USE_CIPHER=sqlcipher; SQLCIPHER_LEGACY=1; SQLCIPHER_LEGACY_PAGE_SIZE=4096;";
+    qDebug() <<a;
+    database.setConnectOptions(a);
+    if (!database.open())
+    {
+        qDebug() << "Error: Failed to connect database." << database.lastError();
+        database.close();
+        QSqlDatabase::removeDatabase("read_connection");
+        QSqlDatabase::removeDatabase("read_connection_2");
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
+        return;
+    }
+    else
+    {
+        QSqlQuery sql_query2(database);
+        sql_query2.exec("SELECT uid FROM ticket ORDER BY uid DESC LIMIT 1");
+        int max_number;
+        if(!sql_query2.next()){
+            qDebug() << "Error: Fail to read." << sql_query2.lastError();
+            max_number=0;
+        }
+        else
+        {
+            qDebug() << "success!";
+            max_number = sql_query2.value(0).toInt();
+        }
+        if(p->next==NULL){
+            QString insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(2).arg(p->curdate);
+            if(!sql_query2.exec(insert_sql))
+            {
+                qDebug() << sql_query2.lastError();
+            }
+            else
+            {
+                qDebug() << "inserted Wang!";
+            }
+        }
+        else{
+            bool head=true;
+            while(p!=NULL){
+                QString insert_sql;
+                if(head) {
+                    insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(1).arg(p->curdate);
+                    head=false;
+                }
+                else insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(0).arg(p->curdate);
+                if(!sql_query2.exec(insert_sql))
+                {
+                    qDebug() << sql_query2.lastError();
+                }
+                else
+                {
+                    qDebug() << "inserted SUCCESS!";
+                }
+                max_number++;
+                p=p->next;
+            }
+        }
+        database.close();
+    }
+    QString name0 = QSqlDatabase::database().connectionName();
+    QSqlDatabase::removeDatabase(name0);
+    QSqlDatabase::removeDatabase("read_connection");
+    QSqlDatabase::removeDatabase("read_connection_2");
+    QMessageBox msgBox;
+    msgBox.setText("订票成功");
+    msgBox.setInformativeText("点击OK返回主界面");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
 }
 void MainWindow::on_button_swap_clicked()
 {
@@ -352,19 +449,21 @@ void MainWindow::on_pushButton_4_clicked()
         if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
         if(logs[0].ID=="" || logs[0].des=="不可达") {
             k=0;
-            ticketInfo* ticket0=new ticketInfo("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%",NULL,NULL);
+            Log* logno=new Log();
+            logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            ticketInfo* ticket0=new ticketInfo(logno,0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
         }
         for(i=0;i<k;i++){
-            ticketInfo* ticket0=new ticketInfo(logs[i].company,logs[i].ID,logs[i].sou,logs[i].des,logs[i].time0,logs[i].time1,logs[i].price,logs[i].chi,logs[i].next,&logs[i]);
+            ticketInfo* ticket0=new ticketInfo(&logs[i],0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
         }
     }
     else{
         for(i=0;i<3;i++){
-            ticketInfo* ticket0=new ticketInfo(logs[i].company,logs[i].ID,logs[i].sou,logs[i].des,logs[i].time0,logs[i].time1,logs[i].price,logs[i].chi,logs[i].next,&logs[i]);
+            ticketInfo* ticket0=new ticketInfo(&logs[i],0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
         }
@@ -390,9 +489,9 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
 
             delete item;
         }
-        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next,&logs[j-3]);
-        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next,&logs[j-2]);
-        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next,&logs[j-1]);
+        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
         ui->verticalLayout_2->addWidget(ticket0);
         ui->verticalLayout_2->addWidget(ticket1);
         ui->verticalLayout_2->addWidget(ticket2);
@@ -422,9 +521,9 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
             delete item;
         }
         ticket_now=j-3;
-        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next,&logs[j-3]);
-        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next,&logs[j-2]);
-        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next,&logs[j-1]);
+        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
         ui->verticalLayout_2->addWidget(ticket0);
         ui->verticalLayout_2->addWidget(ticket1);
         ui->verticalLayout_2->addWidget(ticket2);
@@ -435,6 +534,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 }
 void MainWindow::setLog(string s,int mode){
     QDate curDate =ui->dateEdit->date();
+    curdate=curDate;
     QString year,month,day;
     QString company,ID,sou,des,time0,time1,chi;
     int price=0,price0=0,price_max=0;
@@ -492,7 +592,7 @@ void MainWindow::setLog(string s,int mode){
                     }
                     i++;
                 }
-                logs[j].setLog(company,ID,sou,des,time0,time1,price,chi);
+                logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                 logs[j].next=NULL;
                 j++;
             }
@@ -533,14 +633,14 @@ void MainWindow::setLog(string s,int mode){
                             i++;
                         }
                         Log* log0=new Log();
-                        log0->setLog(company,ID,sou,des,time0,time1,price,chi);
+                        log0->setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         logs[j].next=log0;
-                        logs[j].setLog(company,ID,sou,des,time0,time1,price,chi);
+                        logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         j++;
                     }
                     //QuickSort4(logs,j);
                     for(i=ticket_checkednum;i<j;i++){
-                        //qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
+                        qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     }
                     ui->label_10->setVisible(false);
                     ui->label_11->setVisible(false);
@@ -577,7 +677,7 @@ void MainWindow::setLog(string s,int mode){
                             }
                             i++;
                         }
-                        logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi);
+                        logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         j++;
                     }
                     if(mode==1 || mode==5) QuickSort(logs0,j,2);
@@ -611,25 +711,29 @@ void MainWindow::setLog(string s,int mode){
                                     }
                                     Log* log2=new Log();
                                     p->next=log2;
-                                    log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi);
+                                    log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
                                     logs[i].des=logs0[k].des;
                                     logs[i].price=logs[i].price+logs0[k].price;
                                     logs[i].time1=logs0[k].time1;
                                     repeat=true;
                                 }
                                 else{
+                                    int price1=0;
                                     l++;
                                     p=&logs[i];
                                     q=&logs[l];
-                                    logs[l].setLog(p->company,p->ID,p->sou,logs0[k].des,p->time0,logs0[k].time1,logs0[k].price+p->price,p->chi);
-                                    while(p->next!=NULL){
+                                    while(p->next->next!=NULL){
                                         p=p->next;
+                                        price1=price1+p->price;
                                         Log* log1=new Log();
-                                        log1->setLog(p->company,p->ID,p->sou,p->des,p->time0,p->time1,p->price,p->chi);
+                                        log1->setLog(p->company,p->ID,p->sou,p->des,p->time0,p->time1,p->price,p->chi,curdate.toString());
                                         q->next=log1;
                                         q=q->next;
                                     }
-                                    q->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi);
+                                    logs[l].setLog(p->company,p->ID,p->sou,logs0[k].des,p->time0,logs0[k].time1,logs0[k].price+price1,p->chi,curdate.toString());
+                                    Log* log2=new Log();
+                                    log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
+                                    q->next=log2;
                                 }
                                 log_number++;
                                 if(log_number>=3 && mode<4) break;//&&mode<4
@@ -637,7 +741,7 @@ void MainWindow::setLog(string s,int mode){
                         }
                         if(log_number==0) logs[i].des="不可达";
                     }
-                    ticketnum=l;
+                    ticketnum=l+1;
                 }
                 fs.close();
                 //如果已经找到终点，退出循环
@@ -654,6 +758,9 @@ void MainWindow::setLog(string s,int mode){
             if(logs[i].des=="不可达"){
                 for(j=i;j<=ticketnum;j++){
                     logs[j]=logs[j+1];
+                }
+                if(ticketnum==1){
+                    logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
                 }
                 i--;
                 ticketnum--;
@@ -878,9 +985,9 @@ void MainWindow::on_pushButton_7_clicked()
         }
         ticket_now=ticket_now+1;
         j=ticket_now+3;
-        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next,&logs[j-3]);
-        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next,&logs[j-2]);
-        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next,&logs[j-1]);
+        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
         ui->verticalLayout_2->addWidget(ticket0);
         ui->verticalLayout_2->addWidget(ticket1);
         ui->verticalLayout_2->addWidget(ticket2);
@@ -910,9 +1017,9 @@ void MainWindow::on_pushButton_6_clicked()
         }
         ticket_now=ticket_now-1;
         j=ticket_now+3;
-        ticketInfo* ticket0=new ticketInfo(logs[j-3].company,logs[j-3].ID,logs[j-3].sou,logs[j-3].des,logs[j-3].time0,logs[j-3].time1,logs[j-3].price,logs[j-3].chi,logs[j-3].next,&logs[j-3]);
-        ticketInfo* ticket1=new ticketInfo(logs[j-2].company,logs[j-2].ID,logs[j-2].sou,logs[j-2].des,logs[j-2].time0,logs[j-2].time1,logs[j-2].price,logs[j-2].chi,logs[j-2].next,&logs[j-2]);
-        ticketInfo* ticket2=new ticketInfo(logs[j-1].company,logs[j-1].ID,logs[j-1].sou,logs[j-1].des,logs[j-1].time0,logs[j-1].time1,logs[j-1].price,logs[j-1].chi,logs[j-1].next,&logs[j-1]);
+        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
         ui->verticalLayout_2->addWidget(ticket0);
         ui->verticalLayout_2->addWidget(ticket1);
         ui->verticalLayout_2->addWidget(ticket2);
@@ -927,6 +1034,7 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum){
     this->myticketnum=myticketnum;
     userLogs=mylog;
     ui->pushButton_5->setText("你好！ "+username);
+    login=true;
 }
 
 

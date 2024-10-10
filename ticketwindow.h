@@ -16,6 +16,12 @@ public:
     explicit ticketWindow(Log* tlog,QWidget *parent = nullptr);
     ~ticketWindow();
 
+private slots:
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_2_clicked();
+signals:
+    void sendToMainWindow(Log* tlog);
 private:
     Ui::ticketWindow *ui;
     Log *tlog;

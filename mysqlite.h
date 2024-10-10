@@ -4,15 +4,5 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-class MySQLite
-{
-public:
-    MySQLite();
-    QSqlDatabase* getdatabase();
-    void setdatabase();
-private:
-    QSqlDatabase database;
-    QSqlQuery sql_query;
-};
-
+bool openDatabasegetPassword(QString *password,QString username);
 #endif // MYSQLITE_H

@@ -82,13 +82,20 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>19</x>
+      <x>29</x>
       <y>9</y>
-      <width>1241</width>
+      <width>1221</width>
       <height>411</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2"/>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+     </property>
+    </layout>
    </widget>
    <widget class="QLabel" name="label_9">
     <property name="geometry">
@@ -122,12 +129,40 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>440</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>确定购买</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>500</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>放弃购票</string>
+    </property>
+   </widget>
    <zorder>pushButton</zorder>
    <zorder>label</zorder>
    <zorder>verticalLayoutWidget</zorder>
    <zorder>label_2</zorder>
    <zorder>verticalLayoutWidget_2</zorder>
    <zorder>label_9</zorder>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton_3</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

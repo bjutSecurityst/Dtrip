@@ -60,17 +60,18 @@ private:
     int picId;
     int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum;
     QTimer *timer;
+    QDate curdate;
     Dist *dist;
-    bool btvisible=true;
+    bool btvisible=true,login=false;
     QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
     Log logs[4000];
-    MySQLite* mySQLdatabase= new MySQLite();
-    QString username;
-    Log* userLogs;
+    QString username,userpassword;
+    Log* userLogs=NULL;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
     void getLoginMessage(QString username,Log* mylog,int myticketnum);
     void getticketInfoMessage(Log* tlog);
+    void getticketwindowMessage(Log* tlog);
 };
 #endif // MAINWINDOW_H

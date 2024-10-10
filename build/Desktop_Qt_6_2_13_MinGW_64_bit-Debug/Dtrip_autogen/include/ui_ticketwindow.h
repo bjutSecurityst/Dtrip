@@ -33,6 +33,8 @@ public:
     QVBoxLayout *verticalLayout_2;
     QLabel *label_9;
     QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *ticketWindow)
@@ -68,9 +70,11 @@ public:
         label_2->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(19, 9, 1241, 411));
+        verticalLayoutWidget_2->setGeometry(QRect(29, 9, 1221, 411));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
+        verticalLayout_2->setSpacing(2);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setSizeConstraint(QLayout::SizeConstraint::SetDefaultConstraint);
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QString::fromUtf8("label_9"));
@@ -80,6 +84,12 @@ public:
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setEnabled(false);
         pushButton->setGeometry(QRect(20, 420, 1241, 251));
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(1160, 440, 71, 41));
+        pushButton_3 = new QPushButton(centralwidget);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        pushButton_3->setGeometry(QRect(1160, 500, 71, 41));
         ticketWindow->setCentralWidget(centralwidget);
         pushButton->raise();
         label->raise();
@@ -87,6 +97,8 @@ public:
         label_2->raise();
         verticalLayoutWidget_2->raise();
         label_9->raise();
+        pushButton_2->raise();
+        pushButton_3->raise();
         statusbar = new QStatusBar(ticketWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         ticketWindow->setStatusBar(statusbar);
@@ -103,6 +115,8 @@ public:
         label_2->setText(QCoreApplication::translate("ticketWindow", "\346\211\247\351\243\236\351\243\236\346\234\272\344\277\241\346\201\257", nullptr));
         label_9->setText(QCoreApplication::translate("ticketWindow", "\302\251 2024 bjutSecurityst  |   \344\272\254ICP\345\244\2071145141919\345\217\267   |    \344\275\277\347\224\250\346\235\241\346\254\276", nullptr));
         pushButton->setText(QString());
+        pushButton_2->setText(QCoreApplication::translate("ticketWindow", "\347\241\256\345\256\232\350\264\255\344\271\260", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
     } // retranslateUi
 
 };
