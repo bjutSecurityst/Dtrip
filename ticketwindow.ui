@@ -155,6 +155,19 @@
      <string>放弃购票</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>560</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>放弃购票</string>
+    </property>
+   </widget>
    <zorder>pushButton</zorder>
    <zorder>label</zorder>
    <zorder>verticalLayoutWidget</zorder>
@@ -163,6 +176,7 @@
    <zorder>label_9</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton_3</zorder>
+   <zorder>pushButton_4</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

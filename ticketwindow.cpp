@@ -3,12 +3,13 @@
 #include "QuickSort.h"
 #include "ticketinfo.h"
 
-ticketWindow::ticketWindow(Log* tlog,QWidget *parent)
+ticketWindow::ticketWindow(Log* tlog,int mode,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ticketWindow)
 {
     ui->setupUi(this);
     this->tlog=tlog;
+    this->mode=mode;
     QImage img;
     img.load(pathCreator("caC919.png"));
     ui->label->setPixmap(QPixmap::fromImage(img));
@@ -22,6 +23,12 @@ ticketWindow::ticketWindow(Log* tlog,QWidget *parent)
     file.open(QFile::ReadOnly);
     QString styleSheet = tr(file.readAll());
     ui->pushButton_2->setStyleSheet(styleSheet);
+    if(mode==1) {
+        ui->pushButton_2->setText("退票");
+        ui->pushButton_3->setText("改签");
+        ui->pushButton_4->setVisible(true);
+    }
+    else ui->pushButton_4->setVisible(false);
     if(p->next!=NULL) p=p->next;
     while(p!=NULL){
         QLabel* q=new QLabel("航班号："+p->ID);
@@ -45,6 +52,7 @@ ticketWindow::~ticketWindow()
 
 void ticketWindow::on_pushButton_3_clicked()
 {
+    emit Exit();
     this->close();
 }
 
@@ -52,7 +60,15 @@ void ticketWindow::on_pushButton_3_clicked()
 void ticketWindow::on_pushButton_2_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
-    emit sendToMainWindow(tlog);
+    if(mode==0) emit sendToMainWindow(tlog);
+    else emit Exit();
+    this->close();
+}
+
+
+void ticketWindow::on_pushButton_4_clicked()
+{
+    emit Exit();
     this->close();
 }
 

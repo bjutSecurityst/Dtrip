@@ -18,10 +18,11 @@ private slots:
     void on_pushButton_clicked();
 
 signals:
-    void sendToMainWindow(Log* tlog);
+    void sendToMainWindow(Log* tlog,int mode);
 private:
     Ui::ticketInfo *ui;
     Log* tlog;
+    int mode;
 };
 
 #endif // TICKETINFO_H

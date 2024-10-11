@@ -147,9 +147,14 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/QVBoxLayout \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QWidget \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractbutton.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qboxlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgridlayout.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayout.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qmainwindow.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qpushbutton.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qsizepolicy.h \

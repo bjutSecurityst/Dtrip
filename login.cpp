@@ -106,7 +106,7 @@ void Login::on_pushButton_2_clicked()
             //获取数据
             QString last_log = QString("select * from users where name = '%1'").arg(ui->lineEdit->text());
             QString password,question;
-            QSqlQuery query;
+            QSqlQuery query(database);
             database.setDatabaseName(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
             database.setUserName(ui->lineEdit->text());
             database.setPassword(ui->lineEdit_2->text());
@@ -129,41 +129,34 @@ void Login::on_pushButton_2_clicked()
                 QString company,ID,sou,des,time0,time1,chi,date;
                 Log *p,*q;
                 int price=0,j=0,next;
-                query.exec("SELECT * FROM users");
-                if(!query.exec())
+                query.exec("SELECT * FROM ticket");
+                while(query.next())
                 {
-                    qDebug() << "Error: Fail to query table. " << query.lastError();
-                }
-                else
-                {
-                    while(query.next())
-                    {
-                        company = query.value(1).toString();
-                        ID = query.value(2).toString();
-                        sou = query.value(3).toString();
-                        des = query.value(4).toString();
-                        time0 = query.value(5).toString();
-                        time1 = query.value(6).toString();
-                        price = query.value(7).toInt();
-                        chi = query.value(8).toString();
-                        next = query.value(9).toInt();
-                        date = query.value(10).toString();
-                        if(next==1){
-                            logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
-                            logs[j].next=NULL;
-                            p=&logs[j];
-                            j++;
-                        }
-                        else{
-                            Log* log0=new Log();
-                            log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
-                            log0->next=NULL;
-                            p->next=log0;
-                            p=p->next;
-                        }
+                    company = query.value(1).toString();
+                    ID = query.value(2).toString();
+                    sou = query.value(3).toString();
+                    des = query.value(4).toString();
+                    time0 = query.value(5).toString();
+                    time1 = query.value(6).toString();
+                    price = query.value(7).toInt();
+                    chi = query.value(8).toString();
+                    next = query.value(9).toInt();
+                    date = query.value(10).toString();
+                    if(next==1 || next==2){
+                        logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
+                        logs[j].next=NULL;
+                        p=&logs[j];
+                        j++;
                     }
-                    myticketnum=j;
+                    else{
+                        Log* log0=new Log();
+                        log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
+                        log0->next=NULL;
+                        p->next=log0;
+                        p=p->next;
+                    }
                 }
+                myticketnum=j;
                 database.close();
             }
             query.exec(last_log);

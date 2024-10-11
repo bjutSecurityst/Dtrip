@@ -53,7 +53,7 @@ build CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj: CXX_COMPILER_
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\Dtrip_autogen\mocs_compilation.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir\Dtrip_autogen
 
@@ -61,7 +61,7 @@ build CMakeFiles/Dtrip.dir/main.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release E
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\main.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -69,7 +69,7 @@ build CMakeFiles/Dtrip.dir/mainwindow.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Rel
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\mainwindow.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -77,7 +77,7 @@ build CMakeFiles/Dtrip.dir/map.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release E$
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\map.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -85,7 +85,7 @@ build CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj: CXX_COMPILER__Dtrip_unscanned
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\MyGraphicsView.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -93,7 +93,7 @@ build CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Rel
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\ticketinfo.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -101,7 +101,7 @@ build CMakeFiles/Dtrip.dir/login.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release 
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\login.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -109,7 +109,31 @@ build CMakeFiles/Dtrip.dir/QuickSort.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Rele
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\QuickSort.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  OBJECT_DIR = CMakeFiles\Dtrip.dir
+  OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
+
+build CMakeFiles/Dtrip.dir/mysqlite.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release E$:/Qtproject/Dtrip/mysqlite.cpp || cmake_object_order_depends_target_Dtrip
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Dtrip.dir\mysqlite.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  OBJECT_DIR = CMakeFiles\Dtrip.dir
+  OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
+
+build CMakeFiles/Dtrip.dir/passwordfix.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release E$:/Qtproject/Dtrip/passwordfix.cpp || cmake_object_order_depends_target_Dtrip
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Dtrip.dir\passwordfix.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  OBJECT_DIR = CMakeFiles\Dtrip.dir
+  OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
+
+build CMakeFiles/Dtrip.dir/ticketwindow.cpp.obj: CXX_COMPILER__Dtrip_unscanned_Release E$:/Qtproject/Dtrip/ticketwindow.cpp || cmake_object_order_depends_target_Dtrip
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Dtrip.dir\ticketwindow.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir
 
@@ -117,7 +141,7 @@ build CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj:
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Dtrip.dir\Dtrip_autogen\EWIEGA46WW\qrc_ApplicationIcon.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
+  INCLUDES = -IE:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/include -IC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher -isystem F:/Qt/6.2.13/mingw_64/include/QtCore -isystem F:/Qt/6.2.13/mingw_64/include -isystem F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++ -isystem F:/Qt/6.2.13/mingw_64/include/QtWidgets -isystem F:/Qt/6.2.13/mingw_64/include/QtGui -isystem F:/Qt/6.2.13/mingw_64/include/QtSql
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   OBJECT_FILE_DIR = CMakeFiles\Dtrip.dir\Dtrip_autogen\EWIEGA46WW
 
@@ -129,10 +153,11 @@ build CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj:
 #############################################
 # Link the executable Dtrip.exe
 
-build Dtrip.exe: CXX_EXECUTABLE_LINKER__Dtrip_Release CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj CMakeFiles/Dtrip.dir/main.cpp.obj CMakeFiles/Dtrip.dir/mainwindow.cpp.obj CMakeFiles/Dtrip.dir/map.cpp.obj CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj CMakeFiles/Dtrip.dir/login.cpp.obj CMakeFiles/Dtrip.dir/QuickSort.cpp.obj CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj | F$:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Sql.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Core.a F$:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a || Dtrip_autogen Dtrip_autogen_timestamp_deps
+build Dtrip.exe: CXX_EXECUTABLE_LINKER__Dtrip_Release CMakeFiles/Dtrip.dir/Dtrip_autogen/mocs_compilation.cpp.obj CMakeFiles/Dtrip.dir/main.cpp.obj CMakeFiles/Dtrip.dir/mainwindow.cpp.obj CMakeFiles/Dtrip.dir/map.cpp.obj CMakeFiles/Dtrip.dir/MyGraphicsView.cpp.obj CMakeFiles/Dtrip.dir/ticketinfo.cpp.obj CMakeFiles/Dtrip.dir/login.cpp.obj CMakeFiles/Dtrip.dir/QuickSort.cpp.obj CMakeFiles/Dtrip.dir/mysqlite.cpp.obj CMakeFiles/Dtrip.dir/passwordfix.cpp.obj CMakeFiles/Dtrip.dir/ticketwindow.cpp.obj CMakeFiles/Dtrip.dir/Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp.obj | F$:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Sql.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a F$:/Qt/6.2.13/mingw_64/lib/libQt6Core.a F$:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a || Dtrip_autogen Dtrip_autogen_timestamp_deps
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -mwindows
-  LINK_LIBRARIES = F:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a  F:/Qt/6.2.13/mingw_64/lib/libQt6Sql.a  F:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  F:/Qt/6.2.13/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  F:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = F:/Qt/6.2.13/mingw_64/lib/libQt6Widgets.a  F:/Qt/6.2.13/mingw_64/lib/libQt6Sql.a  -lsqlcipher  F:/Qt/6.2.13/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  F:/Qt/6.2.13/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  F:/Qt/6.2.13/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_PATH = -LC:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/lib
   OBJECT_DIR = CMakeFiles\Dtrip.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -216,7 +241,7 @@ build Dtrip_autogen_timestamp_deps: phony
 #############################################
 # Utility command for Dtrip_autogen
 
-build Dtrip_autogen: phony CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h Dtrip_autogen/include/ui_login.h Dtrip_autogen/timestamp Dtrip_autogen/mocs_compilation.cpp Dtrip_autogen_timestamp_deps
+build Dtrip_autogen: phony CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h Dtrip_autogen/include/ui_login.h Dtrip_autogen/include/ui_passwordfix.h Dtrip_autogen/include/ui_ticketwindow.h Dtrip_autogen/timestamp Dtrip_autogen/mocs_compilation.cpp Dtrip_autogen_timestamp_deps
 
 
 #############################################
@@ -242,7 +267,7 @@ build Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp | ${cmake_ninja_workdir}D
 #############################################
 # Phony custom command for CMakeFiles\Dtrip_autogen
 
-build CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h Dtrip_autogen/include/ui_login.h | ${cmake_ninja_workdir}CMakeFiles/Dtrip_autogen ${cmake_ninja_workdir}Dtrip_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_map.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_ticketinfo.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_login.h: phony Dtrip_autogen/timestamp || Dtrip_autogen_timestamp_deps
+build CMakeFiles/Dtrip_autogen Dtrip_autogen/include/ui_mainwindow.h Dtrip_autogen/include/ui_map.h Dtrip_autogen/include/ui_ticketinfo.h Dtrip_autogen/include/ui_login.h Dtrip_autogen/include/ui_passwordfix.h Dtrip_autogen/include/ui_ticketwindow.h | ${cmake_ninja_workdir}CMakeFiles/Dtrip_autogen ${cmake_ninja_workdir}Dtrip_autogen/include/ui_mainwindow.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_map.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_ticketinfo.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_login.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_passwordfix.h ${cmake_ninja_workdir}Dtrip_autogen/include/ui_ticketwindow.h: phony Dtrip_autogen/timestamp || Dtrip_autogen_timestamp_deps
 
 # =============================================================================
 # Target aliases.

@@ -334,6 +334,9 @@ Qt6GuiTools_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6GuiTools
 //The directory containing a CMake configuration file for Qt6Gui.
 Qt6Gui_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Gui
 
+//The directory containing a CMake configuration file for Qt6Sql.
+Qt6Sql_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Sql
+
 //The directory containing a CMake configuration file for Qt6WidgetsTools.
 Qt6WidgetsTools_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6WidgetsTools
 
@@ -342,6 +345,9 @@ Qt6Widgets_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6Widgets
 
 //The directory containing a CMake configuration file for Qt6.
 Qt6_DIR:PATH=F:/Qt/6.2.13/mingw_64/lib/cmake/Qt6
+
+//The directory containing a CMake configuration file for Qt.
+Qt_DIR:PATH=Qt_DIR-NOTFOUND
 
 //Path to a program.
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=Vulkan_GLSLANG_VALIDATOR_EXECUTABLE-NOTFOUND
@@ -1046,6 +1052,8 @@ QT_FEATURE_splashscreen:INTERNAL=ON
 QT_FEATURE_splitter:INTERNAL=ON
 //Qt feature: sql (from target Qt6::Core)
 QT_FEATURE_sql:INTERNAL=ON
+//Qt feature: sqlmodel (from target Qt6::Sql)
+QT_FEATURE_sqlmodel:INTERNAL=ON
 //Qt feature: sse2 (from target Qt6::Core)
 QT_FEATURE_sse2:INTERNAL=ON
 //Qt feature: sse3 (from target Qt6::Core)

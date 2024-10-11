@@ -35,6 +35,7 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *ticketWindow)
@@ -90,6 +91,9 @@ public:
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
         pushButton_3->setGeometry(QRect(1160, 500, 71, 41));
+        pushButton_4 = new QPushButton(centralwidget);
+        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        pushButton_4->setGeometry(QRect(1160, 560, 71, 41));
         ticketWindow->setCentralWidget(centralwidget);
         pushButton->raise();
         label->raise();
@@ -99,6 +103,7 @@ public:
         label_9->raise();
         pushButton_2->raise();
         pushButton_3->raise();
+        pushButton_4->raise();
         statusbar = new QStatusBar(ticketWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         ticketWindow->setStatusBar(statusbar);
@@ -117,6 +122,7 @@ public:
         pushButton->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("ticketWindow", "\347\241\256\345\256\232\350\264\255\344\271\260", nullptr));
         pushButton_3->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
     } // retranslateUi
 
 };

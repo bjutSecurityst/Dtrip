@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>16</hour>
+           <hour>0</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -879,6 +879,28 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
      </item>
     </layout>
    </widget>
+   <widget class="QScrollBar" name="verticalScrollBar_3">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>80</y>
+      <width>16</width>
+      <height>569</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
+    </property>
+   </widget>
    <zorder>backgroundsky</zorder>
    <zorder>home_background</zorder>
    <zorder>layoutbutton</zorder>
@@ -901,6 +923,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <zorder>pushButton_7</zorder>
    <zorder>label_14</zorder>
    <zorder>horizontalLayoutWidget_2</zorder>
+   <zorder>verticalScrollBar_3</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

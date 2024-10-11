@@ -8,6 +8,7 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     ui->setupUi(this);
     int i=0,j;
     tlog=my;
+    this->mode=mode;
     setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
     QString company=my->company,ID=my->ID,sou=my->sou,des=my->des,time0=my->time0,time1=my->time1,chi=my->chi;
     int price=my->price;
@@ -105,6 +106,7 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
         ui->line_3->setVisible(false);
     }
     if(mode==2) ui->pushButton->setVisible(false);
+    else if(mode==3) ui->pushButton->setText("查看");
 }
 
 ticketInfo::~ticketInfo()
@@ -158,6 +160,7 @@ QString timeDifferString(QString time0,QString time1,int mode){
 
 void ticketInfo::on_pushButton_clicked()
 {
-    emit sendToMainWindow(tlog);
+    if(mode==0) emit sendToMainWindow(tlog,0);
+    else if(mode==3) emit sendToMainWindow(tlog,1);
 }
 

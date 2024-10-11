@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->layoutbutton_2->setStyleSheet("border-radius: 10px; background-color: white;");
     ui->home_background->setStyleSheet("border: none; border-image: url(E:/Qtproject/Dtrip/homepage-background.png);");
     ui->comboBox->setCurrentIndex(-1);
+    ui->verticalScrollBar_3->setVisible(false);
 
     button_swap = new QPushButton();
     button_swap->setParent(this);
@@ -83,6 +84,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_7->setVisible(false);
     ui->label_14->setVisible(false);
     ui->pushButton_5->setStyleSheet("text-align:right;");
+
+    //设置界面2
+    widget0 = new QWidget;
+    //将要添加的内容布局设置为 QWidget 对象的布局
+    verticalLayout_7=new QVBoxLayout(this);
+    verticalLayout_7->setSizeConstraint(QLayout::SetDefaultConstraint);
+    widget0->setLayout(verticalLayout_7);
+    //将QWidget对象添加到 ui整体布局中
+    widget0->setParent(this);
+    widget0->hide();
+    widget0->move(180,80);
+    widget0->resize(700,600);
 }
 
 MainWindow::~MainWindow()
@@ -143,7 +156,7 @@ void MainWindow::getMapMessage(QString a,QString b,QDate curdate){
     ui->lineEditari->setText(b);
     ui->dateEdit->setDate(curdate);
 }
-void MainWindow::getticketInfoMessage(Log* tlog){
+void MainWindow::getticketInfoMessage(Log* tlog,int mode){
     if(!login){
         QMessageBox msgBox;
         msgBox.setText("请先登录");
@@ -153,14 +166,16 @@ void MainWindow::getticketInfoMessage(Log* tlog){
         int ret = msgBox.exec();
     }
     else{
-        ticketWindow *t=new ticketWindow(tlog);
+        this->hide();
+        ticketWindow *t=new ticketWindow(tlog,mode);
         connect(t,&ticketWindow::sendToMainWindow,this,&MainWindow::getticketwindowMessage);
+        connect(t,&ticketWindow::Exit,this,&MainWindow::show);
         t->show();
     }
 }
 void MainWindow::getticketwindowMessage(Log* tlog){
     if(userLogs==NULL) userLogs=tlog;
-    else userLogs->next=tlog;
+    else userLogs[myticketnum]=*tlog;
     Log *p=tlog;
     QString password;
     bool open=openDatabasegetPassword(&password,username);
@@ -242,6 +257,8 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
+    myticketnum++;
+    this->show();
 }
 void MainWindow::on_button_swap_clicked()
 {
@@ -489,6 +506,7 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
 
             delete item;
         }
+        ticket_now=j-3;
         ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
         ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
         ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
@@ -507,7 +525,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
     if(ticketnum>2){
         int i=0;
         int j=3;
-        j=(ticketnum+1)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)100);
+        j=(ticketnum-3)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)99)+3;
         if(j<3)j=3;
         if(j>ticketnum) j=ticketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -640,7 +658,7 @@ void MainWindow::setLog(string s,int mode){
                     }
                     //QuickSort4(logs,j);
                     for(i=ticket_checkednum;i<j;i++){
-                        qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
+                        qDebug() << "首" <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     }
                     ui->label_10->setVisible(false);
                     ui->label_11->setVisible(false);
@@ -682,7 +700,7 @@ void MainWindow::setLog(string s,int mode){
                     }
                     if(mode==1 || mode==5) QuickSort(logs0,j,2);
                     for(i=0;i<j;i++){
-                        qDebug() <<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
+                        qDebug() <<"中"<<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
                     }
                     int log_number=0,l=ticketnum-1;
                     bool repeat=false;
@@ -730,7 +748,7 @@ void MainWindow::setLog(string s,int mode){
                                         q->next=log1;
                                         q=q->next;
                                     }
-                                    logs[l].setLog(p->company,p->ID,p->sou,logs0[k].des,p->time0,logs0[k].time1,logs0[k].price+price1,p->chi,curdate.toString());
+                                    logs[l].setLog(logs[i].company,logs[i].ID,logs[i].sou,logs0[k].des,logs[i].time0,logs0[k].time1,logs0[k].price+price1,logs[i].chi,curdate.toString());
                                     Log* log2=new Log();
                                     log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
                                     q->next=log2;
@@ -742,6 +760,9 @@ void MainWindow::setLog(string s,int mode){
                         if(log_number==0) logs[i].des="不可达";
                     }
                     ticketnum=l+1;
+                    for(i=0;i<ticketnum;i++){
+                        qDebug() <<"过"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
+                    }
                 }
                 fs.close();
                 //如果已经找到终点，退出循环
@@ -773,7 +794,7 @@ void MainWindow::setLog(string s,int mode){
             //     ticketnum--;
             // }
             else{
-                qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
+                qDebug() <<"结"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
             }
         }
         if(ticketnum<0) ticketnum=0;
@@ -968,65 +989,121 @@ void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
 
 void MainWindow::on_pushButton_7_clicked()
 {
-    if(ticketnum>2 && ticket_now<ticketnum-3){
-        int i=0,j;
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
+    if(ui->pushButton_1->isChecked()){
+        if(ticketnum>3 && ticket_now<ticketnum-3){
+            int i=0,j;
+            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()){
+                    widget->disconnect();
+                    widget->deleteLater();
+                }
 
-            if (QSpacerItem* spaerItem = item->spacerItem()){
-                ui->verticalLayout_2->removeItem(spaerItem);
-            }
+                if (QSpacerItem* spaerItem = item->spacerItem()){
+                    ui->verticalLayout_2->removeItem(spaerItem);
+                }
 
-            delete item;
+                delete item;
+            }
+            ticket_now=ticket_now+1;
+            j=ticket_now+3;
+            ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+            ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+            ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
+            ui->verticalLayout_2->addWidget(ticket0);
+            ui->verticalLayout_2->addWidget(ticket1);
+            ui->verticalLayout_2->addWidget(ticket2);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*100);
         }
-        ticket_now=ticket_now+1;
-        j=ticket_now+3;
-        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
-        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
-        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
-        ui->verticalLayout_2->addWidget(ticket0);
-        ui->verticalLayout_2->addWidget(ticket1);
-        ui->verticalLayout_2->addWidget(ticket2);
-        connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        ui->verticalScrollBar_2->setValue(j/(double)(ticketnum+1)*100);
+    }
+    else if(ui->pushButton_2->isChecked()){
+        if(myticketnum>5 && ticket_now<myticketnum-5){
+            int i=0,j;
+            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()){
+                    widget->disconnect();
+                    widget->deleteLater();
+                }
+
+                if (QSpacerItem* spaerItem = item->spacerItem()){
+                    verticalLayout_7->removeItem(spaerItem);
+                }
+
+                delete item;
+            }
+            ticket_now=ticket_now+1;
+            j=ticket_now+5;
+            for(i=j-5;i<j;i++){
+                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                verticalLayout_7->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
+            ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
+        }
     }
 }
 
 
 void MainWindow::on_pushButton_6_clicked()
 {
-    if(ticketnum>2 && ticket_now>0){
-        int i=0,j;
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
+    if(ui->pushButton_1->isChecked()){
+        if(ticketnum>3 && ticket_now>0){
+            int i=0,j;
+            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()){
+                    widget->disconnect();
+                    widget->deleteLater();
+                }
+
+                if (QSpacerItem* spaerItem = item->spacerItem())
+                    ui->verticalLayout_2->removeItem(spaerItem);
+
+                delete item;
             }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
+            ticket_now=ticket_now-1;
+            j=ticket_now+3;
+            ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
+            ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
+            ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
+            ui->verticalLayout_2->addWidget(ticket0);
+            ui->verticalLayout_2->addWidget(ticket1);
+            ui->verticalLayout_2->addWidget(ticket2);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*100);
         }
-        ticket_now=ticket_now-1;
-        j=ticket_now+3;
-        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
-        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
-        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
-        ui->verticalLayout_2->addWidget(ticket0);
-        ui->verticalLayout_2->addWidget(ticket1);
-        ui->verticalLayout_2->addWidget(ticket2);
-        connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        ui->verticalScrollBar_2->setValue(j/(double)(ticketnum+1)*100);
+    }
+    else if(ui->pushButton_2->isChecked()){
+        if(myticketnum>5 && ticket_now>0){
+            int i=0,j;
+            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()){
+                    widget->disconnect();
+                    widget->deleteLater();
+                }
+
+                if (QSpacerItem* spaerItem = item->spacerItem()){
+                    verticalLayout_7->removeItem(spaerItem);
+                }
+
+                delete item;
+            }
+            ticket_now=ticket_now-1;
+            j=ticket_now+5;
+            for(i=j-5;i<j;i++){
+                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                verticalLayout_7->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
+            ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
+        }
     }
 }
 void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum){
@@ -1042,5 +1119,184 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     if(index==0 || index==3) ui->checkBox->setDisabled(true);
     else ui->checkBox->setDisabled(false);
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if(ui->pushButton_2->isChecked()){
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                ui->verticalLayout_2->removeItem(spaerItem);
+
+            delete item;
+        }
+        widget0->show();
+        ui->pushButton_1->setChecked(false);
+        ui->pushButton_2->setChecked(true);
+        ui->pushButton_3->setChecked(false);
+        ui->pushButton_6->setVisible(true);
+        ui->pushButton_7->setVisible(true);
+        ui->label_3->setVisible(false);
+        ui->label_12->setVisible(false);
+        ui->label_13->setVisible(false);
+        ui->label_14->setVisible(false);
+        ui->lineEditari->setVisible(false);
+        ui->lineEditdep->setVisible(false);
+        ui->easystay->setVisible(false);
+        ui->backgroundsky->setVisible(false);
+        ui->checkBox->setVisible(false);
+        ui->home_background->setVisible(false);
+        ui->pushButton->setVisible(false);
+        ui->pushButton_4->setVisible(false);
+        ui->layoutbutton->setVisible(false);
+        ui->layoutbutton_2->setVisible(false);
+        ui->label_10->setVisible(false);
+        ui->label_11->setVisible(false);
+        ui->label_4->setVisible(false);
+        ui->label_7->setVisible(false);
+        ui->comboBox->setVisible(false);
+        ui->label_5->setVisible(false);
+        ui->label_6->setVisible(false);
+        ui->dateEdit->setVisible(false);
+        ui->label->setVisible(false);
+        ui->label_2->setVisible(false);
+        button_swap->setVisible(false);
+        ui->verticalScrollBar_2->setVisible(false);
+        ui->verticalScrollBar_3->setVisible(true);
+        int i;
+        if(myticketnum==0){
+            Log* logno=new Log();
+            if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
+            else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            ticketInfo* ticket0=new ticketInfo(logno,0);
+            verticalLayout_7->addWidget(ticket0);
+        }
+        else{
+            if(myticketnum<=5){
+                for(i=0;i<myticketnum;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+            }
+            else{
+                for(i=0;i<5;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+            }
+        }
+    }
+    ui->pushButton_2->setChecked(true);
+}
+
+
+void MainWindow::on_pushButton_1_clicked()
+{
+    if(ui->pushButton_1->isChecked()){
+        widget0->hide();
+        ui->pushButton_1->setChecked(true);
+        ui->pushButton_2->setChecked(false);
+        ui->pushButton_3->setChecked(false);
+        ui->label_3->setVisible(true);
+        ui->label_12->setVisible(true);
+        ui->label_13->setVisible(true);
+        ui->label_14->setVisible(false);
+        ui->pushButton_6->setVisible(false);
+        ui->pushButton_7->setVisible(false);
+        ui->lineEditari->setVisible(true);
+        ui->lineEditdep->setVisible(true);
+        ui->easystay->setVisible(true);
+        ui->backgroundsky->setVisible(true);
+        ui->checkBox->setVisible(true);
+        ui->home_background->setVisible(true);
+        ui->pushButton->setVisible(true);
+        ui->pushButton_4->setVisible(true);
+        ui->layoutbutton->setVisible(true);
+        ui->layoutbutton_2->setVisible(true);
+        ui->label_10->setVisible(true);
+        ui->label_11->setVisible(true);
+        ui->label_4->setVisible(true);
+        ui->label_7->setVisible(true);
+        ui->comboBox->setVisible(true);
+        ui->label_5->setVisible(true);
+        ui->label_6->setVisible(true);
+        ui->dateEdit->setVisible(true);
+        ui->label->setVisible(true);
+        ui->label_2->setVisible(true);
+        button_swap->setVisible(true);
+        ui->verticalScrollBar_2->setVisible(true);
+        ui->verticalScrollBar_3->setVisible(false);
+    }
+    ui->pushButton_1->setChecked(true);
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    if(ui->pushButton_3->isChecked()){
+        widget0->hide();
+        ui->pushButton_1->setChecked(false);
+        ui->pushButton_2->setChecked(false);
+        ui->pushButton_3->setChecked(true);
+        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                ui->verticalLayout_2->removeItem(spaerItem);
+
+            delete item;
+        }
+    }
+    ui->pushButton_3->setChecked(true);
+}
+
+
+void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
+{
+    if(myticketnum>4){
+        int i=0;
+        int j=5;
+        j=(myticketnum-5)*((double)value/(double)99)+5;
+        if(j<5)j=5;
+        if(j>myticketnum) j=myticketnum;
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+
+            delete item;
+        }
+        ticket_now=j-5;
+        for(i=j-5;i<j;i++){
+            ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+            verticalLayout_7->addWidget(ticket0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+        }
+    }
 }
 

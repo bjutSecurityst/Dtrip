@@ -96,6 +96,7 @@ public:
     QPushButton *pushButton_8;
     QFrame *line_2;
     QLabel *label_15;
+    QScrollBar *verticalScrollBar_3;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -185,7 +186,7 @@ public:
         backgroundsky->setFlat(false);
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(210, 160, 511, 51));
+        verticalLayoutWidget_2->setGeometry(QRect(210, 160, 511, 63));
         horizontalLayout_2 = new QHBoxLayout(verticalLayoutWidget_2);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -315,7 +316,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -473,6 +474,16 @@ public:
         horizontalLayout_7->setStretch(0, 6);
         horizontalLayout_7->setStretch(3, 1);
         horizontalLayout_7->setStretch(5, 1);
+        verticalScrollBar_3 = new QScrollBar(centralwidget);
+        verticalScrollBar_3->setObjectName(QString::fromUtf8("verticalScrollBar_3"));
+        verticalScrollBar_3->setGeometry(QRect(880, 80, 16, 569));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(verticalScrollBar_3->sizePolicy().hasHeightForWidth());
+        verticalScrollBar_3->setSizePolicy(sizePolicy);
+        verticalScrollBar_3->setValue(0);
+        verticalScrollBar_3->setOrientation(Qt::Orientation::Vertical);
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
         home_background->raise();
@@ -496,6 +507,7 @@ public:
         pushButton_7->raise();
         label_14->raise();
         horizontalLayoutWidget_2->raise();
+        verticalScrollBar_3->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);

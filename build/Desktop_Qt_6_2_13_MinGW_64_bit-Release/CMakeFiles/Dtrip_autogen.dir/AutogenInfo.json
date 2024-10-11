@@ -310,9 +310,27 @@
 		],
 		[ "E:/Qtproject/Dtrip/map.h", "MU", "EWIEGA46WW/moc_map.cpp", null ],
 		[
+			"E:/Qtproject/Dtrip/mysqlite.h",
+			"MU",
+			"EWIEGA46WW/moc_mysqlite.cpp",
+			null
+		],
+		[
+			"E:/Qtproject/Dtrip/passwordfix.h",
+			"MU",
+			"EWIEGA46WW/moc_passwordfix.cpp",
+			null
+		],
+		[
 			"E:/Qtproject/Dtrip/ticketinfo.h",
 			"MU",
 			"EWIEGA46WW/moc_ticketinfo.cpp",
+			null
+		],
+		[
+			"E:/Qtproject/Dtrip/ticketwindow.h",
+			"MU",
+			"EWIEGA46WW/moc_ticketwindow.cpp",
 			null
 		]
 	],
@@ -344,6 +362,7 @@
 	],
 	"MOC_INCLUDES" : 
 	[
+		"C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher",
 		"F:/Qt/6.2.13/mingw_64/include/QtCore",
 		"F:/Qt/6.2.13/mingw_64/include",
 		"F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++",
@@ -388,7 +407,10 @@
 		[ "E:/Qtproject/Dtrip/main.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/mainwindow.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/map.cpp", "MU", null ],
-		[ "E:/Qtproject/Dtrip/ticketinfo.cpp", "MU", null ]
+		[ "E:/Qtproject/Dtrip/mysqlite.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/passwordfix.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/ticketinfo.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/ticketwindow.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

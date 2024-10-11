@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
@@ -29,6 +30,7 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_2;
     QLabel *label_3;
+    QFrame *line;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_7;
     QLabel *label_8;
@@ -39,21 +41,34 @@ public:
     QVBoxLayout *verticalLayout_3;
     QLabel *label_9;
     QLabel *label_10;
+    QFrame *line_2;
+    QVBoxLayout *verticalLayout_5;
     QLabel *label_5;
+    QFrame *line_3;
+    QLabel *label_12;
+    QSpacerItem *horizontalSpacer_2;
     QLabel *label_6;
     QPushButton *pushButton;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *pushButton_2;
 
     void setupUi(QWidget *ticketInfo)
     {
         if (ticketInfo->objectName().isEmpty())
             ticketInfo->setObjectName(QString::fromUtf8("ticketInfo"));
-        ticketInfo->resize(651, 81);
+        ticketInfo->resize(1220, 101);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(ticketInfo->sizePolicy().hasHeightForWidth());
+        ticketInfo->setSizePolicy(sizePolicy);
         horizontalLayoutWidget = new QWidget(ticketInfo);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(0, 0, 651, 81));
+        horizontalLayoutWidget->setGeometry(QRect(10, 10, 1201, 81));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout->setSizeConstraint(QLayout::SizeConstraint::SetMinimumSize);
+        horizontalLayout->setContentsMargins(0, 0, 2, 0);
         label = new QLabel(horizontalLayoutWidget);
         label->setObjectName(QString::fromUtf8("label"));
 
@@ -61,11 +76,15 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setSizeConstraint(QLayout::SizeConstraint::SetDefaultConstraint);
         label_2 = new QLabel(horizontalLayoutWidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_2->setAlignment(Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft);
+        label_2->setWordWrap(false);
+        label_2->setIndent(-1);
 
-        verticalLayout->addWidget(label_2, 0, Qt::AlignmentFlag::AlignBottom);
+        verticalLayout->addWidget(label_2);
 
         label_3 = new QLabel(horizontalLayoutWidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
@@ -75,14 +94,24 @@ public:
 
         horizontalLayout->addLayout(verticalLayout);
 
+        line = new QFrame(horizontalLayoutWidget);
+        line->setObjectName(QString::fromUtf8("line"));
+        line->setMinimumSize(QSize(15, 0));
+        line->setMaximumSize(QSize(16777215, 50));
+        line->setFrameShadow(QFrame::Shadow::Plain);
+        line->setFrameShape(QFrame::VLine);
+
+        horizontalLayout->addWidget(line);
+
         verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(4);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         label_7 = new QLabel(horizontalLayoutWidget);
         label_7->setObjectName(QString::fromUtf8("label_7"));
         label_7->setStyleSheet(QString::fromUtf8("font: 19pt \"Microsoft Sans Serif\";"));
         label_7->setAlignment(Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter);
 
-        verticalLayout_2->addWidget(label_7, 0, Qt::AlignmentFlag::AlignBottom);
+        verticalLayout_2->addWidget(label_7);
 
         label_8 = new QLabel(horizontalLayoutWidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
@@ -125,7 +154,7 @@ public:
         label_9->setStyleSheet(QString::fromUtf8("font: 19pt \"Microsoft Sans Serif\";"));
         label_9->setAlignment(Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter);
 
-        verticalLayout_3->addWidget(label_9, 0, Qt::AlignmentFlag::AlignBottom);
+        verticalLayout_3->addWidget(label_9);
 
         label_10 = new QLabel(horizontalLayoutWidget);
         label_10->setObjectName(QString::fromUtf8("label_10"));
@@ -136,12 +165,50 @@ public:
 
         horizontalLayout->addLayout(verticalLayout_3);
 
+        line_2 = new QFrame(horizontalLayoutWidget);
+        line_2->setObjectName(QString::fromUtf8("line_2"));
+        line_2->setMinimumSize(QSize(10, 0));
+        line_2->setMaximumSize(QSize(16777215, 50));
+        line_2->setFrameShadow(QFrame::Shadow::Plain);
+        line_2->setFrameShape(QFrame::VLine);
+
+        horizontalLayout->addWidget(line_2);
+
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         label_5 = new QLabel(horizontalLayoutWidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         label_5->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
-        horizontalLayout->addWidget(label_5);
+        verticalLayout_5->addWidget(label_5);
+
+        line_3 = new QFrame(horizontalLayoutWidget);
+        line_3->setObjectName(QString::fromUtf8("line_3"));
+        line_3->setMinimumSize(QSize(0, 0));
+        line_3->setMaximumSize(QSize(500, 10));
+        line_3->setFrameShadow(QFrame::Shadow::Plain);
+        line_3->setFrameShape(QFrame::HLine);
+
+        verticalLayout_5->addWidget(line_3);
+
+        label_12 = new QLabel(horizontalLayoutWidget);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_12->setFrameShape(QFrame::Shape::NoFrame);
+        label_12->setAlignment(Qt::AlignmentFlag::AlignCenter);
+
+        verticalLayout_5->addWidget(label_12);
+
+        verticalLayout_5->setStretch(0, 5);
+        verticalLayout_5->setStretch(1, 2);
+        verticalLayout_5->setStretch(2, 5);
+
+        horizontalLayout->addLayout(verticalLayout_5);
+
+        horizontalSpacer_2 = new QSpacerItem(30, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
 
         label_6 = new QLabel(horizontalLayoutWidget);
         label_6->setObjectName(QString::fromUtf8("label_6"));
@@ -155,6 +222,15 @@ public:
 
         horizontalLayout->addWidget(pushButton);
 
+        horizontalSpacer = new QSpacerItem(520, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        pushButton_2 = new QPushButton(ticketInfo);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(0, 0, 1221, 101));
+        pushButton_2->raise();
+        horizontalLayoutWidget->raise();
 
         retranslateUi(ticketInfo);
 
@@ -174,8 +250,10 @@ public:
         label_9->setText(QCoreApplication::translate("ticketInfo", "uu", nullptr));
         label_10->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_5->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
+        label_12->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_6->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         pushButton->setText(QCoreApplication::translate("ticketInfo", "PushButton", nullptr));
+        pushButton_2->setText(QString());
     } // retranslateUi
 
 };

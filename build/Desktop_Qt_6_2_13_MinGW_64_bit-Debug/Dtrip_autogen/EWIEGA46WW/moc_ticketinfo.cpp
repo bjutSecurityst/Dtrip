@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ticketInfo_t {
-    uint offsetsAndSizes[12];
-    char stringdata0[61];
+    uint offsetsAndSizes[14];
+    char stringdata0[66];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_ticketInfo_t::offsetsAndSizes) + ofs), len 
@@ -34,10 +34,11 @@ static const qt_meta_stringdata_ticketInfo_t qt_meta_stringdata_ticketInfo = {
         QT_MOC_LITERAL(28, 0),  // ""
         QT_MOC_LITERAL(29, 4),  // "Log*"
         QT_MOC_LITERAL(34, 4),  // "tlog"
-        QT_MOC_LITERAL(39, 21)   // "on_pushButton_clicked"
+        QT_MOC_LITERAL(39, 4),  // "mode"
+        QT_MOC_LITERAL(44, 21)   // "on_pushButton_clicked"
     },
     "ticketInfo\0sendToMainWindow\0\0Log*\0"
-    "tlog\0on_pushButton_clicked"
+    "tlog\0mode\0on_pushButton_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,13 +56,13 @@ static const uint qt_meta_data_ticketInfo[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   26,    2, 0x06,    1 /* Public */,
+       1,    2,   26,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       5,    0,   29,    2, 0x08,    3 /* Private */,
+       6,    0,   31,    2, 0x08,    4 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 3, QMetaType::Int,    4,    5,
 
  // slots: parameters
     QMetaType::Void,
@@ -75,14 +76,14 @@ void ticketInfo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<ticketInfo *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->sendToMainWindow((*reinterpret_cast< std::add_pointer_t<Log*>>(_a[1]))); break;
+        case 0: _t->sendToMainWindow((*reinterpret_cast< std::add_pointer_t<Log*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
         case 1: _t->on_pushButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (ticketInfo::*)(Log * );
+            using _t = void (ticketInfo::*)(Log * , int );
             if (_t _q_method = &ticketInfo::sendToMainWindow; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
@@ -98,7 +99,7 @@ const QMetaObject ticketInfo::staticMetaObject = { {
     qt_static_metacall,
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_ticketInfo_t
-, QtPrivate::TypeAndForceComplete<ticketInfo, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<Log *, std::false_type>
+, QtPrivate::TypeAndForceComplete<ticketInfo, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<Log *, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>
 , QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
@@ -138,9 +139,9 @@ int ticketInfo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void ticketInfo::sendToMainWindow(Log * _t1)
+void ticketInfo::sendToMainWindow(Log * _t1, int _t2)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP
