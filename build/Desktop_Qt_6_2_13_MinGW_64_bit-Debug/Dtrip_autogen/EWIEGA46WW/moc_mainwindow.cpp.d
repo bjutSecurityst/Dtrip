@@ -4,11 +4,14 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   E:/Qtproject/Dtrip/Edge.h \
   E:/Qtproject/Dtrip/Log.h \
   E:/Qtproject/Dtrip/MinHeap.h \
+  E:/Qtproject/Dtrip/MyGraphicsView.h \
   E:/Qtproject/Dtrip/Node.h \
   E:/Qtproject/Dtrip/QuickSort.h \
+  E:/Qtproject/Dtrip/login.h \
   E:/Qtproject/Dtrip/mainwindow.h \
   E:/Qtproject/Dtrip/map.h \
   E:/Qtproject/Dtrip/mysqlite.h \
+  E:/Qtproject/Dtrip/passwordfix.h \
   E:/Qtproject/Dtrip/ticketinfo.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/QCoreApplication \
   F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \
@@ -145,18 +148,23 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtSql/qtsql-config.h \
   F:/Qt/6.2.13/mingw_64/include/QtSql/qtsqlglobal.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsView \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QVBoxLayout \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QWidget \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractbutton.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qboxlayout.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qframe.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsview.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgridlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qmainwindow.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qpushbutton.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qscrollarea.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qsizepolicy.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qtabwidget.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qtwidgets-config.h \

@@ -362,7 +362,6 @@
 	],
 	"MOC_INCLUDES" : 
 	[
-		"C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher",
 		"F:/Qt/6.2.13/mingw_64/include/QtCore",
 		"F:/Qt/6.2.13/mingw_64/include",
 		"F:/Qt/6.2.13/mingw_64/mkspecs/win32-g++",

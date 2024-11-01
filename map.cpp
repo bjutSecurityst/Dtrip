@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <mmSystem.h>
 #include <fstream>
+#include "Log.h"
 using namespace std;
 #define pai 3.1415926
 void addcursorline(int x1,int x2,int y1,int y2,int line,QGraphicsScene *scene);
@@ -23,6 +24,7 @@ Map::Map(QDate curDate,QWidget *parent)
     int i,j;
     ui->setupUi(this);
     ui->dateEdit->setDate(curDate);
+    mode=0;
     scene = new QGraphicsScene;
     QImage img;
     img.load("E:/Qtproject/Dtrip/地图.png");
@@ -32,11 +34,6 @@ Map::Map(QDate curDate,QWidget *parent)
     ui->label->setNum(100);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
-    // for(i=0;i<16;i++){
-    //     for(j=i+1;j<16;j++){
-    //         addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
-    //     }
-    // }
     for(i=0;i<16;i++){
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);
@@ -58,7 +55,50 @@ Map::Map(QDate curDate,QWidget *parent)
     ui->label_2->setVisible(true);
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
 }
-
+Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::Map)
+{
+    int i,j;
+    setAttribute(Qt::WA_QuitOnClose,false);
+    ui->setupUi(this);
+    mode=1;
+    this->userLogs=userLogs;
+    this->myticketnum=myticketnum;
+    ui->dateEdit->setVisible(false);
+    scene = new QGraphicsScene;
+    QImage img;
+    img.load("E:/Qtproject/Dtrip/地图.png");
+    scene->addPixmap(QPixmap::fromImage(img));
+    ui->graphicsView->resize(440,330);
+    ui->centralwidget->resize(440,330);
+    ui->horizontalSlider->resize(140,18);
+    ui->horizontalSlider->move(250,13);
+    ui->label->move(230,13);
+    ui->pushButton_5->setVisible(false);
+    ui->pushButton_4->resize(60,30);
+    ui->pushButton_4->move(10,10);
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->show();
+    ui->label->setNum(100);
+    connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
+    connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
+    for(i=0;i<16;i++){
+        buttons[i] = new QPushButton(citys[i]);
+        buttons[i]->setParent(this);
+        buttons[i]->setObjectName(citys[i]);
+        buttons[i]->setIcon(QIcon("E:/Qtproject/Dtrip/机场.png"));
+        buttons[i]->setIconSize(QSize(20,30));
+        buttons[i]->setFlat(true);
+        buttons[i]->setGeometry(2000,2000,70,30);
+        //connect(buttons[i], &QPushButton::clicked, this, &Map::on_buttons_clicked);
+    }
+    ui->pushButton->setVisible(false);
+    ui->pushButton_2->setVisible(false);
+    ui->pushButton_3->setVisible(false);
+    ui->label_2->setVisible(true);
+    ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
+}
 Map::~Map()
 {
     delete ui;
@@ -132,7 +172,7 @@ void Map::on_buttons_clicked()
     }
 }
 
-void addcursorline(int x1,int x2,int y1,int y2,int line,QGraphicsScene *scene){
+void addcursorline(int x1,int x2,int y1,int y2,int line,int color,QGraphicsScene *scene){
     QImage img;
     img.load("E:/Qtproject/Dtrip/icon_airplane.png");
     if(line==2){
@@ -154,7 +194,9 @@ void addcursorline(int x1,int x2,int y1,int y2,int line,QGraphicsScene *scene){
         QPen pen;  // creates a default pen
         pen.setStyle(Qt::DashDotLine);
         pen.setWidth(1.0);
-        pen.setBrush(Qt::blue);
+        if(color==0) pen.setBrush(QColor(0,109,49,100));
+        else if(color==1) pen.setBrush(Qt::blue);
+        else pen.setBrush(Qt::red);
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         item1->setPen(pen);
@@ -168,7 +210,9 @@ void addcursorline(int x1,int x2,int y1,int y2,int line,QGraphicsScene *scene){
         QPen pen;  // creates a default pen
         pen.setStyle(Qt::DashDotLine);
         pen.setWidth(1.0);
-        pen.setBrush(Qt::blue);
+        if(color==0) pen.setBrush(QColor(0,109,49,100));
+        else if(color==1) pen.setBrush(Qt::blue);
+        else pen.setBrush(Qt::red);
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         item4->setPen(pen);
@@ -191,13 +235,28 @@ void Map::on_pushButton_4_clicked()
         ui->pushButton_4->setText("显示航线");
     }
     else{
-        int i,j;
-        for(i=0;i<16;i++){
-            for(j=i+1;j<16;j++){
-                addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
+        if(mode==1){
+            int i,j,begin,end;
+            for(i=0;i<myticketnum;i++){
+                for(begin=0;begin<16;begin++){
+                    if(userLogs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                }
+                for(end=0;end<16;end++){
+                    if(userLogs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
+                }
+                addcursorline(cityp[begin].rx(),cityp[end].rx(),cityp[begin].ry(),cityp[end].ry(),1,1,scene);
             }
+            ui->pushButton_4->setText("清除航线");
         }
-        ui->pushButton_4->setText("清除航线");
+        else{
+            int i,j;
+            for(i=0;i<16;i++){
+                for(j=i+1;j<16;j++){
+                    addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,0,scene);
+                }
+            }
+            ui->pushButton_4->setText("清除航线");
+        }
     }
 }
 
@@ -216,29 +275,49 @@ void Map::on_pushButton_5_clicked()
     img.load("E:/Qtproject/Dtrip/地图.png");
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->setScene(scene);
-    int i,j;
+    int i,j,num0=0,num1=0;
     for(i=0;i<16;i++){
         for(j=i+1;j<16;j++){
+            count0=0;
+            count1=0;
+            num0=0;
+            num1=0;
             fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
             QFile fs(fname);
             if(fs.open(QIODeviceBase::ReadOnly)){
                 count0=1;
+                QTextStream in(&fs);
+                in.setEncoding(QStringConverter::System);
+                while (in.atEnd()==false){
+                    QString info0=in.readLine();
+                    num0++;
+                }
             }
             fs.close();
             fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[j]+"-"+citys[i]+".txt";
             QFile fs1(fname);
             if(fs1.open(QIODeviceBase::ReadOnly)){
                 count1=1;
+                QTextStream in(&fs1);
+                in.setEncoding(QStringConverter::System);
+                while (in.atEnd()==false){
+                    QString info0=in.readLine();
+                    num1++;
+                }
             }
             fs1.close();
-            if((count0+count1)==2) addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),2,scene);
-            else if(count0==1) addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,scene);
-            else if(count1==1) addcursorline(cityp[j].rx(),cityp[i].rx(),cityp[j].ry(),cityp[i].ry(),1,scene);
+            if(num0>num1) num0=num1;
+            if(num0>10) num0=0;
+            else if(num0>6) num0=1;
+            else num0=2;
+            if((count0+count1)==2) addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),2,num0,scene);
+            else if(count0==1) addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,num0,scene);
+            else if(count1==1) addcursorline(cityp[j].rx(),cityp[i].rx(),cityp[j].ry(),cityp[i].ry(),1,num0,scene);
             else{}
-            count0=0;
-            count1=0;
         }
     }
     ui->pushButton_4->setText("清除航线");
 }
-
+QPoint* Map::getcityp(){
+    return cityp;
+}

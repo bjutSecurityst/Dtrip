@@ -52,11 +52,18 @@ public:
         if (Map->objectName().isEmpty())
             Map->setObjectName(QString::fromUtf8("Map"));
         Map->resize(1280, 720);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Map->sizePolicy().hasHeightForWidth());
+        Map->setSizePolicy(sizePolicy);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/ApplicationIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
         Map->setWindowIcon(icon);
         centralwidget = new QWidget(Map);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+        centralwidget->setSizePolicy(sizePolicy);
         graphicsView = new MyGraphicsView(centralwidget);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
         graphicsView->setGeometry(QRect(0, -1, 1280, 721));
@@ -140,7 +147,7 @@ public:
         dateEdit = new QDateEdit(centralwidget);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setGeometry(QRect(20, 10, 110, 31));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
         pushButton_5 = new QPushButton(centralwidget);
@@ -159,6 +166,8 @@ public:
         pushButton_5->raise();
         statusbar = new QStatusBar(Map);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
+        sizePolicy.setHeightForWidth(statusbar->sizePolicy().hasHeightForWidth());
+        statusbar->setSizePolicy(sizePolicy);
         Map->setStatusBar(statusbar);
 
         retranslateUi(Map);

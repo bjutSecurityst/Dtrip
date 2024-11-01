@@ -393,7 +393,7 @@ public:
         return dist;
     }
     Dist* DijkstraPlus(int begin) {
-        Dist* dist = new Dist[m_iCapacity];
+        Dist* dist=new Dist[m_iCapacity];
         DNODE *p,*q;
         int i,j,k;
         resetNode();
@@ -487,24 +487,33 @@ public:
         }
         return s;
     }
-    QStringList visit_plus(Dist* tempdist, int dep,int ari ,int Ari,bool* blist) {
-        int a=ari,i,j;
+    QStringList visit_plus(Dist* tempdist, int dep,int ari,int Ari,bool blist[]) {
+        int a=ari,i,j,k;
         bool same;
         QString s;
         QStringList list,list0;
         blist[ari]=true;
-        bool blist0[16];
-        for(i=0;i<16;i++){
-            blist0[i]=blist[i];
-        }
         if(tempdist[ari].m_pre_vertex_list[0]==dep && Ari!=ari){
             if(ari==dep) s="< " + QString::number(dep);
             else s="< " + QString::number(dep)+" "+QString::number(ari);
             list.append(s);
             return list;
         }
+        for(k=0;k<6;k++){
+            if(tempdist[Ari].m_pre_vertex_list[k]==ari) break;
+        }
+        if(k!=5)k=k+1;
         for(i=0;i<6;i++){
-            if (tempdist[ari].m_length_list[i] != INT_MAX && blist[tempdist[ari].m_pre_vertex_list[i]]!=true) {
+            if (tempdist[ari].m_length_list[i] != INT_MAX && blist[tempdist[ari].m_pre_vertex_list[i]]!=true && -1<tempdist[ari].m_pre_vertex_list[i]<16) {
+                if (tempdist[ari].m_length_list[i]>tempdist[Ari].m_length_list[k] && ari!=Ari) {
+                    free(blist);
+                    return list;
+                }
+                bool* blist0=(bool*)malloc(sizeof(bool)*16);
+                for(j=0;j<16;j++){
+                    blist0[j]=blist[j];
+                }
+                qDebug() << tempdist[ari].m_pre_vertex_list[i] << "\n";
                 list0 = visit_plus(tempdist, dep, tempdist[ari].m_pre_vertex_list[i], Ari,blist0);
                 while (!list0.empty()) {
                     if (Ari != ari) s = list0[0] + " " + QString::number(ari);

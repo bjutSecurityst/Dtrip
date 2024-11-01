@@ -9,7 +9,6 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include "sqlite3.h"
 
 Passwordfix::Passwordfix(QString name,QString password,int mode,QWidget *parent)
     : QWidget(parent)
@@ -218,6 +217,7 @@ void Passwordfix::on_pushButton_2_clicked()
         msgBox.setDefaultButton(QMessageBox::Ok);
         int ret = msgBox.exec();
         this->close();
+        emit sendToLogin();
     }
     else{
         ui->lineEdit->setText("");
@@ -232,5 +232,10 @@ void Passwordfix::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
     this->close();
+    emit sendToLogin();
+}
+
+int Passwordfix::getMode(){
+    return mode;
 }
 

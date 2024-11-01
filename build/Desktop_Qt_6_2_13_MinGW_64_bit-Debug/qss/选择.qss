@@ -1,0 +1,33 @@
+QPushButton
+{
+    border: 2px solid #009ef9;
+    border-radius: 10px;
+    background-color: #88CDF6;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    border: 2px solid #009ef9;
+    border-radius: 10px;
+    background-color: #80C5ED;
+
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    border: 2px solid #009ef9;
+    border-radius: 10px;
+    background-color: #80C5ED;
+    /*左内边距为2像素，让按下时字向右移动2像素*/  
+    padding-left:1px;
+    /*上内边距为2像素，让按下时字向下移动2像素*/  
+    padding-top:1px;
+}
+/*不可用态*/
+QPushButton:!enabled
+{
+	background-color: rgb(128, 128, 128);
+}

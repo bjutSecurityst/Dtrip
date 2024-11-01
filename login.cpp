@@ -8,7 +8,6 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include "sqlite3.h"
 #include "passwordfix.h"
 #pragma comment(lib,"sqlcipher.LIB")
 
@@ -55,6 +54,7 @@ Login::~Login()
 void Login::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
+    emit sendToMainWindow("",NULL,myticketnum,0,0,0,0,0,0,0);
     this->close();
 }
 
@@ -95,6 +95,7 @@ void Login::on_pushButton_2_clicked()
         database2.setDatabaseName(pathCreator("dbs/users.db"));
         database2.setUserName("root");
         database2.setPassword("123456");
+        float time_money,time_time,time_straight;
         //database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc;");
         if (!database2.open())
         {
@@ -107,6 +108,12 @@ void Login::on_pushButton_2_clicked()
             QString last_log = QString("select * from users where name = '%1'").arg(ui->lineEdit->text());
             QString password,question;
             QSqlQuery query(database);
+            QSqlQuery queryuser(database2);
+            queryuser.exec(last_log);
+            queryuser.next();
+            time_money = queryuser.value(4).toFloat();
+            time_time = queryuser.value(5).toFloat();
+            time_straight = queryuser.value(6).toFloat();
             database.setDatabaseName(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
             database.setUserName(ui->lineEdit->text());
             database.setPassword(ui->lineEdit_2->text());
@@ -128,10 +135,11 @@ void Login::on_pushButton_2_clicked()
                 ui->lineEdit_2->setStyleSheet("color:rgb(0,0,0);");
                 QString company,ID,sou,des,time0,time1,chi,date;
                 Log *p,*q;
-                int price=0,j=0,next;
+                int price=0,j=0,next,PID,i=1;
                 query.exec("SELECT * FROM ticket");
                 while(query.next())
                 {
+                    PID= query.value(0).toInt();
                     company = query.value(1).toString();
                     ID = query.value(2).toString();
                     sou = query.value(3).toString();
@@ -142,30 +150,38 @@ void Login::on_pushButton_2_clicked()
                     chi = query.value(8).toString();
                     next = query.value(9).toInt();
                     date = query.value(10).toString();
-                    if(next==1 || next==2){
-                        logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
-                        logs[j].next=NULL;
-                        p=&logs[j];
-                        j++;
-                    }
-                    else{
-                        Log* log0=new Log();
-                        log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
-                        log0->next=NULL;
-                        p->next=log0;
-                        p=p->next;
+                    logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
+                    logs[j].setPID(PID);
+                    logs[j].next=NULL;
+                    p=&logs[j];
+                    j++;
+                    if(next!=-1){
+                        i=1;
+                        QSqlQuery querysub(database);
+                        for(i=1;i<=next;i++){
+                            querysub.exec(QString("select * from subticket where PID = '%1' AND next = '%2'").arg(PID).arg(i));
+                            Log* log0=new Log();
+                            querysub.next();
+                            company = querysub.value(1).toString();
+                            ID = querysub.value(2).toString();
+                            sou = querysub.value(3).toString();
+                            des = querysub.value(4).toString();
+                            time0 = querysub.value(5).toString();
+                            time1 = querysub.value(6).toString();
+                            price = querysub.value(7).toInt();
+                            chi = querysub.value(8).toString();
+                            date = querysub.value(10).toString();
+                            log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
+                            log0->next=NULL;
+                            p->next=log0;
+                            p=p->next;
+                        }
                     }
                 }
                 myticketnum=j;
                 database.close();
             }
-            query.exec(last_log);
             qDebug() << "success!";
-            while(query.next()){
-                password = query.value("password").toString();
-                question = query.value("question").toString();
-            }
-            qDebug() << password << question;
         }
         database2.close();
         name=ui->lineEdit->text();
@@ -173,7 +189,10 @@ void Login::on_pushButton_2_clicked()
         QSqlDatabase::removeDatabase(name0);
         QSqlDatabase::removeDatabase("read_connection");
         QSqlDatabase::removeDatabase("read_connection_2");
-        emit sendToMainWindow(name,logs,myticketnum);
+        int home,common;
+        double probability,pco;
+        userHomeAnalyse(&home,&probability,&common,&pco);
+        emit sendToMainWindow(name,logs,myticketnum,home,probability,common,pco,time_money,time_time,time_straight);
         this->close();
     }
     else
@@ -243,7 +262,17 @@ void Login::on_pushButton_2_clicked()
         {
             //创建表格
             QSqlQuery sql_query(database);
-            QString create_sql = "create table ticket (uid int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
+            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
+            sql_query.prepare(create_sql);
+            if(!sql_query.exec())
+            {
+                qDebug() << "Error: Fail to create table." << sql_query.lastError();
+            }
+            else
+            {
+                qDebug() << "Table created!";
+            }
+            create_sql = "create table subticket (PID int, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -280,7 +309,7 @@ void Login::on_pushButton_2_clicked()
                     qDebug() << "success!";
                     max_number = sql_query2.value(0).toInt();
                 }
-                QString insert_sql = QString("insert into users(uid, name, password, question) values('%1','%2','%3','%4') ").arg(max_number+1).arg(ui->lineEdit->text()).arg(ui->lineEdit_2->text()).arg(ui->lineEdit_4->text());
+                QString insert_sql = QString("insert into users(uid, name, password, question, timemoney, timetime, timestraight) values('%1','%2','%3','%4','0','0','0') ").arg(max_number+1).arg(ui->lineEdit->text()).arg(ui->lineEdit_2->text()).arg(ui->lineEdit_4->text());
                 if(!sql_query2.exec(insert_sql))
                 {
                     qDebug() << sql_query2.lastError();
@@ -296,7 +325,7 @@ void Login::on_pushButton_2_clicked()
         name=ui->lineEdit->text();
         QString name0 = QSqlDatabase::database().connectionName();
         QSqlDatabase::removeDatabase(name0);
-        emit sendToMainWindow(name,logs,myticketnum);
+        emit sendToMainWindow(name,logs,myticketnum,-1,0,-1,0,0,0,0);
         this->close();
     }
 }
@@ -318,14 +347,84 @@ void Login::on_checkBox_2_stateChanged(int arg1)
 
 void Login::on_pushButton_clicked()
 {
-    Passwordfix* fix=new Passwordfix(ui->lineEdit->text(),"",0);
-    fix->show();
+    if(fix==NULL){
+        fix=new Passwordfix(ui->lineEdit->text(),"",0);
+        connect(fix,&Passwordfix::sendToLogin,this,&Login::getpasswordfixMessage);
+        fix->show();
+    }
+    else if(fix->getMode()==1){
+        fix->setAttribute(Qt::WA_DeleteOnClose, true);
+        fix->close();
+        fix=new Passwordfix(ui->lineEdit->text(),"",0);
+        connect(fix,&Passwordfix::sendToLogin,this,&Login::getpasswordfixMessage);
+        fix->show();
+    }
+    else fix->raise();
 }
 
 
 void Login::on_pushButton_3_clicked()
 {
-    Passwordfix* fix=new Passwordfix(ui->lineEdit->text(),ui->lineEdit_2->text(),1);
-    fix->show();
+    if(fix==NULL){
+        fix=new Passwordfix(ui->lineEdit->text(),ui->lineEdit_2->text(),1);
+        connect(fix,&Passwordfix::sendToLogin,this,&Login::getpasswordfixMessage);
+        fix->show();
+    }
+    else if(fix->getMode()==0){
+        fix->setAttribute(Qt::WA_DeleteOnClose, true);
+        fix->close();
+        fix=new Passwordfix(ui->lineEdit->text(),ui->lineEdit_2->text(),1);
+        connect(fix,&Passwordfix::sendToLogin,this,&Login::getpasswordfixMessage);
+        fix->show();
+    }
+    else fix->raise();
 }
-
+void Login::getpasswordfixMessage(){
+    fix=NULL;
+}
+void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pco){
+    int cityTimes[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    *home=-1;
+    *common=-1;
+    *probability=0;
+    *pco=0;
+    int i,j,begin,end,max=0,pre=-1,premax=0;
+    for(i=0;i<myticketnum;i++){
+        for(begin=0;begin<16;begin++){
+            if(logs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+        }
+        cityTimes[begin]++;
+    }
+    for (i = 0; i < 16; i++) {
+        if(max<cityTimes[i]) {
+            max=cityTimes[i];
+            *home=i;
+        }
+        if(premax<cityTimes[i] && cityTimes[i]<max){
+            pre=i;
+            premax=cityTimes[i];
+        }
+    }
+    if(max!=0) *probability=max/(double)(max+premax);
+    for(i=0;i<16;i++){
+        cityTimes[i]=0;
+    }
+    max=0;pre=-1;premax=0;
+    for(i=0;i<myticketnum;i++){
+        for(end=0;end<16;end++){
+            if(logs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
+        }
+        cityTimes[end]++;
+    }
+    for (i = 0; i < 16; i++) {
+        if(max<cityTimes[i]) {
+            max=cityTimes[i];
+            *common=i;
+        }
+        if(premax<cityTimes[i] && cityTimes[i]<max){
+            pre=i;
+            premax=cityTimes[i];
+        }
+    }
+    if(max!=0) *pco=max/(double)(max+premax);
+}

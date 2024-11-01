@@ -212,6 +212,11 @@ public:
 
         label_6 = new QLabel(horizontalLayoutWidget);
         label_6->setObjectName(QString::fromUtf8("label_6"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy1);
         label_6->setStyleSheet(QString::fromUtf8("font: 17pt \"Microsoft Sans Serif\";color: rgb(255, 160, 8)"));
         label_6->setAlignment(Qt::AlignmentFlag::AlignCenter);
 

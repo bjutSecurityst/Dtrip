@@ -10,6 +10,12 @@
     <height>720</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>地图选择</string>
   </property>
@@ -18,6 +24,12 @@
     <normaloff>:/ApplicationIcon.png</normaloff>:/ApplicationIcon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <widget class="MyGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
@@ -212,7 +224,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>8</hour>
+      <hour>0</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2024</year>
@@ -260,7 +272,14 @@
    <zorder>dateEdit</zorder>
    <zorder>pushButton_5</zorder>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

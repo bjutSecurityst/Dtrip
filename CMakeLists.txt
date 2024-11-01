@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(INC_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher")
-set(LINK_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/lib")
+# set(INC_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher")
+# set(LINK_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/lib")
 include_directories(${INC_DIR})
 link_directories(${LINK_DIR})
 
@@ -69,7 +69,7 @@ endif()
 
 target_link_libraries(Dtrip PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(Dtrip PRIVATE Qt6::Sql)
-target_link_libraries(Dtrip PRIVATE sqlcipher.lib)
+# target_link_libraries(Dtrip PRIVATE sqlcipher.lib)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

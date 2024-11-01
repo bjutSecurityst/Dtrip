@@ -122,7 +122,7 @@ public:
         pushButton->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("ticketWindow", "\347\241\256\345\256\232\350\264\255\344\271\260", nullptr));
         pushButton_3->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("ticketWindow", "\350\277\224\345\233\236", nullptr));
     } // retranslateUi
 
 };

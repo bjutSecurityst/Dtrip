@@ -14,6 +14,7 @@ class ticketWindow : public QMainWindow
 
 public:
     explicit ticketWindow(Log* tlog,int mode,QWidget *parent = nullptr);
+    explicit ticketWindow(Log* tlog,int mode,Log* clog,QWidget *parent = nullptr);
     ~ticketWindow();
 
 private slots:
@@ -25,9 +26,12 @@ private slots:
 signals:
     void sendToMainWindow(Log* tlog);
     void Exit();
+    void changeTicket(Log* tlog);
+    void change(Log* tlog);
+    void refund(Log* tlog);
 private:
     Ui::ticketWindow *ui;
-    Log *tlog;
+    Log *tlog,*clog;
     int mode;
 };
 

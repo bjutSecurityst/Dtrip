@@ -12,6 +12,7 @@ class ticketInfo : public QWidget
 
 public:
     explicit ticketInfo(Log* my,int mode,QWidget *parent = nullptr);
+    explicit ticketInfo(Log* my,Log* clog,int mode,QWidget *parent = nullptr);
     ~ticketInfo();
 
 private slots:

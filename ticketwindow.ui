@@ -165,7 +165,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>放弃购票</string>
+     <string>返回</string>
     </property>
    </widget>
    <zorder>pushButton</zorder>

@@ -12,6 +12,7 @@ public:
     int price;
     QString chi;
     QString curdate;
+    int PID=-1;
     Log* next=NULL;
     Log() {}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
@@ -24,6 +25,9 @@ public:
         this->price=price;
         this->chi=chi;
         this->curdate=curdate;
+    }
+    void setPID(int PID){
+        this->PID=PID;
     }
     void clear(){
         this->company="";

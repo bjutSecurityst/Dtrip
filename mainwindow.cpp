@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS 1
 #include "mainwindow.h"
+#include "QWindow"
 #include "./ui_mainwindow.h"
 #include <stdio.h>
 #include <string.h>
@@ -12,6 +13,7 @@
 #include "QuickSort.h"
 #include "login.h"
 #include "ticketwindow.h"
+#include "MyGraphicsView.h"
 //#include "mysqlite.h"
 #include <QMessageBox>
 #pragma comment(lib,"winmm.lib")
@@ -39,9 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_0->setStyleSheet("border:none;");
     ui->pushButton_0->setMaximumSize(100,30);
     ui->pushButton_0->setIcon(QIcon("E:/Qtproject/Dtrip/菜单栏2.png"));
-    ui->pushButton->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px; background-color: #88CDF6;");
+    QFile file_search(pathCreator("qss/选择.qss"));
+    file_search.open(QFile::ReadOnly);
+    QString styleSheet_se = tr(file_search.readAll());
+    ui->pushButton->setStyleSheet(styleSheet_se);
     ui->pushButton_4->setIcon(QIcon("E:/Qtproject/Dtrip/search.png"));
-    ui->pushButton_4->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px; background-color: #88CDF6;");
+    ui->pushButton_4->setStyleSheet(styleSheet_se);
     //设置应用图标
     QPixmap icon0("E:/Qtproject/Dtrip/trip.png");
     ui->labelicon0->setPixmap(icon0);
@@ -53,6 +58,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEditari->setMinimumHeight(30);
     ui->layoutbutton->setStyleSheet("border-radius: 10px; background-color: white;");
     ui->layoutbutton_2->setStyleSheet("border-radius: 10px; background-color: white;");
+    ui->comboBox_2->setStyleSheet("border-radius: 5px; background-color: white;");
+    QFile file(pathCreator("qss/排序.qss"));
+    file.open(QFile::ReadOnly);
+    QString styleSheet = tr(file.readAll());
+    ui->pushButton_9->setStyleSheet(styleSheet);
+    ui->pushButton_11->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; background-color: white;");
     ui->home_background->setStyleSheet("border: none; border-image: url(E:/Qtproject/Dtrip/homepage-background.png);");
     ui->comboBox->setCurrentIndex(-1);
     ui->verticalScrollBar_3->setVisible(false);
@@ -83,6 +94,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_6->setVisible(false);
     ui->pushButton_7->setVisible(false);
     ui->label_14->setVisible(false);
+    ui->pushButton_9->setVisible(false);
+    ui->comboBox_2->setVisible(false);
     ui->pushButton_5->setStyleSheet("text-align:right;");
 
     //设置界面2
@@ -96,6 +109,8 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->hide();
     widget0->move(180,80);
     widget0->resize(700,600);
+    //游离layout需要加到widget上
+    ui->widget->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -167,9 +182,14 @@ void MainWindow::getticketInfoMessage(Log* tlog,int mode){
     }
     else{
         this->hide();
-        ticketWindow *t=new ticketWindow(tlog,mode);
+        ticketWindow *t;
+        if(mode==2) t=new ticketWindow(tlog,2,clog);
+        else t=new ticketWindow(tlog,mode);
         connect(t,&ticketWindow::sendToMainWindow,this,&MainWindow::getticketwindowMessage);
+        connect(t,&ticketWindow::changeTicket,this,&MainWindow::changeTicketSearch);
         connect(t,&ticketWindow::Exit,this,&MainWindow::show);
+        connect(t,&ticketWindow::change,this,&MainWindow::changeTicketMain);
+        connect(t,&ticketWindow::refund,this,&MainWindow::refundTicketMain);
         t->show();
     }
 }
@@ -202,7 +222,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     else
     {
         QSqlQuery sql_query2(database);
-        sql_query2.exec("SELECT uid FROM ticket ORDER BY uid DESC LIMIT 1");
+        sql_query2.exec("SELECT PID FROM ticket ORDER BY PID DESC LIMIT 1");
         int max_number;
         if(!sql_query2.next()){
             qDebug() << "Error: Fail to read." << sql_query2.lastError();
@@ -214,7 +234,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             max_number = sql_query2.value(0).toInt();
         }
         if(p->next==NULL){
-            QString insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(2).arg(p->curdate);
+            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate);
             if(!sql_query2.exec(insert_sql))
             {
                 qDebug() << sql_query2.lastError();
@@ -226,13 +246,19 @@ void MainWindow::getticketwindowMessage(Log* tlog){
         }
         else{
             bool head=true;
+            int i=0,subnum=0;
+            while(p->next!=NULL){
+                p=p->next;
+                subnum++;
+            }
+            p=tlog;
             while(p!=NULL){
                 QString insert_sql;
                 if(head) {
-                    insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(1).arg(p->curdate);
+                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate);
                     head=false;
                 }
-                else insert_sql = QString("insert into ticket(uid, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(0).arg(p->curdate);
+                else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
                 if(!sql_query2.exec(insert_sql))
                 {
                     qDebug() << sql_query2.lastError();
@@ -241,7 +267,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
                 {
                     qDebug() << "inserted SUCCESS!";
                 }
-                max_number++;
+                i++;
                 p=p->next;
             }
         }
@@ -259,6 +285,259 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     int ret = msgBox.exec();
     myticketnum++;
     this->show();
+}
+void MainWindow::changeTicketMain(Log* tlog){
+    Log *q,*t;
+    int i=0,PID;
+    Log *p=tlog;
+    QString password;
+    bool open=openDatabasegetPassword(&password,username);
+    if(!open) return;
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
+    qDebug() << QSqlDatabase::drivers();
+    database.setDatabaseName(pathCreator("dbs/"+username+".db"));
+    database.setUserName(username);
+    database.setPassword(password);
+    QString a="QSQLITE_USE_CIPHER=sqlcipher; SQLCIPHER_LEGACY=1; SQLCIPHER_LEGACY_PAGE_SIZE=4096;";
+    qDebug() <<a;
+    database.setConnectOptions(a);
+    if (!database.open())
+    {
+        qDebug() << "Error: Failed to connect database." << database.lastError();
+        database.close();
+        QSqlDatabase::removeDatabase("read_connection");
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
+        return;
+    }
+    else
+    {
+        QSqlQuery sql_query2(database);
+        QString PID_log = QString("select * from ticket where PID = '%1'").arg(clog->PID);
+        sql_query2.exec(PID_log);
+        int next;
+        if(!sql_query2.next()){
+            qDebug() << "Error: Fail to read." << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "success!";
+            PID= sql_query2.value(0).toInt();
+            next = sql_query2.value(9).toInt();
+        }
+        QString update_sql=QString("UPDATE ticket SET name='%1', id='%2', sou='%3', des='%4', time0='%5', time1='%6', price='%7', chi='%8' WHERE PID='%9'").arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(clog->PID);
+        if(!sql_query2.exec(update_sql))
+        {
+            qDebug() << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "updated!";
+        }
+        if(next!=-1){
+            i=1;
+            while(p->next!=NULL){
+                p=p->next;
+                QString update_sql=QString("UPDATE subticket SET name='%1', id='%2', sou='%3', des='%4', time0='%5', time1='%6', price='%7', chi='%8' WHERE PID='%9' AND next='%10'").arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(PID).arg(i);
+                if(!sql_query2.exec(update_sql))
+                {
+                    qDebug() << sql_query2.lastError();
+                }
+                else
+                {
+                    qDebug() << "updated!";
+                }
+                i++;
+            }
+        }
+        database.close();
+    }
+    QString name0 = QSqlDatabase::database().connectionName();
+    QSqlDatabase::removeDatabase(name0);
+    QSqlDatabase::removeDatabase("read_connection");
+    QMessageBox msgBox;
+    msgBox.setText("改签成功");
+    msgBox.setInformativeText("点击OK返回主界面");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+    for(i=0;i<myticketnum;i++){
+        if(&userLogs[i]==clog) {
+            userLogs[i]=*tlog;
+            break;
+        }
+    }
+    this->show();
+    changemode=0;
+    on_pushButton_2_clicked();
+}
+void MainWindow::changeTicketSearch(Log* tlog){
+    Log *p=tlog;
+    clog=tlog;
+    int begin,end,k=5,i;
+    string s="";
+    this->show();
+    while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+    {
+        if (QWidget* widget = item->widget()){
+            widget->disconnect();
+            widget->deleteLater();
+        }
+
+        if (QSpacerItem* spaerItem = item->spacerItem())
+            verticalLayout_7->removeItem(spaerItem);
+
+        delete item;
+    }
+    if(p->next!=NULL) p=p->next;
+    while(p!=NULL){
+        if(p->next!=NULL){
+            for(begin=0;begin<16;begin++){
+                if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+            }
+            if(s=="") s="< "+to_string(begin);
+            else s=s+" , "+to_string(begin);
+        }
+        else{
+            for(begin=0;begin<16;begin++){
+                if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+            }
+            for(end=0;end<16;end++){
+                if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
+            }
+            if(s=="") s="< "+to_string(begin)+" : "+"99 "+to_string(end)+" >";
+            else s=s+" , "+to_string(begin)+" : "+"99 "+to_string(end)+" >";
+        }
+        p=p->next;
+    }
+    for(i=0;i<=ticketnum;i++){
+        logs[i].clear();
+    }
+    ticketnum=0;
+    ticket_checkednum=0;
+    setLog(s,2);
+    sortmode=1;
+    qDebug() << QString::fromStdString(s) <<"\n";
+    for(i=4;i>=0;i--){
+        if(logs[i].ID=="" || logs[i].des=="不可达"){
+            k=i;
+        }
+    }
+    if(k==0) {
+        k=0;
+        Log* logno=new Log();
+        logno->setLog("没有航空公司","123456","不可改签","不可改签","00:00","25:00",0,"0%","");
+        ticketInfo* ticket0=new ticketInfo(logno,0);
+        connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+        verticalLayout_7->addWidget(ticket0);
+    }
+    else if(k<5){
+        for(i=0;i<k;i++){
+            ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            verticalLayout_7->addWidget(ticket0);
+        }
+    }
+    else{
+        for(i=0;i<5;i++){
+            ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            verticalLayout_7->addWidget(ticket0);
+        }
+    }
+    changemode=1;
+    ui->pushButton_9->setVisible(true);
+    ui->comboBox_2->setVisible(true);
+}
+void MainWindow::refundTicketMain(Log* tlog){
+    Log *q,*t;
+    int i=0,j,PID;
+    Log *p=tlog;
+    QString password;
+    bool open=openDatabasegetPassword(&password,username);
+    if(!open) return;
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
+    qDebug() << QSqlDatabase::drivers();
+    database.setDatabaseName(pathCreator("dbs/"+username+".db"));
+    database.setUserName(username);
+    database.setPassword(password);
+    QString a="QSQLITE_USE_CIPHER=sqlcipher; SQLCIPHER_LEGACY=1; SQLCIPHER_LEGACY_PAGE_SIZE=4096;";
+    qDebug() <<a;
+    database.setConnectOptions(a);
+    if (!database.open())
+    {
+        qDebug() << "Error: Failed to connect database." << database.lastError();
+        database.close();
+        QSqlDatabase::removeDatabase("read_connection");
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
+        return;
+    }
+    else
+    {
+        QSqlQuery sql_query2(database);
+        QString PID_log = QString("select * from ticket where PID = '%1'").arg(tlog->PID);
+        sql_query2.exec(PID_log);
+        int next;
+        if(!sql_query2.next()){
+            qDebug() << "Error: Fail to read." << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "success!";
+            PID= sql_query2.value(0).toInt();
+            next = sql_query2.value(9).toInt();
+        }
+        QString delete_sql=QString("DELETE FROM ticket WHERE PID = '%1'").arg(tlog->PID);
+        if(!sql_query2.exec(delete_sql))
+        {
+            qDebug() << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "deleted!";
+        }
+        if(next!=-1){
+            i=1;
+            while(p->next!=NULL){
+                p=p->next;
+                QString delete_sql=QString("DELETE FROM subticket WHERE PID='%1' AND next='%2'").arg(PID).arg(i);
+                if(!sql_query2.exec(delete_sql))
+                {
+                    qDebug() << sql_query2.lastError();
+                }
+                else
+                {
+                    qDebug() << "deleted!";
+                }
+                i++;
+            }
+        }
+        database.close();
+    }
+    QString name0 = QSqlDatabase::database().connectionName();
+    QSqlDatabase::removeDatabase(name0);
+    QSqlDatabase::removeDatabase("read_connection");
+    QMessageBox msgBox;
+    msgBox.setText("退票成功");
+    msgBox.setInformativeText("点击OK返回主界面");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+    for(i=0;i<myticketnum;i++){
+        if(&userLogs[i]==tlog) {
+            for(j=i;j<myticketnum-1;j++){
+                userLogs[j]=userLogs[j+1];
+            }
+            userLogs[j].clear();
+            myticketnum--;
+            break;
+        }
+    }
+    this->show();
+    on_pushButton_2_clicked();
 }
 void MainWindow::on_button_swap_clicked()
 {
@@ -353,6 +632,14 @@ void MainWindow::on_pushButton_4_clicked()
     bool deepmode=ui->checkBox->checkState();
     clock_t c_start, c_end;
     c_start = clock();
+    if(time_money!=0) time_money-=time_money/10;
+    if(time_time!=0) time_time-=time_time/10;
+    if(time_straight!=0) time_straight-=time_straight/10;
+    if(mode==1) time_money++;
+    else if(mode==2) time_time++;
+    else time_straight++;
+    if(mode==2) sortmode=1;
+    else sortmode=2;
     if(deepmode && mode!=3 && mode!=0){
         mode=mode+4;
         CMap* pMap = new CMap(nodeNum,10000);
@@ -363,11 +650,13 @@ void MainWindow::on_pushButton_4_clicked()
         for(end=0;end<17;end++){
             if(citys[end]==ui->lineEditari->text()) break;
         }
+        Dist* dist,*dist0;
         dist = pMap->DijkstraPlus(begin);
         for(i=0;i<16;i++) {
             qDebug() << dist[i].m_vertex;
             for(j=0;j<6;j++){
                 qDebug() << dist[i].m_pre_vertex_list[j];
+                qDebug() << dist[i].m_length_list[j];
             }
             qDebug() << "\n";
         }
@@ -461,6 +750,8 @@ void MainWindow::on_pushButton_4_clicked()
     ui->label_14->setVisible(true);
     ui->pushButton_6->setVisible(true);
     ui->pushButton_7->setVisible(true);
+    ui->pushButton_9->setVisible(true);
+    ui->comboBox_2->setVisible(true);
     if(logs[2].ID=="" || logs[2].des=="不可达"){
         k=2;
         if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
@@ -660,8 +951,6 @@ void MainWindow::setLog(string s,int mode){
                     for(i=ticket_checkednum;i<j;i++){
                         qDebug() << "首" <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     }
-                    ui->label_10->setVisible(false);
-                    ui->label_11->setVisible(false);
                 }
                 ticketnum=j;
                 fs.close();
@@ -729,6 +1018,8 @@ void MainWindow::setLog(string s,int mode){
                                     }
                                     Log* log2=new Log();
                                     p->next=log2;
+                                    QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
+                                    if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                                     log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
                                     logs[i].des=logs0[k].des;
                                     logs[i].price=logs[i].price+logs0[k].price;
@@ -737,18 +1028,21 @@ void MainWindow::setLog(string s,int mode){
                                 }
                                 else{
                                     int price1=0;
+                                    QString chi_min=logs[i].chi;
                                     l++;
                                     p=&logs[i];
                                     q=&logs[l];
                                     while(p->next->next!=NULL){
                                         p=p->next;
                                         price1=price1+p->price;
+                                        QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
+                                        if(chi1.toDouble()<chi0.toDouble()) chi_min=p->chi;
                                         Log* log1=new Log();
                                         log1->setLog(p->company,p->ID,p->sou,p->des,p->time0,p->time1,p->price,p->chi,curdate.toString());
                                         q->next=log1;
                                         q=q->next;
                                     }
-                                    logs[l].setLog(logs[i].company,logs[i].ID,logs[i].sou,logs0[k].des,logs[i].time0,logs0[k].time1,logs0[k].price+price1,logs[i].chi,curdate.toString());
+                                    logs[l].setLog(logs[i].company,logs[i].ID,logs[i].sou,logs0[k].des,logs[i].time0,logs0[k].time1,logs0[k].price+price1,chi_min,curdate.toString());
                                     Log* log2=new Log();
                                     log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
                                     q->next=log2;
@@ -773,8 +1067,6 @@ void MainWindow::setLog(string s,int mode){
                 else las=mid->first();
             }
         }
-        ui->label_10->setVisible(false);
-        ui->label_11->setVisible(false);
         for(i=ticket_checkednum;i<=ticketnum;i++){
             if(logs[i].des=="不可达"){
                 for(j=i;j<=ticketnum;j++){
@@ -806,9 +1098,12 @@ void MainWindow::setLog(string s,int mode){
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    Login* login=new Login();
-    login->show();
-    connect(login,&Login::sendToMainWindow,this,&MainWindow::getLoginMessage);
+    if(loginW==NULL){
+        loginW=new Login();
+        loginW->show();
+        connect(loginW,&Login::sendToMainWindow,this,&MainWindow::getLoginMessage);
+    }
+    else loginW->raise();
 }
 
 
@@ -818,7 +1113,7 @@ void MainWindow::on_lineEditdep_textChanged(const QString &arg1)
     bool label,labeldep=false,labelari=false;
     if(ui->lineEditdep->text()!=""){
         for(i=0;i<16;i++){
-            if(citys[i].contains(ui->lineEditdep->text())) {
+            if(citys[i].mid(0,ui->lineEditdep->text().length()).contains(ui->lineEditdep->text())) {
                 if(labeldep) {
                     ui->label_12->setText(ui->label_12->text()+"/"+citys[i].last(citys[i].length()-1));
                     ui->label_12->setMinimumWidth(90);
@@ -845,7 +1140,7 @@ void MainWindow::on_lineEditari_textChanged(const QString &arg1)
     bool label,labelari=false;
     if(ui->lineEditari->text()!=""){
         for(i=0;i<16;i++){
-            if(citys[i].contains(ui->lineEditari->text())) {
+            if(citys[i].mid(0,ui->lineEditari->text().length()).contains(ui->lineEditari->text())) {
                 if(labelari) {
                     ui->label_13->setText(ui->label_13->text()+"/"+citys[i].last(citys[i].length()-1));
                     ui->label_13->setMinimumWidth(90);
@@ -1020,29 +1315,57 @@ void MainWindow::on_pushButton_7_clicked()
         }
     }
     else if(ui->pushButton_2->isChecked()){
-        if(myticketnum>5 && ticket_now<myticketnum-5){
-            int i=0,j;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
+        if(changemode==1){
+            if(ticketnum>5 && ticket_now<ticketnum-5){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
 
-                if (QSpacerItem* spaerItem = item->spacerItem()){
-                    verticalLayout_7->removeItem(spaerItem);
-                }
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
 
-                delete item;
+                    delete item;
+                }
+                ticket_now=ticket_now+1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*100);
             }
-            ticket_now=ticket_now+1;
-            j=ticket_now+5;
-            for(i=j-5;i<j;i++){
-                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
-                verticalLayout_7->addWidget(ticket0);
-                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+        }
+        else{
+            if(myticketnum>5 && ticket_now<myticketnum-5){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
+
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
+
+                    delete item;
+                }
+                ticket_now=ticket_now+1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
             }
-            ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
         }
     }
 }
@@ -1080,38 +1403,76 @@ void MainWindow::on_pushButton_6_clicked()
         }
     }
     else if(ui->pushButton_2->isChecked()){
-        if(myticketnum>5 && ticket_now>0){
-            int i=0,j;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
+        if(changemode==1){
+            if(ticketnum>5 && ticket_now>0){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
 
-                if (QSpacerItem* spaerItem = item->spacerItem()){
-                    verticalLayout_7->removeItem(spaerItem);
-                }
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
 
-                delete item;
+                    delete item;
+                }
+                ticket_now=ticket_now-1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*100);
             }
-            ticket_now=ticket_now-1;
-            j=ticket_now+5;
-            for(i=j-5;i<j;i++){
-                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
-                verticalLayout_7->addWidget(ticket0);
-                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+        }
+        else{
+            if(myticketnum>5 && ticket_now>0){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
+
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
+
+                    delete item;
+                }
+                ticket_now=ticket_now-1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
             }
-            ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
         }
     }
 }
-void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum){
-    this->username=username;
-    this->myticketnum=myticketnum;
-    userLogs=mylog;
-    ui->pushButton_5->setText("你好！ "+username);
-    login=true;
+void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight){
+    if(username!=""){
+        this->username=username;
+        this->myticketnum=myticketnum;
+        userLogs=mylog;
+        ui->pushButton_5->setText("你好！ "+username);
+        login=true;
+        this->home=home;
+        this->probability=probability;
+        this->common=common;
+        this->pco=pco;
+        this->time_money=time_money;
+        this->time_time=time_time;
+        this->time_straight=time_straight;
+    }
+    loginW=NULL;
 }
 
 
@@ -1171,6 +1532,17 @@ void MainWindow::on_pushButton_2_clicked()
         ui->layoutbutton_2->setVisible(false);
         ui->label_10->setVisible(false);
         ui->label_11->setVisible(false);
+        //修改位置
+        if(changemode==1){
+            ui->pushButton_9->setVisible(true);
+            ui->comboBox_2->setVisible(true);
+        }
+        else{
+            ui->pushButton_9->setVisible(false);
+            ui->comboBox_2->setVisible(false);
+        }
+        ui->comboBox_2->setGeometry(180,60,201,22);
+        ui->pushButton_9->setGeometry(390,60,31,22);
         ui->label_4->setVisible(false);
         ui->label_7->setVisible(false);
         ui->comboBox->setVisible(false);
@@ -1182,12 +1554,18 @@ void MainWindow::on_pushButton_2_clicked()
         button_swap->setVisible(false);
         ui->verticalScrollBar_2->setVisible(false);
         ui->verticalScrollBar_3->setVisible(true);
+        ui->widget->setVisible(false);
+        if(m!=NULL){
+            m->setAttribute(Qt::WA_DeleteOnClose, true);
+            m->close();
+            m=NULL;
+        }
         int i;
         if(myticketnum==0){
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
-            ticketInfo* ticket0=new ticketInfo(logno,0);
+            ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }
         else{
@@ -1207,7 +1585,6 @@ void MainWindow::on_pushButton_2_clicked()
             }
         }
     }
-    ui->pushButton_2->setChecked(true);
 }
 
 
@@ -1236,6 +1613,10 @@ void MainWindow::on_pushButton_1_clicked()
         ui->layoutbutton_2->setVisible(true);
         ui->label_10->setVisible(true);
         ui->label_11->setVisible(true);
+        ui->pushButton_9->setVisible(false);
+        ui->comboBox_2->setVisible(false);
+        ui->comboBox_2->setGeometry(280,324,201,22);
+        ui->pushButton_9->setGeometry(490,324,31,22);
         ui->label_4->setVisible(true);
         ui->label_7->setVisible(true);
         ui->comboBox->setVisible(true);
@@ -1247,8 +1628,14 @@ void MainWindow::on_pushButton_1_clicked()
         button_swap->setVisible(true);
         ui->verticalScrollBar_2->setVisible(true);
         ui->verticalScrollBar_3->setVisible(false);
+        ui->widget->setVisible(false);
+        if(m!=NULL){
+            m->setAttribute(Qt::WA_DeleteOnClose, true);
+            m->close();
+            m=NULL;
+        }
     }
-    ui->pushButton_1->setChecked(true);
+    changemode=0;
 }
 
 
@@ -1259,6 +1646,38 @@ void MainWindow::on_pushButton_3_clicked()
         ui->pushButton_1->setChecked(false);
         ui->pushButton_2->setChecked(false);
         ui->pushButton_3->setChecked(true);
+        ui->pushButton_6->setVisible(true);
+        ui->pushButton_7->setVisible(true);
+        ui->label_3->setVisible(false);
+        ui->label_12->setVisible(false);
+        ui->label_13->setVisible(false);
+        ui->label_14->setVisible(false);
+        ui->lineEditari->setVisible(false);
+        ui->lineEditdep->setVisible(false);
+        ui->easystay->setVisible(false);
+        ui->backgroundsky->setVisible(false);
+        ui->checkBox->setVisible(false);
+        ui->home_background->setVisible(false);
+        ui->pushButton->setVisible(false);
+        ui->pushButton_4->setVisible(false);
+        ui->layoutbutton->setVisible(false);
+        ui->layoutbutton_2->setVisible(false);
+        ui->label_10->setVisible(false);
+        ui->label_11->setVisible(false);
+        ui->pushButton_9->setVisible(false);
+        ui->comboBox_2->setVisible(false);
+        ui->label_4->setVisible(false);
+        ui->label_7->setVisible(false);
+        ui->comboBox->setVisible(false);
+        ui->label_5->setVisible(false);
+        ui->label_6->setVisible(false);
+        ui->dateEdit->setVisible(false);
+        ui->label->setVisible(false);
+        ui->label_2->setVisible(false);
+        button_swap->setVisible(false);
+        ui->verticalScrollBar_2->setVisible(false);
+        ui->verticalScrollBar_3->setVisible(false);
+        ui->widget->setVisible(true);
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
         {
             if (QWidget* widget = item->widget()){
@@ -1271,32 +1690,214 @@ void MainWindow::on_pushButton_3_clicked()
 
             delete item;
         }
+        if(m!=NULL){
+            m->setAttribute(Qt::WA_DeleteOnClose, true);
+            m->close();
+            m=NULL;
+        }
+        m=new Map(userLogs,myticketnum);
+        WId proc1Window_HWND = WId(this->winId()); //记下进程1的窗口句柄
+        //TODO: 创建一个进程1的窗口代理
+        QWindow* proc1Widow = QWindow::fromWinId(proc1Window_HWND);
+        //TODO: 告诉w它的本地父窗口是proc1Window_HWND,这步务必要做不然m上的一些控件会出问题，比如qcombobox的下拉框可能会错位
+        m->setProperty("_q_embedded_native_parent_handle",QVariant(proc1Window_HWND));
+        //TODO: 将进程1的窗口设置为w的父窗口（w嵌入到proc1的窗口中）
+        m->winId();
+        m->windowHandle()->setParent(proc1Widow);
+        m->setMinimumSize(0, 0);
+        m->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+        m->resize(440,330);
+        m->move(150,70);
+        m->show();
+        if(username!=""){
+            ui->label_22->setText(username);
+            if(home!=-1){
+                ui->label_18->setText("用户住所："+citys[home]);
+                ui->label_17->setText("概率："+QString::number(probability,'f',4)+'%');
+            }
+            if(common!=-1){
+                ui->label_21->setText("用户常去："+citys[common]);
+                ui->label_20->setText("概率："+QString::number(pco,'f',4)+'%');
+            }
+            if(time_money>=time_time && time_money>=time_straight){
+                ui->label_19->setText("用户常用搜索方式：费用最少");
+            }
+            else if(time_time>=time_straight && time_time>time_money){
+                ui->label_19->setText("用户常用搜索方式：时间最短");
+            }
+            else{
+                ui->label_19->setText("用户常用搜索方式：直飞");
+            }
+        }
     }
-    ui->pushButton_3->setChecked(true);
+    changemode=0;
 }
 
 
 void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
 {
-    if(myticketnum>4){
-        int i=0;
-        int j=5;
-        j=(myticketnum-5)*((double)value/(double)99)+5;
-        if(j<5)j=5;
-        if(j>myticketnum) j=myticketnum;
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget())
-                widget->deleteLater();
-
-            delete item;
+    if(changemode==1){
+        if(ticketnum>4){
+            int i=0;
+            int j=5;
+            j=(ticketnum-5)*((double)value/(double)99)+5;
+            if(j<5)j=5;
+            if(j>ticketnum) j=ticketnum;
+            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()) widget->deleteLater();
+                delete item;
+            }
+            ticket_now=j-5;
+            for(i=j-5;i<j;i++){
+                ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+                verticalLayout_7->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
         }
-        ticket_now=j-5;
-        for(i=j-5;i<j;i++){
-            ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
-            verticalLayout_7->addWidget(ticket0);
-            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+    }
+    else{
+        if(myticketnum>4){
+            int i=0;
+            int j=5;
+            j=(myticketnum-5)*((double)value/(double)99)+5;
+            if(j<5)j=5;
+            if(j>myticketnum) j=myticketnum;
+            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()) widget->deleteLater();
+                    delete item;
+            }
+            ticket_now=j-5;
+            for(i=j-5;i<j;i++){
+                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                verticalLayout_7->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
         }
     }
 }
 
+void MainWindow::on_pushButton_9_clicked(bool checked)
+{
+    int index=ui->comboBox_2->currentIndex();
+    int i,k;
+    switch(index){
+    case 0:if(sortmode==7) invert(logs,ticketnum); else QuickSort(logs,ticketnum,2); sortmode=2;break;
+    case 1:if(sortmode==2) invert(logs,ticketnum); else QuickSort(logs,ticketnum,7); sortmode=7;break;
+    case 2:if(sortmode==6) invert(logs,ticketnum); else QuickSort(logs,ticketnum,1); sortmode=1;break;
+    case 3:if(sortmode==1) invert(logs,ticketnum); else QuickSort(logs,ticketnum,6); sortmode=6;break;
+    case 4:if(sortmode==8) invert(logs,ticketnum); else QuickSort(logs,ticketnum,3); sortmode=3;break;
+    case 5:if(sortmode==3) invert(logs,ticketnum); else QuickSort(logs,ticketnum,8); sortmode=8;break;
+    case 6:if(sortmode==9) invert(logs,ticketnum); else QuickSort(logs,ticketnum,4); sortmode=4;break;
+    case 7:if(sortmode==4) invert(logs,ticketnum); else QuickSort(logs,ticketnum,9); sortmode=9;break;
+    case 8:if(sortmode==5) invert(logs,ticketnum); else QuickSort(logs,ticketnum,10); sortmode=10;break;
+    case 9:if(sortmode==10) invert(logs,ticketnum); else QuickSort(logs,ticketnum,5); sortmode=5;break;
+    }
+    if(ui->pushButton_1->isChecked()){
+        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                ui->verticalLayout_2->removeItem(spaerItem);
+
+            delete item;
+        }
+        k=3;
+        for(i=2;i>=0;i--){
+            if(logs[i].ID=="" || logs[i].des=="不可达"){
+                k=i;
+            }
+        }
+        if(k==0) {
+            k=0;
+            Log* logno=new Log();
+            logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            ticketInfo* ticket0=new ticketInfo(logno,0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalLayout_2->addWidget(ticket0);
+        }
+        else{
+            for(i=0;i<k;i++){
+                ticketInfo* ticket0=new ticketInfo(&logs[i],0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                ui->verticalLayout_2->addWidget(ticket0);
+            }
+        }
+    }
+    else if(ui->pushButton_2->isChecked() && changemode==1){
+        k=5;
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+        for(i=4;i>=0;i--){
+            if(logs[i].ID=="" || logs[i].des=="不可达"){
+                k=i;
+            }
+        }
+        if(k==0) {
+            k=0;
+            Log* logno=new Log();
+            logno->setLog("没有航空公司","123456","不可改签","不可改签","00:00","25:00",0,"0%","");
+            ticketInfo* ticket0=new ticketInfo(logno,0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            verticalLayout_7->addWidget(ticket0);
+        }
+        else{
+            for(i=0;i<k;i++){
+                ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                verticalLayout_7->addWidget(ticket0);
+            }
+        }
+    }
+}
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if(m!=NULL){
+        m->setAttribute(Qt::WA_DeleteOnClose, true);
+        m->close();
+        m=NULL;
+    }
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
+    database.setDatabaseName(pathCreator("dbs/users.db"));
+    database.setUserName("root");
+    database.setPassword("123456");
+    //database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc;");
+    if (!database.open())
+    {
+        qDebug() << "Error: Failed to connect database." << database.lastError();
+    }
+    else
+    {
+        //获取数据
+        QString update_sql = QString("UPDATE users SET timemoney='%1', timetime='%2', timestraight='%3' WHERE name='%4'").arg(time_money).arg(time_time).arg(time_straight).arg(username);
+        QString password,question;
+        QSqlQuery queryuser(database);
+        if(!queryuser.exec(update_sql))
+        {
+            qDebug() << queryuser.lastError();
+        }
+        else
+        {
+            qDebug() << "updated!";
+        }
+        database.close();
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
+        QSqlDatabase::removeDatabase("read_connection");
+    }
+}

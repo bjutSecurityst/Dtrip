@@ -14,12 +14,14 @@ class Passwordfix : public QWidget
 public:
     explicit Passwordfix(QString name,QString password,int mode,QWidget *parent = nullptr);
     ~Passwordfix();
+    int getMode();
 
 private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_5_clicked();
-
+signals:
+    void sendToLogin();
 private:
     Ui::Passwordfix *ui;
     int mode;

@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>0</hour>
+           <hour>16</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -819,7 +819,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       <height>31</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="6,0,0,1,0,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="6,0,0,1,0,1,0,0">
      <item>
       <widget class="QPushButton" name="pushButton_5">
        <property name="text">
@@ -877,6 +877,26 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="Line" name="line_3">
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Sunken</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_10">
+       <property name="text">
+        <string>退出&lt;&lt;</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QScrollBar" name="verticalScrollBar_3">
@@ -901,7 +921,252 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
      <enum>Qt::Orientation::Vertical</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>324</y>
+      <width>31</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>排序</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>324</y>
+      <width>201</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>-1</number>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertPolicy::InsertAtBottom</enum>
+    </property>
+    <property name="placeholderText">
+     <string>请选择排序方式</string>
+    </property>
+    <property name="duplicatesEnabled">
+     <bool>false</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>价格-升序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>价格-降序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>飞行时间-升序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>飞行时间-降序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>起飞时间-升序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>起飞时间-降序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>降落时间-升序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>降落时间-降序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>准点率-降序</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>准点率-升序</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>70</y>
+      <width>311</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <widget class="QPushButton" name="pushButton_11">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>0</y>
+       <width>281</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>0</y>
+       <width>261</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QLabel" name="label_16">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>用户信息：</string>
+          </property>
+          <property name="margin">
+           <number>8</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_22">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>用户名</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_4">
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QLabel" name="label_18">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>用户住所：</string>
+          </property>
+          <property name="margin">
+           <number>8</number>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignmentFlag::AlignHCenter">
+         <widget class="QLabel" name="label_17">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>概率：</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_5">
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QLabel" name="label_21">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>用户想去：</string>
+          </property>
+          <property name="margin">
+           <number>8</number>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignmentFlag::AlignHCenter">
+         <widget class="QLabel" name="label_20">
+          <property name="styleSheet">
+           <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>概率：</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_6">
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Plain</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_19">
+        <property name="styleSheet">
+         <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>用户常用搜索方式：</string>
+        </property>
+        <property name="margin">
+         <number>8</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
    <zorder>backgroundsky</zorder>
+   <zorder>layoutbutton_2</zorder>
    <zorder>home_background</zorder>
    <zorder>layoutbutton</zorder>
    <zorder>horizontalLayoutWidget</zorder>
@@ -909,10 +1174,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <zorder>verticalLayoutWidget_2</zorder>
    <zorder>label_4</zorder>
    <zorder>easystay</zorder>
-   <zorder>layoutbutton_2</zorder>
    <zorder>verticalLayoutWidget_5</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>pushButton_4</zorder>
    <zorder>label_8</zorder>
    <zorder>label_9</zorder>
    <zorder>label_10</zorder>
@@ -924,6 +1186,11 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <zorder>label_14</zorder>
    <zorder>horizontalLayoutWidget_2</zorder>
    <zorder>verticalScrollBar_3</zorder>
+   <zorder>pushButton_9</zorder>
+   <zorder>comboBox_2</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>widget</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

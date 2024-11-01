@@ -96,7 +96,28 @@ public:
     QPushButton *pushButton_8;
     QFrame *line_2;
     QLabel *label_15;
+    QFrame *line_3;
+    QPushButton *pushButton_10;
     QScrollBar *verticalScrollBar_3;
+    QPushButton *pushButton_9;
+    QComboBox *comboBox_2;
+    QWidget *widget;
+    QPushButton *pushButton_11;
+    QWidget *verticalLayoutWidget_3;
+    QVBoxLayout *verticalLayout_6;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label_16;
+    QLabel *label_22;
+    QFrame *line_4;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_18;
+    QLabel *label_17;
+    QFrame *line_5;
+    QHBoxLayout *horizontalLayout_9;
+    QLabel *label_21;
+    QLabel *label_20;
+    QFrame *line_6;
+    QLabel *label_19;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -186,7 +207,7 @@ public:
         backgroundsky->setFlat(false);
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(210, 160, 511, 63));
+        verticalLayoutWidget_2->setGeometry(QRect(210, 160, 511, 51));
         horizontalLayout_2 = new QHBoxLayout(verticalLayoutWidget_2);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -316,7 +337,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -471,6 +492,19 @@ public:
 
         horizontalLayout_7->addWidget(label_15);
 
+        line_3 = new QFrame(horizontalLayoutWidget_2);
+        line_3->setObjectName(QString::fromUtf8("line_3"));
+        line_3->setFrameShadow(QFrame::Shadow::Sunken);
+        line_3->setFrameShape(QFrame::VLine);
+
+        horizontalLayout_7->addWidget(line_3);
+
+        pushButton_10 = new QPushButton(horizontalLayoutWidget_2);
+        pushButton_10->setObjectName(QString::fromUtf8("pushButton_10"));
+        pushButton_10->setFlat(true);
+
+        horizontalLayout_7->addWidget(pushButton_10);
+
         horizontalLayout_7->setStretch(0, 6);
         horizontalLayout_7->setStretch(3, 1);
         horizontalLayout_7->setStretch(5, 1);
@@ -484,8 +518,121 @@ public:
         verticalScrollBar_3->setSizePolicy(sizePolicy);
         verticalScrollBar_3->setValue(0);
         verticalScrollBar_3->setOrientation(Qt::Orientation::Vertical);
+        pushButton_9 = new QPushButton(centralwidget);
+        pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
+        pushButton_9->setGeometry(QRect(490, 324, 31, 22));
+        comboBox_2 = new QComboBox(centralwidget);
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
+        comboBox_2->setGeometry(QRect(280, 324, 201, 22));
+        comboBox_2->setInsertPolicy(QComboBox::InsertPolicy::InsertAtBottom);
+        comboBox_2->setDuplicatesEnabled(false);
+        widget = new QWidget(centralwidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(600, 70, 311, 291));
+        pushButton_11 = new QPushButton(widget);
+        pushButton_11->setObjectName(QString::fromUtf8("pushButton_11"));
+        pushButton_11->setGeometry(QRect(10, 0, 281, 291));
+        verticalLayoutWidget_3 = new QWidget(widget);
+        verticalLayoutWidget_3->setObjectName(QString::fromUtf8("verticalLayoutWidget_3"));
+        verticalLayoutWidget_3->setGeometry(QRect(20, 0, 261, 281));
+        verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget_3);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        verticalLayout_6->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
+        label_16 = new QLabel(verticalLayoutWidget_3);
+        label_16->setObjectName(QString::fromUtf8("label_16"));
+        label_16->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_16->setMargin(8);
+
+        horizontalLayout_10->addWidget(label_16);
+
+        label_22 = new QLabel(verticalLayoutWidget_3);
+        label_22->setObjectName(QString::fromUtf8("label_22"));
+        label_22->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+
+        horizontalLayout_10->addWidget(label_22);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_10);
+
+        line_4 = new QFrame(verticalLayoutWidget_3);
+        line_4->setObjectName(QString::fromUtf8("line_4"));
+        line_4->setFrameShadow(QFrame::Shadow::Plain);
+        line_4->setFrameShape(QFrame::HLine);
+
+        verticalLayout_6->addWidget(line_4);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
+        label_18 = new QLabel(verticalLayoutWidget_3);
+        label_18->setObjectName(QString::fromUtf8("label_18"));
+        label_18->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_18->setMargin(8);
+
+        horizontalLayout_8->addWidget(label_18);
+
+        label_17 = new QLabel(verticalLayoutWidget_3);
+        label_17->setObjectName(QString::fromUtf8("label_17"));
+        label_17->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+
+        horizontalLayout_8->addWidget(label_17, 0, Qt::AlignmentFlag::AlignHCenter);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_8);
+
+        line_5 = new QFrame(verticalLayoutWidget_3);
+        line_5->setObjectName(QString::fromUtf8("line_5"));
+        line_5->setFrameShadow(QFrame::Shadow::Plain);
+        line_5->setFrameShape(QFrame::HLine);
+
+        verticalLayout_6->addWidget(line_5);
+
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
+        label_21 = new QLabel(verticalLayoutWidget_3);
+        label_21->setObjectName(QString::fromUtf8("label_21"));
+        label_21->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_21->setMargin(8);
+
+        horizontalLayout_9->addWidget(label_21);
+
+        label_20 = new QLabel(verticalLayoutWidget_3);
+        label_20->setObjectName(QString::fromUtf8("label_20"));
+        label_20->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+
+        horizontalLayout_9->addWidget(label_20, 0, Qt::AlignmentFlag::AlignHCenter);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_9);
+
+        line_6 = new QFrame(verticalLayoutWidget_3);
+        line_6->setObjectName(QString::fromUtf8("line_6"));
+        line_6->setFrameShadow(QFrame::Shadow::Plain);
+        line_6->setFrameShape(QFrame::HLine);
+
+        verticalLayout_6->addWidget(line_6);
+
+        label_19 = new QLabel(verticalLayoutWidget_3);
+        label_19->setObjectName(QString::fromUtf8("label_19"));
+        label_19->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_19->setMargin(8);
+
+        verticalLayout_6->addWidget(label_19);
+
         MainWindow->setCentralWidget(centralwidget);
         backgroundsky->raise();
+        layoutbutton_2->raise();
         home_background->raise();
         layoutbutton->raise();
         horizontalLayoutWidget->raise();
@@ -493,10 +640,7 @@ public:
         verticalLayoutWidget_2->raise();
         label_4->raise();
         easystay->raise();
-        layoutbutton_2->raise();
         verticalLayoutWidget_5->raise();
-        pushButton->raise();
-        pushButton_4->raise();
         label_8->raise();
         label_9->raise();
         label_10->raise();
@@ -508,6 +652,11 @@ public:
         label_14->raise();
         horizontalLayoutWidget_2->raise();
         verticalScrollBar_3->raise();
+        pushButton_9->raise();
+        comboBox_2->raise();
+        pushButton->raise();
+        pushButton_4->raise();
+        widget->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
@@ -517,6 +666,7 @@ public:
         pushButton_0->setDefault(false);
         pushButton_1->setDefault(false);
         comboBox->setCurrentIndex(-1);
+        comboBox_2->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -567,6 +717,28 @@ public:
         pushButton_5->setText(QCoreApplication::translate("MainWindow", "\347\231\273\345\275\225", nullptr));
         pushButton_8->setText(QCoreApplication::translate("MainWindow", "\346\210\221\347\232\204\350\256\242\345\215\225", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "  \346\262\241\346\234\211\345\256\242\346\234\215", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("MainWindow", "\351\200\200\345\207\272<<", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("MainWindow", "\346\216\222\345\272\217", nullptr));
+        comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "\344\273\267\346\240\274-\345\215\207\345\272\217", nullptr));
+        comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "\344\273\267\346\240\274-\351\231\215\345\272\217", nullptr));
+        comboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "\351\243\236\350\241\214\346\227\266\351\227\264-\345\215\207\345\272\217", nullptr));
+        comboBox_2->setItemText(3, QCoreApplication::translate("MainWindow", "\351\243\236\350\241\214\346\227\266\351\227\264-\351\231\215\345\272\217", nullptr));
+        comboBox_2->setItemText(4, QCoreApplication::translate("MainWindow", "\350\265\267\351\243\236\346\227\266\351\227\264-\345\215\207\345\272\217", nullptr));
+        comboBox_2->setItemText(5, QCoreApplication::translate("MainWindow", "\350\265\267\351\243\236\346\227\266\351\227\264-\351\231\215\345\272\217", nullptr));
+        comboBox_2->setItemText(6, QCoreApplication::translate("MainWindow", "\351\231\215\350\220\275\346\227\266\351\227\264-\345\215\207\345\272\217", nullptr));
+        comboBox_2->setItemText(7, QCoreApplication::translate("MainWindow", "\351\231\215\350\220\275\346\227\266\351\227\264-\351\231\215\345\272\217", nullptr));
+        comboBox_2->setItemText(8, QCoreApplication::translate("MainWindow", "\345\207\206\347\202\271\347\216\207-\351\231\215\345\272\217", nullptr));
+        comboBox_2->setItemText(9, QCoreApplication::translate("MainWindow", "\345\207\206\347\202\271\347\216\207-\345\215\207\345\272\217", nullptr));
+
+        comboBox_2->setPlaceholderText(QCoreApplication::translate("MainWindow", "\350\257\267\351\200\211\346\213\251\346\216\222\345\272\217\346\226\271\345\274\217", nullptr));
+        pushButton_11->setText(QString());
+        label_16->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\344\277\241\346\201\257\357\274\232", nullptr));
+        label_22->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\345\220\215", nullptr));
+        label_18->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\344\275\217\346\211\200\357\274\232", nullptr));
+        label_17->setText(QCoreApplication::translate("MainWindow", "\346\246\202\347\216\207\357\274\232", nullptr));
+        label_21->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\346\203\263\345\216\273\357\274\232", nullptr));
+        label_20->setText(QCoreApplication::translate("MainWindow", "\346\246\202\347\216\207\357\274\232", nullptr));
+        label_19->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\345\270\270\347\224\250\346\220\234\347\264\242\346\226\271\345\274\217\357\274\232", nullptr));
     } // retranslateUi
 
 };

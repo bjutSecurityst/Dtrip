@@ -10,18 +10,21 @@
 using namespace std;
 #define THRESHOLD 8
 void QuickSort(Log* array, int n,int mode);
-void ModQuickSort1(Log* array, int left, int right);
-int partition1(Log* array, int left, int right);
-void insertSort1(Log* array, int n);
-void ModQuickSort2(Log* array, int left, int right);
-int partition2(Log* array, int left, int right);
-void insertSort2(Log* array, int n);
-void ModQuickSort3(Log* array, int left, int right);
-int partition3(Log* array, int left, int right);
-void insertSort3(Log* array, int n);
-void ModQuickSort4(Log* array, int left, int right);
-int partition4(Log* array, int left, int right);
-void insertSort4(Log* array, int n);
+void ModQuickSort1(Log* array, int left, int right,int mode);
+int partition1(Log* array, int left, int right,int mode);
+void insertSort1(Log* array, int n,int mode);
+void ModQuickSort2(Log* array, int left, int right,int mode);
+int partition2(Log* array, int left, int right,int mode);
+void insertSort2(Log* array, int n,int mode);
+void ModQuickSort3(Log* array, int left, int right,int mode);
+int partition3(Log* array, int left, int right,int mode);
+void insertSort3(Log* array, int n,int mode);
+void ModQuickSort4(Log* array, int left, int right,int mode);
+int partition4(Log* array, int left, int right,int mode);
+void insertSort4(Log* array, int n,int mode);
+void ModQuickSort5(Log* array, int left, int right,int mode);
+int partition5(Log* array, int left, int right,int mode);
+void insertSort5(Log* array, int n,int mode);
 int timediffer(QString time0,QString time1);
 void QuickSort_Turn(Log logs,Log* array,int n);
 void ModQuickSort_Turn(Log logs,Log* array, int left, int right);
@@ -29,215 +32,442 @@ int partition_Turn(Log logs,Log* array, int left, int right);
 void insertSort_Turn(Log logs,Log* array, int n);
 int modSearch(Log logs0[],QString time1,int a,int b);
 QString pathCreator(QString a);
-void ModQuickSort1(Log* array, int left, int right) {
+void ModQuickSort1(Log* array, int left, int right,int mode) {
     if (right - left + 1 > THRESHOLD) {
         int j;
         int pivot = (left+right)/2;
         swap(array[pivot], array[right]);
-        pivot = partition1(array, left, right);
-        ModQuickSort1(array, left, pivot - 1);
-        ModQuickSort1(array, pivot + 1, right);
+        pivot = partition1(array, left, right,mode);
+        ModQuickSort1(array, left, pivot - 1,mode);
+        ModQuickSort1(array, pivot + 1, right,mode);
     }
 }
-int partition1(Log* array, int left, int right) {
+int partition1(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    while (l != r) {
-        while (r > l) {
-            if (timediffer(array[l].time0,array[l].time1) <= timediffer(t.time0,t.time1)) l++;
-            else break;
+    if(mode<6){
+        while (l != r) {
+            while (r > l) {
+                if (timediffer(array[l].time0,array[l].time1) <= timediffer(t.time0,t.time1)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer(array[r].time0,array[r].time1) >= timediffer(t.time0,t.time1)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
-        if (l < r) {
-            array[r] = array[l];
-            r--;
-        }
-        while (r > l) {
-            if (timediffer(array[r].time0,array[r].time1) >= timediffer(t.time0,t.time1)) r--;
-            else break;
-        }
-        if (l < r) {
-            array[l] = array[r];
-            l++;
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (timediffer(array[l].time0,array[l].time1) >= timediffer(t.time0,t.time1)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer(array[r].time0,array[r].time1) <= timediffer(t.time0,t.time1)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
     }
     array[l] = t;
     return l;
 }
-void insertSort1(Log* array, int n) {
+void insertSort1(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    for (i = 1; i < n; i++) {
-        t = array[i];
-        int j = i - 1;
-        while (j >= 0 && timediffer(t.time0,t.time1) < timediffer(array[j].time0,array[j].time1)) {
-            array[j + 1] = array[j];
-            j = j - 1;
+    if(mode<6){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer(t.time0,t.time1) < timediffer(array[j].time0,array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
         }
-        array[j + 1] = t;
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer(t.time0,t.time1) > timediffer(array[j].time0,array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
     }
 }
-void ModQuickSort2(Log* array, int left, int right) {
+void ModQuickSort2(Log* array, int left, int right,int mode) {
     if (right - left + 1 > THRESHOLD) {
         int j;
         int pivot = (left+right)/2;
         swap(array[pivot], array[right]);
-        pivot = partition2(array, left, right);
-        ModQuickSort2(array, left, pivot - 1);
-        ModQuickSort2(array, pivot + 1, right);
+        pivot = partition2(array, left, right,mode);
+        ModQuickSort2(array, left, pivot - 1,mode);
+        ModQuickSort2(array, pivot + 1, right,mode);
     }
 }
-int partition2(Log* array, int left, int right) {
+int partition2(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    while (l != r) {
-        while (r > l) {
-            if (array[l].price <= t.price) l++;
-            else break;
+    if(mode<6){
+        while (l != r) {
+            while (r > l) {
+                if (array[l].price <= t.price) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].price >= t.price) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
-        if (l < r) {
-            array[r] = array[l];
-            r--;
-        }
-        while (r > l) {
-            if (array[r].price >= t.price) r--;
-            else break;
-        }
-        if (l < r) {
-            array[l] = array[r];
-            l++;
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (array[l].price >= t.price) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].price <= t.price) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
     }
     array[l] = t;
     return l;
 }
-void insertSort2(Log* array, int n) {
+void insertSort2(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    for (i = 1; i < n; i++) {
-        t = array[i];
-        int j = i - 1;
-        while (j >= 0 && t.price < array[j].price) {
-            array[j + 1] = array[j];
-            j = j - 1;
+    if(mode<6){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.price < array[j].price) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
         }
-        array[j + 1] = t;
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.price > array[j].price) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
     }
 }
-void ModQuickSort3(Log* array, int left, int right) {
+void ModQuickSort3(Log* array, int left, int right,int mode) {
     if (right - left + 1 > THRESHOLD) {
         int j;
         int pivot = (left+right)/2;
         swap(array[pivot], array[right]);
-        pivot = partition3(array, left, right);
-        ModQuickSort3(array, left, pivot - 1);
-        ModQuickSort3(array, pivot + 1, right);
+        pivot = partition3(array, left, right,mode);
+        ModQuickSort3(array, left, pivot - 1,mode);
+        ModQuickSort3(array, pivot + 1, right,mode);
     }
 }
-int partition3(Log* array, int left, int right) {
+int partition3(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    while (l != r) {
-        while (r > l) {
-            if (timediffer("00:00",array[l].time0) <= timediffer("00:00",t.time0)) l++;
-            else break;
+    if(mode<6){
+        while (l != r) {
+            while (r > l) {
+                if (timediffer("00:00",array[l].time0) <= timediffer("00:00",t.time0)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer("00:00",array[r].time0) >= timediffer("00:00",t.time0)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
-        if (l < r) {
-            array[r] = array[l];
-            r--;
-        }
-        while (r > l) {
-            if (timediffer("00:00",array[r].time0) >= timediffer("00:00",t.time0)) r--;
-            else break;
-        }
-        if (l < r) {
-            array[l] = array[r];
-            l++;
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (timediffer("00:00",array[l].time0) >= timediffer("00:00",t.time0)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer("00:00",array[r].time0) <= timediffer("00:00",t.time0)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
     }
     array[l] = t;
     return l;
 }
-void insertSort3(Log* array, int n) {
+void insertSort3(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    for (i = 1; i < n; i++) {
-        t = array[i];
-        int j = i - 1;
-        while (j >= 0 && timediffer("00:00",t.time0) < timediffer("00:00",array[j].time0)) {
-            array[j + 1] = array[j];
-            j = j - 1;
+    if(mode<6){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer("00:00",t.time0) < timediffer("00:00",array[j].time0)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
         }
-        array[j + 1] = t;
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer("00:00",t.time0) > timediffer("00:00",array[j].time0)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
     }
 }
 void QuickSort(Log* array, int n,int mode) {
-    if(mode==1){
-        ModQuickSort1(array, 0, n - 1);
-        insertSort1(array, n);
+    if(mode%5==1){
+        ModQuickSort1(array, 0, n - 1,mode);
+        insertSort1(array, n,mode);
     }
-    else if(mode==2){
-        ModQuickSort2(array, 0, n - 1);
-        insertSort2(array, n);
+    else if(mode%5==2){
+        ModQuickSort2(array, 0, n - 1,mode);
+        insertSort2(array, n,mode);
     }
-    else if(mode==3){
-        ModQuickSort3(array, 0, n - 1);
-        insertSort3(array, n);
+    else if(mode%5==3){
+        ModQuickSort3(array, 0, n - 1,mode);
+        insertSort3(array, n,mode);
     }
-    else if(mode==4){
-        ModQuickSort4(array, 0, n - 1);
-        insertSort4(array, n);
+    else if(mode%5==4){
+        ModQuickSort4(array, 0, n - 1,mode);
+        insertSort4(array, n,mode);
+    }
+    else if(mode%5==0){
+        ModQuickSort5(array, 0, n - 1,mode);
+        insertSort5(array, n,mode);
     }
 
 }
-void ModQuickSort4(Log* array, int left, int right) {
+void ModQuickSort4(Log* array, int left, int right,int mode) {
     if (right - left + 1 > THRESHOLD) {
         int j;
         int pivot = (left+right)/2;
         swap(array[pivot], array[right]);
-        pivot = partition4(array, left, right);
-        ModQuickSort4(array, left, pivot - 1);
-        ModQuickSort4(array, pivot + 1, right);
+        pivot = partition4(array, left, right,mode);
+        ModQuickSort4(array, left, pivot - 1,mode);
+        ModQuickSort4(array, pivot + 1, right,mode);
     }
 }
-int partition4(Log* array, int left, int right) {
+int partition4(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    while (l != r) {
-        while (r > l) {
-            if (timediffer("00:00",array[l].time1) <= timediffer("00:00",t.time1)) l++;
-            else break;
+    if(mode<6){
+        while (l != r) {
+            while (r > l) {
+                if (timediffer("00:00",array[l].time1) <= timediffer("00:00",t.time1)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer("00:00",array[r].time1) >= timediffer("00:00",t.time1)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
-        if (l < r) {
-            array[r] = array[l];
-            r--;
-        }
-        while (r > l) {
-            if (timediffer("00:00",array[r].time1) >= timediffer("00:00",t.time1)) r--;
-            else break;
-        }
-        if (l < r) {
-            array[l] = array[r];
-            l++;
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (timediffer("00:00",array[l].time1) >= timediffer("00:00",t.time1)) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (timediffer("00:00",array[r].time1) <= timediffer("00:00",t.time1)) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
         }
     }
     array[l] = t;
     return l;
 }
-void insertSort4(Log* array, int n) {
+void insertSort4(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    for (i = 1; i < n; i++) {
-        t = array[i];
-        int j = i - 1;
-        while (j >= 0 && timediffer("00:00",t.time1) < timediffer("00:00",array[j].time1)) {
-            array[j + 1] = array[j];
-            j = j - 1;
+    if(mode<6){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer("00:00",t.time1) < timediffer("00:00",array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
         }
-        array[j + 1] = t;
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && timediffer("00:00",t.time1) > timediffer("00:00",array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+}
+void ModQuickSort5(Log* array, int left, int right,int mode) {
+    if (right - left + 1 > THRESHOLD) {
+        int j;
+        int pivot = (left+right)/2;
+        swap(array[pivot], array[right]);
+        pivot = partition5(array, left, right,mode);
+        ModQuickSort5(array, left, pivot - 1,mode);
+        ModQuickSort5(array, pivot + 1, right,mode);
+    }
+}
+int partition5(Log* array, int left, int right,int mode) {
+    int l = left, r = right;
+    int i;
+    Log t = array[r];
+    if(mode<6){
+        while (l != r) {
+            while (r > l) {
+                if (array[l].chi.left(array[l].chi.size()-1).toDouble() <= t.chi.left(t.chi.size()-1).toDouble()) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].chi.left(array[r].chi.size()-1).toDouble() >= t.chi.left(t.chi.size()-1).toDouble()) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (array[l].chi.left(array[l].chi.size()-1).toDouble() >= t.chi.left(t.chi.size()-1).toDouble()) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].chi.left(array[r].chi.size()-1).toDouble() <= t.chi.left(t.chi.size()-1).toDouble()) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    array[l] = t;
+    return l;
+}
+void insertSort5(Log* array, int n,int mode) {
+    int  i, j;
+    Log t;
+    if(mode<6){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.chi.left(t.chi.size()-1).toDouble() < array[j].chi.left(array[j].chi.size()-1).toDouble()) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.chi.left(t.chi.size()-1).toDouble() > array[j].chi.left(array[j].chi.size()-1).toDouble()) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
     }
 }
 void QuickSort_Turn(Log logs,Log* array,int n){
@@ -363,4 +593,10 @@ int modSearch(Log logs0[],QString time1,int a,int b){
 }
 QString pathCreator(QString a){
     return QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + a);
+}
+void invert(Log* array,int n){
+    int i;
+    for(i=0;i<n-i-1;i++){
+        swap(array[i],array[n-i-1]);
+    }
 }

@@ -6,9 +6,11 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Release/Dtrip_autogen/EW
   E:/Qtproject/Dtrip/MinHeap.h \
   E:/Qtproject/Dtrip/Node.h \
   E:/Qtproject/Dtrip/QuickSort.h \
+  E:/Qtproject/Dtrip/login.h \
   E:/Qtproject/Dtrip/mainwindow.h \
   E:/Qtproject/Dtrip/map.h \
   E:/Qtproject/Dtrip/mysqlite.h \
+  E:/Qtproject/Dtrip/passwordfix.h \
   E:/Qtproject/Dtrip/ticketinfo.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/QCoreApplication \
   F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \
