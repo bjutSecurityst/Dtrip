@@ -147,7 +147,7 @@ public:
         dateEdit = new QDateEdit(centralwidget);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setGeometry(QRect(20, 10, 110, 31));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
         pushButton_5 = new QPushButton(centralwidget);
@@ -187,7 +187,7 @@ public:
         label_6->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("Map", "\347\241\256\345\256\232", nullptr));
         pushButton_3->setText(QString());
-        pushButton_4->setText(QCoreApplication::translate("Map", "\346\270\205\351\231\244\350\210\252\347\272\277", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("Map", "\346\230\276\347\244\272\350\210\252\347\272\277", nullptr));
         pushButton_5->setText(QCoreApplication::translate("Map", "\347\241\256\345\256\232", nullptr));
     } // retranslateUi
 

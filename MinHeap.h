@@ -1,7 +1,5 @@
 #include <iostream>
 #include <assert.h>
-#include <string>
-#include <queue>
 #include "Node.h"
 #include "Edge.h"
 using namespace std;

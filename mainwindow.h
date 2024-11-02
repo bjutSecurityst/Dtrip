@@ -13,7 +13,6 @@
 #include "mysqlite.h"
 #include <QVBoxLayout>
 #include "login.h"
-#include "MyGraphicsView.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -69,6 +68,10 @@ private slots:
 
     void closeEvent(QCloseEvent *event);
 
+    void on_pushButton_8_clicked();
+
+    void on_pushButton_10_clicked();
+
 private:
     Ui::MainWindow *ui;
     // 计时器
@@ -87,7 +90,7 @@ private:
     QDate curdate;
     // dijiestela结果
     Dist *dist;
-    // 工具栏visible，是否登录
+    // 工具栏visible，是否登录,是否商业
     bool btvisible=true,login=false;
     // 交换按钮
     QPushButton* button_swap;
@@ -96,7 +99,7 @@ private:
     Log logs[4000];
     QString username="",userpassword;
     // 用户票据，改签票据
-    Log* userLogs=NULL,*clog;
+    Log *userLogs,*clog;
     // 主页模式2 widget
     QWidget* widget0;
     QVBoxLayout* verticalLayout_7;
@@ -114,5 +117,6 @@ private:
     void changeTicketMain(Log* tlog);
     void changeTicketSearch(Log* tlog);
     void refundTicketMain(Log* tlog);
+    void userImageAnalyse(Log* userLogs,bool *bus,float *probus);
 };
 #endif // MAINWINDOW_H

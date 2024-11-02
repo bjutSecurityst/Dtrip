@@ -13,7 +13,6 @@
 #include "QuickSort.h"
 #include "login.h"
 #include "ticketwindow.h"
-#include "MyGraphicsView.h"
 //#include "mysqlite.h"
 #include <QMessageBox>
 #pragma comment(lib,"winmm.lib")
@@ -108,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->setParent(this);
     widget0->hide();
     widget0->move(180,80);
-    widget0->resize(700,600);
+    widget0->resize(715,610);
     //游离layout需要加到widget上
     ui->widget->setVisible(false);
 }
@@ -194,8 +193,35 @@ void MainWindow::getticketInfoMessage(Log* tlog,int mode){
     }
 }
 void MainWindow::getticketwindowMessage(Log* tlog){
-    if(userLogs==NULL) userLogs=tlog;
-    else userLogs[myticketnum]=*tlog;
+    if(userLogs[0].PID==-1) {
+        tlog->setPID(1);
+        Log *p=tlog;
+        Log *q=&userLogs[0];
+        while(p->next!=NULL){
+            p=p->next;
+            Log* log1=new Log();
+            log1->setlogL(p);
+            q->next=log1;
+            q=q->next;
+        }
+        userLogs[0].setlogL(tlog);
+        Log pp=userLogs[0];
+    }
+    else {
+        tlog->setPID(userLogs[myticketnum-1].PID+1);
+        Log *p=tlog;
+        Log *q=&userLogs[myticketnum];
+        while(p->next!=NULL){
+            p=p->next;
+            Log* log1=new Log();
+            log1->setlogL(p);
+            q->next=log1;
+            q=q->next;
+        }
+        userLogs[myticketnum].setlogL(tlog);
+        Log pp=userLogs[0];
+        Log qq=userLogs[1];
+    }
     Log *p=tlog;
     QString password;
     bool open=openDatabasegetPassword(&password,username);
@@ -234,7 +260,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             max_number = sql_query2.value(0).toInt();
         }
         if(p->next==NULL){
-            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate);
+            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business);
             if(!sql_query2.exec(insert_sql))
             {
                 qDebug() << sql_query2.lastError();
@@ -255,7 +281,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             while(p!=NULL){
                 QString insert_sql;
                 if(head) {
-                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate);
+                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business);
                     head=false;
                 }
                 else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
@@ -362,9 +388,22 @@ void MainWindow::changeTicketMain(Log* tlog){
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
+    tlog->setPID(clog->PID);
     for(i=0;i<myticketnum;i++){
-        if(&userLogs[i]==clog) {
-            userLogs[i]=*tlog;
+        if(userLogs[i].PID==clog->PID) {
+            clog->clear();
+            Log *p=tlog;
+            Log *q=&userLogs[i];
+            while(p->next!=NULL){
+                p=p->next;
+                Log* log1=new Log();
+                log1->setlogL(p);
+                q->next=log1;
+                q=q->next;
+            }
+            userLogs[i].setlogL(tlog);
+            Log* pp=&userLogs[i];
+            pp=&userLogs[i];
             break;
         }
     }
@@ -417,6 +456,11 @@ void MainWindow::changeTicketSearch(Log* tlog){
     ticketnum=0;
     ticket_checkednum=0;
     setLog(s,2);
+    if(clog->business){
+        for(i=0;i<ticketnum;i++){
+            logs[i].setBus(true);
+        }
+    }
     sortmode=1;
     qDebug() << QString::fromStdString(s) <<"\n";
     for(i=4;i>=0;i--){
@@ -1460,8 +1504,8 @@ void MainWindow::on_pushButton_6_clicked()
 void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight){
     if(username!=""){
         this->username=username;
+        this->userLogs=mylog;
         this->myticketnum=myticketnum;
-        userLogs=mylog;
         ui->pushButton_5->setText("你好！ "+username);
         login=true;
         this->home=home;
@@ -1532,6 +1576,7 @@ void MainWindow::on_pushButton_2_clicked()
         ui->layoutbutton_2->setVisible(false);
         ui->label_10->setVisible(false);
         ui->label_11->setVisible(false);
+        ui->widget_2->setVisible(false);
         //修改位置
         if(changemode==1){
             ui->pushButton_9->setVisible(true);
@@ -1611,6 +1656,7 @@ void MainWindow::on_pushButton_1_clicked()
         ui->pushButton_4->setVisible(true);
         ui->layoutbutton->setVisible(true);
         ui->layoutbutton_2->setVisible(true);
+        ui->widget_2->setVisible(true);
         ui->label_10->setVisible(true);
         ui->label_11->setVisible(true);
         ui->pushButton_9->setVisible(false);
@@ -1663,6 +1709,7 @@ void MainWindow::on_pushButton_3_clicked()
         ui->layoutbutton->setVisible(false);
         ui->layoutbutton_2->setVisible(false);
         ui->label_10->setVisible(false);
+        ui->widget_2->setVisible(false);
         ui->label_11->setVisible(false);
         ui->pushButton_9->setVisible(false);
         ui->comboBox_2->setVisible(false);
@@ -1704,20 +1751,20 @@ void MainWindow::on_pushButton_3_clicked()
         //TODO: 将进程1的窗口设置为w的父窗口（w嵌入到proc1的窗口中）
         m->winId();
         m->windowHandle()->setParent(proc1Widow);
-        m->setMinimumSize(0, 0);
-        m->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
-        m->resize(440,330);
+        m->setMinimumSize(440, 350);
+        m->setMaximumSize(QSize(440, 350));
+        m->resize(440,350);
         m->move(150,70);
         m->show();
         if(username!=""){
             ui->label_22->setText(username);
             if(home!=-1){
                 ui->label_18->setText("用户住所："+citys[home]);
-                ui->label_17->setText("概率："+QString::number(probability,'f',4)+'%');
+                ui->label_17->setText("概率："+QString::number(probability*100,'f',1)+'%');
             }
             if(common!=-1){
                 ui->label_21->setText("用户常去："+citys[common]);
-                ui->label_20->setText("概率："+QString::number(pco,'f',4)+'%');
+                ui->label_20->setText("概率："+QString::number(pco*100,'f',1)+'%');
             }
             if(time_money>=time_time && time_money>=time_straight){
                 ui->label_19->setText("用户常用搜索方式：费用最少");
@@ -1729,6 +1776,12 @@ void MainWindow::on_pushButton_3_clicked()
                 ui->label_19->setText("用户常用搜索方式：直飞");
             }
         }
+        bool bus=false;
+        float probus=0;
+        userImageAnalyse(userLogs,&bus,&probus);
+        if(bus) ui->label_23->setText("用户画像：商业人士");
+        else ui->label_23->setText("用户画像：游客");
+        ui->label_24->setText("概率："+QString::number(pco*100,'f',1)+'%');
     }
     changemode=0;
 }
@@ -1849,7 +1902,6 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
             }
         }
         if(k==0) {
-            k=0;
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可改签","不可改签","00:00","25:00",0,"0%","");
             ticketInfo* ticket0=new ticketInfo(logno,0);
@@ -1876,7 +1928,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     database.setDatabaseName(pathCreator("dbs/users.db"));
     database.setUserName("root");
     database.setPassword("123456");
-    //database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc;");
     if (!database.open())
     {
         qDebug() << "Error: Failed to connect database." << database.lastError();
@@ -1885,7 +1936,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     {
         //获取数据
         QString update_sql = QString("UPDATE users SET timemoney='%1', timetime='%2', timestraight='%3' WHERE name='%4'").arg(time_money).arg(time_time).arg(time_straight).arg(username);
-        QString password,question;
         QSqlQuery queryuser(database);
         if(!queryuser.exec(update_sql))
         {
@@ -1901,3 +1951,35 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         QSqlDatabase::removeDatabase("read_connection");
     }
 }
+
+void MainWindow::userImageAnalyse(Log* userLogs,bool *bus,float *probus){
+    int Times[2]={0,0};
+    *probus=0;
+    int i,j,begin,end,max=0,pre=-1,premax=0;
+    for(i=0;i<myticketnum;i++){
+        if(userLogs[i].business) Times[1]++;
+        else Times[0]++;
+    }
+    if(Times[1]>=Times[0] && Times[1]!=0) {
+        *bus=true;
+        *probus=Times[1]/(double)(Times[1]+Times[0]);
+    }
+    else if(Times[1]<Times[0] && Times[0]!=0) {
+        *bus=false;
+        *probus=Times[0]/(double)(Times[1]+Times[0]);
+    }
+    else *bus=false;
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    ui->pushButton_2->setChecked(true);
+    on_pushButton_2_clicked();
+}
+
+
+void MainWindow::on_pushButton_10_clicked()
+{
+    this->close();
+}
+

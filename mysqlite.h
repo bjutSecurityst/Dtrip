@@ -1,6 +1,5 @@
 #ifndef MYSQLITE_H
 #define MYSQLITE_H
-#include "QuickSort.h"
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>

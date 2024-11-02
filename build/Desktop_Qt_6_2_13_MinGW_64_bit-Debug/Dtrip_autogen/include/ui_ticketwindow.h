@@ -36,6 +36,8 @@ public:
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QLabel *label_3;
+    QLabel *label_4;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *ticketWindow)
@@ -94,6 +96,13 @@ public:
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setGeometry(QRect(1160, 560, 71, 41));
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(1150, 620, 101, 31));
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(1080, 622, 51, 21));
+        label_4->setStyleSheet(QString::fromUtf8("font: 700 12pt \"Microsoft YaHei UI\";"));
         ticketWindow->setCentralWidget(centralwidget);
         pushButton->raise();
         label->raise();
@@ -104,6 +113,8 @@ public:
         pushButton_2->raise();
         pushButton_3->raise();
         pushButton_4->raise();
+        label_3->raise();
+        label_4->raise();
         statusbar = new QStatusBar(ticketWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         ticketWindow->setStatusBar(statusbar);
@@ -123,6 +134,8 @@ public:
         pushButton_2->setText(QCoreApplication::translate("ticketWindow", "\347\241\256\345\256\232\350\264\255\344\271\260", nullptr));
         pushButton_3->setText(QCoreApplication::translate("ticketWindow", "\346\224\276\345\274\203\350\264\255\347\245\250", nullptr));
         pushButton_4->setText(QCoreApplication::translate("ticketWindow", "\350\277\224\345\233\236", nullptr));
+        label_3->setText(QCoreApplication::translate("ticketWindow", "\346\263\250\357\274\232\345\225\206\345\212\241=\347\273\217\346\265\216*2", nullptr));
+        label_4->setText(QCoreApplication::translate("ticketWindow", "\347\273\217\346\265\216\344\273\223", nullptr));
     } // retranslateUi
 
 };

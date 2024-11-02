@@ -210,7 +210,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>清除航线</string>
+     <string>显示航线</string>
     </property>
    </widget>
    <widget class="QDateEdit" name="dateEdit">
@@ -224,7 +224,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>0</hour>
+      <hour>16</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2024</year>

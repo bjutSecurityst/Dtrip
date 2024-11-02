@@ -504,7 +504,7 @@ public:
         }
         if(k!=5)k=k+1;
         for(i=0;i<6;i++){
-            if (tempdist[ari].m_length_list[i] != INT_MAX && blist[tempdist[ari].m_pre_vertex_list[i]]!=true && -1<tempdist[ari].m_pre_vertex_list[i]<16) {
+            if (tempdist[ari].m_length_list[i] != INT_MAX && blist[tempdist[ari].m_pre_vertex_list[i]]!=true && tempdist[ari].m_pre_vertex_list[i]<16) {
                 if (tempdist[ari].m_length_list[i]>tempdist[Ari].m_length_list[k] && ari!=Ari) {
                     free(blist);
                     return list;

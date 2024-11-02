@@ -1,7 +1,5 @@
 #include "Log.h"
 #include <QString>
-#include<iostream>
-#include <stdio.h>
 #include <cstdio>
 #include <QObject>
 #include <QCoreApplication>

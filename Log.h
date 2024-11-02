@@ -13,6 +13,7 @@ public:
     QString chi;
     QString curdate;
     int PID=-1;
+    bool business=false;
     Log* next=NULL;
     Log() {}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
@@ -26,8 +27,24 @@ public:
         this->chi=chi;
         this->curdate=curdate;
     }
+    void setlogL(Log* tlog){
+        this->company=tlog->company;
+        this->ID=tlog->ID;
+        this->sou=tlog->sou;
+        this->des=tlog->des;
+        this->time0=tlog->time0;
+        this->time1=tlog->time1;
+        this->price=tlog->price;
+        this->chi=tlog->chi;
+        this->curdate=tlog->curdate;
+        this->PID=tlog->PID;
+        this->business=tlog->business;
+    }
     void setPID(int PID){
         this->PID=PID;
+    }
+    void setBus(bool business){
+        this->business=business;
     }
     void clear(){
         this->company="";
@@ -39,6 +56,8 @@ public:
         this->price=0;
         this->chi="";
         this->curdate="";
+        this->PID=-1;
+        this->business=false;
         Log *p,*q;
         if(this->next!=NULL){
             p=this->next;

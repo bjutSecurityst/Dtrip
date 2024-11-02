@@ -1,4 +1,5 @@
 #include "mysqlite.h"
+#include "QuickSort.h"
 
 bool openDatabasegetPassword(QString *password,QString username){
     QSqlDatabase database2;

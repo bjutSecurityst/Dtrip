@@ -1,8 +1,4 @@
-#include <iostream>
-#include <vector>
 #include <assert.h>
-#include <string>
-#include <queue>
 using namespace std;
 #ifndef EDGE_H
 #define EDGE_H

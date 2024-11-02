@@ -17,12 +17,14 @@ ticketWindow::ticketWindow(Log* tlog,int mode,QWidget *parent)
     Log *p=tlog;
     ticketInfo* ticket0=new ticketInfo(p,2);
     ticket0->setParent(this);
-    ticket0->setGeometry(435,420,680,100);
+    ticket0->setGeometry(435,420,690,100);
     QFile file(pathCreator("qss/登录.qss"));
     //QFile file("登录.qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = tr(file.readAll());
     ui->pushButton_2->setStyleSheet(styleSheet);
+    if(tlog->business) ui->label_4->setText("商务舱");
+    else ui->label_4->setText("经济舱");
     if(mode==1) {
         ui->pushButton_2->setText("退票");
         ui->pushButton_3->setText("改签");
@@ -33,7 +35,11 @@ ticketWindow::ticketWindow(Log* tlog,int mode,QWidget *parent)
         ui->pushButton_3->setText("返回");
         ui->pushButton_4->setVisible(false);
     }
-    else ui->pushButton_4->setVisible(false);
+    else {
+        ui->pushButton_2->setText("经济舱");
+        ui->pushButton_3->setText("购买商务舱");
+        ui->pushButton_4->setVisible(true);
+    }
     if(p->next!=NULL) p=p->next;
     while(p!=NULL){
         QLabel* q=new QLabel("航班号："+p->ID);
@@ -65,7 +71,7 @@ ticketWindow::ticketWindow(Log* tlog,int mode,Log* clog,QWidget *parent)
     Log *p=tlog;
     ticketInfo* ticket0=new ticketInfo(p,clog,5);
     ticket0->setParent(this);
-    ticket0->setGeometry(435,420,680,100);
+    ticket0->setGeometry(435,420,690,100);
     QFile file(pathCreator("qss/登录.qss"));
     //QFile file("登录.qss");
     file.open(QFile::ReadOnly);
@@ -74,6 +80,8 @@ ticketWindow::ticketWindow(Log* tlog,int mode,Log* clog,QWidget *parent)
     ui->pushButton_2->setText("改签");
     ui->pushButton_3->setText("返回");
     ui->pushButton_4->setVisible(false);
+    if(tlog->business) ui->label_4->setText("商务舱");
+    else ui->label_4->setText("经济舱");
     if(p->next!=NULL) p=p->next;
     while(p!=NULL){
         QLabel* q=new QLabel("航班号："+p->ID);
@@ -99,6 +107,10 @@ void ticketWindow::on_pushButton_3_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
     if(mode==1) emit changeTicket(tlog);
+    else if(mode==0) {
+        tlog->setBus(true);
+        emit sendToMainWindow(tlog);
+    }
     else emit Exit();
     this->close();
 }

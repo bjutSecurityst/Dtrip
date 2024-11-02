@@ -47,7 +47,8 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     ui->label_9->setText(time1);
     ui->label_10->setText(des);
     ui->label_5->setText(time_split);
-    ui->label_6->setText(QString::number(price));
+    if(my->business && (mode!=0&&mode!=1)) ui->label_6->setText(QString::number(price*2));
+    else ui->label_6->setText(QString::number(price));
     if(i==0 || mode==1) ui->label_11->setText("直飞");
     else ui->label_11->setText("转机"+QString::number(i)+"次,转:"+a);
     ui->pushButton->setText("订票");
@@ -63,7 +64,10 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
         ui->label_7->setAlignment(Qt::AlignTop);
         ui->label_9->setAlignment(Qt::AlignTop);
         ui->horizontalSpacer->changeSize(0, 0);
-        if(mode==5) ui->label_6->setText("差价："+QString::number(price)+"￥");
+        if(mode==5) {
+            if(tlog->business) ui->label_6->setText("差价："+QString::number(price*2)+"￥");
+            else ui->label_6->setText("差价："+QString::number(price)+"￥");
+        }
         else ui->label_6->setText("单价："+QString::number(price)+"￥");
         ui->label_6->setMinimumWidth(180);
         ui->label_6->setStyleSheet("font: 14pt Microsoft Sans Serif;color: rgb(255, 160, 8)");
@@ -159,11 +163,13 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     ui->label_10->setText(des);
     ui->label_5->setText(time_split);
     if(mode==4) {
-        ui->label_6->setText(QString::number(price-clog->price));
+        if(tlog->business) ui->label_6->setText(QString::number((price-clog->price)*2));
+        else ui->label_6->setText(QString::number(price-clog->price));
         ui->label_6->setStyleSheet("font: 14pt Microsoft Sans Serif;color: rgb(255, 160, 8)");
     }
     else if(mode==5) {
-        ui->label_6->setText("差价："+QString::number(price-clog->price)+"￥");
+        if(tlog->business) ui->label_6->setText("差价："+QString::number((price-clog->price)*2)+"￥");
+        else ui->label_6->setText("差价："+QString::number(price-clog->price)+"￥");
         ui->label_6->setStyleSheet("font: 14pt Microsoft Sans Serif;color: rgb(255, 160, 8)");
     }
     else ui->label_6->setText(QString::number(price));

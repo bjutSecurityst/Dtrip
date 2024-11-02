@@ -134,6 +134,7 @@ void Login::on_pushButton_2_clicked()
                 ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
                 ui->lineEdit_2->setStyleSheet("color:rgb(0,0,0);");
                 QString company,ID,sou,des,time0,time1,chi,date;
+                bool business;
                 Log *p,*q;
                 int price=0,j=0,next,PID,i=1;
                 query.exec("SELECT * FROM ticket");
@@ -150,8 +151,10 @@ void Login::on_pushButton_2_clicked()
                     chi = query.value(8).toString();
                     next = query.value(9).toInt();
                     date = query.value(10).toString();
+                    business = query.value(11).toBool();
                     logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
                     logs[j].setPID(PID);
+                    logs[j].setBus(business);
                     logs[j].next=NULL;
                     p=&logs[j];
                     j++;
@@ -262,7 +265,7 @@ void Login::on_pushButton_2_clicked()
         {
             //创建表格
             QSqlQuery sql_query(database);
-            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
+            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30), business bool)";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -397,6 +400,8 @@ void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pc
     }
     for (i = 0; i < 16; i++) {
         if(max<cityTimes[i]) {
+            premax=max;
+            pre=*home;
             max=cityTimes[i];
             *home=i;
         }
@@ -418,10 +423,12 @@ void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pc
     }
     for (i = 0; i < 16; i++) {
         if(max<cityTimes[i]) {
+            premax=max;
+            pre=*common;
             max=cityTimes[i];
             *common=i;
         }
-        if(premax<cityTimes[i] && cityTimes[i]<max){
+        if(premax<cityTimes[i] && max>cityTimes[i]){
             pre=i;
             premax=cityTimes[i];
         }

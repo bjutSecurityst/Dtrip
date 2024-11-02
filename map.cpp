@@ -4,14 +4,10 @@
 #include "QWheelEvent"
 #include <QGraphicsItem>
 #include <QFile>
-#include <stdio.h>
-#include <string.h>
 #include <conio.h>
 #include <math.h>
-#include <time.h>
 #include <Windows.h>
 #include <mmSystem.h>
-#include <fstream>
 #include "Log.h"
 using namespace std;
 #define pai 3.1415926
@@ -31,7 +27,7 @@ Map::Map(QDate curDate,QWidget *parent)
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
-    ui->label->setNum(100);
+    ui->label->setNum(10);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
     for(i=0;i<16;i++){
@@ -80,7 +76,7 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     ui->pushButton_4->move(10,10);
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
-    ui->label->setNum(100);
+    ui->label->setNum(10);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::wheelEvent);
     connect(ui->graphicsView,&MyGraphicsView::sendToMap,this,&Map::on_MyGraphicsView_rubberBandChanged);
     for(i=0;i<16;i++){
