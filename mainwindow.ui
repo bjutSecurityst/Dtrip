@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>0</hour>
+           <hour>8</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -904,7 +904,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <widget class="QScrollBar" name="verticalScrollBar_3">
     <property name="geometry">
      <rect>
-      <x>890</x>
+      <x>1231</x>
       <y>80</y>
       <width>16</width>
       <height>569</height>
@@ -1011,7 +1011,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>940</x>
       <y>70</y>
       <width>301</width>
       <height>341</height>

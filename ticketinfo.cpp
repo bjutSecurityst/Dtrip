@@ -114,6 +114,30 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     if(mode==2 || mode==5) ui->pushButton->setVisible(false);
     else if(mode==3) ui->pushButton->setText("查看");
     else if(mode==4) ui->pushButton->setText("改签");
+    if(mode!=3) ui->label_13->setVisible("false");
+    else {
+        ui->label_13->setVisible("true");
+        ui->label_13->setNum(my->PID);
+        ui->label_12->setVisible(true);
+        ui->line_3->setVisible(true);
+        ui->label_12->setText("准点率："+chi);
+        ui->horizontalSpacer->changeSize(0, 0);
+        QVBoxLayout* v=new QVBoxLayout();
+        ui->horizontalLayout->addLayout(v);
+        QLabel* b=new QLabel(" -------------> ");
+        b->setAlignment(Qt::AlignBottom);
+        b->setStyleSheet("font-size:12pt; color:rgb(0,60,200);");
+        b->wordWrap();
+        v->addWidget(b);
+        QLabel* ldate=new QLabel(my->curdate);
+        ldate->setAlignment(Qt::AlignTop);
+        b->setStyleSheet("font-size:10pt; color:rgb(0,60,200);");
+        b->wordWrap();
+        v->addWidget(ldate);
+        v->setStretch(5,3);
+        QSpacerItem* sp1=new QSpacerItem(20,40,QSizePolicy::Expanding,QSizePolicy::Minimum);
+        ui->horizontalLayout->addItem(sp1);
+    }
 }
 ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     : QWidget(parent)

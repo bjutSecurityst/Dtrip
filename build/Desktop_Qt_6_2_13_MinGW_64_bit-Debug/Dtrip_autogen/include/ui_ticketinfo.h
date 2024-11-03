@@ -26,6 +26,7 @@ class Ui_ticketInfo
 public:
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
+    QLabel *label_13;
     QLabel *label;
     QVBoxLayout *verticalLayout;
     QLabel *label_2;
@@ -69,6 +70,12 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SizeConstraint::SetMinimumSize);
         horizontalLayout->setContentsMargins(0, 0, 2, 0);
+        label_13 = new QLabel(horizontalLayoutWidget);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+        label_13->setStyleSheet(QString::fromUtf8("color: rgb(0, 145, 218);font: 12pt \"Microsoft YaHei UI\";"));
+
+        horizontalLayout->addWidget(label_13);
+
         label = new QLabel(horizontalLayoutWidget);
         label->setObjectName(QString::fromUtf8("label"));
 
@@ -245,6 +252,7 @@ public:
     void retranslateUi(QWidget *ticketInfo)
     {
         ticketInfo->setWindowTitle(QCoreApplication::translate("ticketInfo", "Form", nullptr));
+        label_13->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_2->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_3->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));

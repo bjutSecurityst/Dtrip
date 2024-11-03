@@ -8,6 +8,7 @@
 #include <math.h>
 #include <Windows.h>
 #include <mmSystem.h>
+#include "QuickSort.h"
 #include "Log.h"
 using namespace std;
 #define pai 3.1415926
@@ -20,6 +21,9 @@ Map::Map(QDate curDate,QWidget *parent)
     int i,j;
     ui->setupUi(this);
     ui->dateEdit->setDate(curDate);
+    ui->checkBox->setVisible(false);
+    ui->widget->setVisible(false);
+    ui->pushButton_7->setVisible(false);
     mode=0;
     scene = new QGraphicsScene;
     QImage img;
@@ -62,17 +66,23 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     this->userLogs=userLogs;
     this->myticketnum=myticketnum;
     ui->dateEdit->setVisible(false);
+    ui->checkBox->setVisible(true);
+    ui->pushButton_7->setVisible(true);
+    ui->checkBox->move(95,22);
+    ui->widget->setVisible(true);
     scene = new QGraphicsScene;
     QImage img;
     img.load("E:/Qtproject/Dtrip/地图.png");
     scene->addPixmap(QPixmap::fromImage(img));
-    ui->graphicsView->resize(440,330);
-    ui->centralwidget->resize(440,330);
-    ui->horizontalSlider->resize(140,18);
-    ui->horizontalSlider->move(250,13);
-    ui->label->move(230,13);
+    ui->graphicsView->resize(780,585);
+    ui->centralwidget->resize(780,585);
+    ui->horizontalSlider->resize(250,32);
+    ui->horizontalSlider->move(450,13);
+    ui->label->move(430,13);
+    ui->pushButton_6->setStyleSheet("border-radius: 10px; background-color: #00aef9;");
+    ui->pushButton_7->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px;");
     ui->pushButton_5->setVisible(false);
-    ui->pushButton_4->resize(60,30);
+    ui->pushButton_4->resize(70,40);
     ui->pushButton_4->move(10,10);
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
@@ -87,7 +97,7 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
         buttons[i]->setIconSize(QSize(20,30));
         buttons[i]->setFlat(true);
         buttons[i]->setGeometry(2000,2000,70,30);
-        //connect(buttons[i], &QPushButton::clicked, this, &Map::on_buttons_clicked);
+        connect(buttons[i], &QPushButton::clicked, this, &Map::on_buttons_clicked);
     }
     ui->pushButton->setVisible(false);
     ui->pushButton_2->setVisible(false);
@@ -163,8 +173,135 @@ void Map::on_buttons_clicked()
         this->close();
     }
     else{
-        if(ui->label_3->text()=="始发地：请点击始发地") ui->label_3->setText("始发地："+btn->objectName());
-        else ui->label_4->setText("目的地："+btn->objectName());
+        int i,times=0,datetimes=0,dateall=0,timenoon[6]={0,0,0,0,0,0},max=0,maxtime=0;
+        QDate datepre,datenow;
+        QStringList st;
+        QString maxcompany="";
+        int companytime[100];
+        if(mode==1 && modeAD==0){
+            ui->label_7->setText("城市："+btn->objectName());
+            for(i=0;i<myticketnum;i++){
+                if(userLogs[i].sou.mid(0,btn->objectName().length()).contains(btn->objectName())) {
+                    times++;
+                    if(times==1) datenow=QDate::fromString(userLogs[i].curdate);
+                    else{
+                        datepre=datenow;
+                        datenow=QDate::fromString(userLogs[i].curdate);
+                        dateall+=datepre.daysTo(datenow);
+                        datetimes++;
+                    }
+                    if(timediffer("22:00",userLogs[i].time0)>0 || timediffer("02:00",userLogs[i].time0)<=0) timenoon[0]++;
+                    else if(timediffer("02:00",userLogs[i].time0)>0 && timediffer("06:00",userLogs[i].time0)<=0) timenoon[1]++;
+                    else if(timediffer("06:00",userLogs[i].time0)>0 && timediffer("10:00",userLogs[i].time0)<=0) timenoon[2]++;
+                    else if(timediffer("10:00",userLogs[i].time0)>0 && timediffer("14:00",userLogs[i].time0)<=0) timenoon[3]++;
+                    else if(timediffer("14:00",userLogs[i].time0)>0 && timediffer("18:00",userLogs[i].time0)<=0) timenoon[4]++;
+                    else if(timediffer("18:00",userLogs[i].time0)>0 && timediffer("22:00",userLogs[i].time0)<=0) timenoon[5]++;
+                    int j=0;
+                    bool find=false;
+                    foreach (QString company,st){
+                        if(company==userLogs[i].company) {
+                            find=true;
+                            break;
+                        }
+                        j++;
+                    }
+                    if(find){
+                        companytime[j]++;
+                    }
+                    else{
+                        st.append(userLogs[i].company);
+                        companytime[j]=1;
+                    }
+                }
+            }
+            ui->label_10->setText("始发次数："+QString::number(times));
+            if(!datenow.isNull()) ui->label_9->setText("最近出发日期："+datenow.toString());
+            else ui->label_9->setText("最近出发日期：未知");
+            if(dateall!=0) ui->label_11->setText("平均出发间隔："+QString::number(dateall/datetimes)+"天");
+            else ui->label_11->setText("平均出发间隔：未知");
+            for(i=0;i<6;i++){
+                if(timenoon[i]>max){
+                    max=timenoon[i];
+                    maxtime=i;
+                }
+            }
+            i=0;
+            max=0;
+            foreach(QString company,st){
+                if(companytime[i]>max){
+                    max=companytime[i];
+                    maxcompany=company;
+                }
+                i++;
+            }
+            ui->label_12->setText("常乘航司："+maxcompany);
+            QString timenoons[6]={"半夜","凌晨","早上","中午","下午","晚上"};
+            ui->label_13->setText("常选出发时间："+timenoons[maxtime]);
+        }
+        else if(mode==1 && modeAD==1){
+            ui->label_7->setText("城市："+btn->objectName());
+            for(i=0;i<myticketnum;i++){
+                if(userLogs[i].des.mid(0,btn->objectName().length()).contains(btn->objectName())) {
+                    times++;
+                    if(times==1) datenow=QDate::fromString(userLogs[i].curdate);
+                    else{
+                        datepre=datenow;
+                        datenow=QDate::fromString(userLogs[i].curdate);
+                        dateall+=datepre.daysTo(datenow);
+                        datetimes++;
+                    }
+                    if(timediffer("22:00",userLogs[i].time1)>0 || timediffer("02:00",userLogs[i].time1)<=0) timenoon[0]++;
+                    else if(timediffer("02:00",userLogs[i].time1)>0 && timediffer("06:00",userLogs[i].time1)<=0) timenoon[1]++;
+                    else if(timediffer("06:00",userLogs[i].time1)>0 && timediffer("10:00",userLogs[i].time1)<=0) timenoon[2]++;
+                    else if(timediffer("10:00",userLogs[i].time1)>0 && timediffer("14:00",userLogs[i].time1)<=0) timenoon[3]++;
+                    else if(timediffer("14:00",userLogs[i].time1)>0 && timediffer("18:00",userLogs[i].time1)<=0) timenoon[4]++;
+                    else if(timediffer("18:00",userLogs[i].time1)>0 && timediffer("22:00",userLogs[i].time1)<=0) timenoon[5]++;
+                    int j=0;
+                    bool find=false;
+                    foreach (QString company,st){
+                        if(company==userLogs[i].company) {
+                            find=true;
+                            break;
+                        }
+                        j++;
+                    }
+                    if(find){
+                        companytime[j]++;
+                    }
+                    else{
+                        st.append(userLogs[i].company);
+                        companytime[j]=1;
+                    }
+                }
+            }
+            ui->label_10->setText(QString::number(times));
+            if(!datenow.isNull()) ui->label_9->setText("最近到达日期："+datenow.toString());
+            else ui->label_9->setText("最近到达日期：未知");
+            if(dateall!=0) ui->label_11->setText("平均到达间隔："+QString::number(dateall/datetimes)+"天");
+            else ui->label_11->setText("平均到达间隔：未知");
+            for(i=0;i<6;i++){
+                if(timenoon[i]>max){
+                    max=timenoon[i];
+                    maxtime=i;
+                }
+            }
+            i=0;
+            max=0;
+            foreach(QString company,st){
+                if(companytime[i]>max){
+                    max=companytime[i];
+                    maxcompany=company;
+                }
+                i++;
+            }
+            ui->label_12->setText("常乘航司："+maxcompany);
+            QString timenoons[6]={"半夜","凌晨","早上","中午","下午","晚上"};
+            ui->label_13->setText("常选到达时间："+timenoons[maxtime]);
+        }
+        else{
+            if(ui->label_3->text()=="始发地：请点击始发地") ui->label_3->setText("始发地："+btn->objectName());
+            else ui->label_4->setText("目的地："+btn->objectName());
+        }
     }
 }
 
@@ -317,3 +454,16 @@ void Map::on_pushButton_5_clicked()
 QPoint* Map::getcityp(){
     return cityp;
 }
+
+void Map::on_pushButton_7_clicked()
+{
+    if(modeAD==0){
+        modeAD=1;
+        ui->pushButton_7->setText("到达模式");
+    }
+    else{
+        modeAD=0;
+        ui->pushButton_7->setText("始发模式");
+    }
+}
+

@@ -343,7 +343,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -515,7 +515,7 @@ public:
         horizontalLayout_7->setStretch(5, 1);
         verticalScrollBar_3 = new QScrollBar(centralwidget);
         verticalScrollBar_3->setObjectName(QString::fromUtf8("verticalScrollBar_3"));
-        verticalScrollBar_3->setGeometry(QRect(890, 80, 16, 569));
+        verticalScrollBar_3->setGeometry(QRect(1231, 80, 16, 569));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -543,7 +543,7 @@ public:
         comboBox_2->setDuplicatesEnabled(false);
         widget = new QWidget(centralwidget);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(600, 70, 301, 341));
+        widget->setGeometry(QRect(940, 70, 301, 341));
         pushButton_11 = new QPushButton(widget);
         pushButton_11->setObjectName(QString::fromUtf8("pushButton_11"));
         pushButton_11->setGeometry(QRect(10, 0, 281, 331));

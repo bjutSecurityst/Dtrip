@@ -29,6 +29,8 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void on_pushButton_7_clicked();
+
 signals:
     void sendToMainWindow(QString a,QString b,QDate curdate);
 private:
@@ -38,7 +40,7 @@ private:
     QPoint cityp[17]={QPoint(1115,338),QPoint(1252,649),QPoint(735,828),QPoint(1025,885),QPoint(1245,834),QPoint(900,540),QPoint(310,192),QPoint(1392,139),QPoint(419,674),QPoint(699,459),QPoint(774,1472),QPoint(1230,1117),QPoint(677,1132),QPoint(1739,495),QPoint(1400,440),QPoint(42,721)};
     QGraphicsScene *scene;
     Log* userLogs;
-    int mode,myticketnum;
+    int mode,modeAD=0,myticketnum;
     void wheelEvent(QWheelEvent *event);
     void on_MyGraphicsView_rubberBandChanged();
     void on_buttons_clicked();

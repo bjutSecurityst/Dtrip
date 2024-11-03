@@ -13,6 +13,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -45,6 +46,19 @@ public:
     QPushButton *pushButton_4;
     QDateEdit *dateEdit;
     QPushButton *pushButton_5;
+    QWidget *widget;
+    QPushButton *pushButton_6;
+    QWidget *horizontalLayoutWidget_2;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label_7;
+    QLabel *label_8;
+    QLabel *label_10;
+    QLabel *label_9;
+    QLabel *label_11;
+    QLabel *label_12;
+    QLabel *label_13;
+    QCheckBox *checkBox;
+    QPushButton *pushButton_7;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *Map)
@@ -147,13 +161,73 @@ public:
         dateEdit = new QDateEdit(centralwidget);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setGeometry(QRect(20, 10, 110, 31));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
         pushButton_5 = new QPushButton(centralwidget);
         pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
         pushButton_5->setGeometry(QRect(160, 10, 65, 31));
         pushButton_5->setMinimumSize(QSize(0, 31));
+        widget = new QWidget(centralwidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(20, 510, 661, 61));
+        pushButton_6 = new QPushButton(widget);
+        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
+        pushButton_6->setGeometry(QRect(0, 17, 651, 31));
+        horizontalLayoutWidget_2 = new QWidget(widget);
+        horizontalLayoutWidget_2->setObjectName(QString::fromUtf8("horizontalLayoutWidget_2"));
+        horizontalLayoutWidget_2->setGeometry(QRect(10, 0, 631, 61));
+        horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_2);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
+        label_7 = new QLabel(horizontalLayoutWidget_2);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        horizontalLayout_2->addWidget(label_7);
+
+        label_8 = new QLabel(horizontalLayoutWidget_2);
+        label_8->setObjectName(QString::fromUtf8("label_8"));
+        label_8->setStyleSheet(QString::fromUtf8("font: 18pt \"Microsoft YaHei UI\";"));
+
+        horizontalLayout_2->addWidget(label_8);
+
+        label_10 = new QLabel(horizontalLayoutWidget_2);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+
+        horizontalLayout_2->addWidget(label_10);
+
+        label_9 = new QLabel(horizontalLayoutWidget_2);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+
+        horizontalLayout_2->addWidget(label_9);
+
+        label_11 = new QLabel(horizontalLayoutWidget_2);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+
+        horizontalLayout_2->addWidget(label_11);
+
+        label_12 = new QLabel(horizontalLayoutWidget_2);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+
+        horizontalLayout_2->addWidget(label_12);
+
+        label_13 = new QLabel(horizontalLayoutWidget_2);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+
+        horizontalLayout_2->addWidget(label_13);
+
+        horizontalLayout_2->setStretch(0, 1);
+        horizontalLayout_2->setStretch(2, 1);
+        horizontalLayout_2->setStretch(3, 2);
+        horizontalLayout_2->setStretch(4, 1);
+        horizontalLayout_2->setStretch(5, 1);
+        horizontalLayout_2->setStretch(6, 1);
+        checkBox = new QCheckBox(centralwidget);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+        checkBox->setGeometry(QRect(240, 20, 81, 16));
+        pushButton_7 = new QPushButton(centralwidget);
+        pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
+        pushButton_7->setGeometry(QRect(700, 527, 56, 31));
         Map->setCentralWidget(centralwidget);
         graphicsView->raise();
         pushButton_3->raise();
@@ -164,6 +238,9 @@ public:
         pushButton_4->raise();
         dateEdit->raise();
         pushButton_5->raise();
+        widget->raise();
+        checkBox->raise();
+        pushButton_7->raise();
         statusbar = new QStatusBar(Map);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         sizePolicy.setHeightForWidth(statusbar->sizePolicy().hasHeightForWidth());
@@ -189,6 +266,16 @@ public:
         pushButton_3->setText(QString());
         pushButton_4->setText(QCoreApplication::translate("Map", "\346\230\276\347\244\272\350\210\252\347\272\277", nullptr));
         pushButton_5->setText(QCoreApplication::translate("Map", "\347\241\256\345\256\232", nullptr));
+        pushButton_6->setText(QString());
+        label_7->setText(QCoreApplication::translate("Map", "\345\237\216\345\270\202\357\274\232\344\270\212\346\265\267", nullptr));
+        label_8->setText(QCoreApplication::translate("Map", "|", nullptr));
+        label_10->setText(QCoreApplication::translate("Map", "\345\210\260\350\276\276\346\254\241\346\225\260\357\274\232", nullptr));
+        label_9->setText(QCoreApplication::translate("Map", "\346\234\200\350\277\221\345\210\260\350\276\276\346\227\245\346\234\237\357\274\232", nullptr));
+        label_11->setText(QCoreApplication::translate("Map", "\345\271\263\345\235\207\345\210\260\350\276\276\351\227\264\351\232\224\357\274\232", nullptr));
+        label_12->setText(QCoreApplication::translate("Map", "\345\270\270\344\271\230\350\210\252\345\217\270\357\274\232", nullptr));
+        label_13->setText(QCoreApplication::translate("Map", "\345\270\270\351\200\211\345\210\260\350\276\276\346\227\266\351\227\264\357\274\232", nullptr));
+        checkBox->setText(QCoreApplication::translate("Map", "\346\213\206\345\210\206\346\250\241\345\274\217", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("Map", "\345\210\260\350\276\276\346\250\241\345\274\217", nullptr));
     } // retranslateUi
 
 };

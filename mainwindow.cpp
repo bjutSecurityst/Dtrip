@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->setParent(this);
     widget0->hide();
     widget0->move(180,80);
-    widget0->resize(715,610);
+    widget0->resize(915,610);
     //游离layout需要加到widget上
     ui->widget->setVisible(false);
 }
@@ -891,9 +891,12 @@ void MainWindow::setLog(string s,int mode){
     QString year,month,day;
     QString company,ID,sou,des,time0,time1,chi;
     int price=0,price0=0,price_max=0;
-    year= QString::number(curDate.year());
-    month= QString::number(curDate.month());
-    day= QString::number(curDate.day());
+    // year= QString::number(curDate.year());
+    // month= QString::number(curDate.month());
+    // day= QString::number(curDate.day());
+    year="2024";
+    month="9";
+    day="20";
     QString fname,info0;
     QString qs=QString::fromStdString(s);
     QStringList qsl=qs.split(' ');
@@ -1593,6 +1596,7 @@ void MainWindow::on_pushButton_2_clicked()
         ui->comboBox->setVisible(false);
         ui->label_5->setVisible(false);
         ui->label_6->setVisible(false);
+        ui->label_8->setVisible(false);
         ui->dateEdit->setVisible(false);
         ui->label->setVisible(false);
         ui->label_2->setVisible(false);
@@ -1620,6 +1624,8 @@ void MainWindow::on_pushButton_2_clicked()
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                     verticalLayout_7->addWidget(ticket0);
                 }
+                //QSpacerItem* sp1=new QSpacerItem(20,40,QSizePolicy::Minimum,QSizePolicy::Expanding);
+                //verticalLayout_7->addItem(sp1);
             }
             else{
                 for(i=0;i<5;i++){
@@ -1668,6 +1674,7 @@ void MainWindow::on_pushButton_1_clicked()
         ui->comboBox->setVisible(true);
         ui->label_5->setVisible(true);
         ui->label_6->setVisible(true);
+        ui->label_8->setVisible(true);
         ui->dateEdit->setVisible(true);
         ui->label->setVisible(true);
         ui->label_2->setVisible(true);
@@ -1715,6 +1722,7 @@ void MainWindow::on_pushButton_3_clicked()
         ui->comboBox_2->setVisible(false);
         ui->label_4->setVisible(false);
         ui->label_7->setVisible(false);
+        ui->label_8->setVisible(false);
         ui->comboBox->setVisible(false);
         ui->label_5->setVisible(false);
         ui->label_6->setVisible(false);
@@ -1751,9 +1759,9 @@ void MainWindow::on_pushButton_3_clicked()
         //TODO: 将进程1的窗口设置为w的父窗口（w嵌入到proc1的窗口中）
         m->winId();
         m->windowHandle()->setParent(proc1Widow);
-        m->setMinimumSize(440, 350);
-        m->setMaximumSize(QSize(440, 350));
-        m->resize(440,350);
+        m->setMinimumSize(780, 600);
+        m->setMaximumSize(QSize(780, 600));
+        m->resize(780, 600);
         m->move(150,70);
         m->show();
         if(username!=""){
