@@ -41,7 +41,7 @@
        <string notr="true">color: rgb(0, 145, 218);font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>PID</string>
       </property>
      </widget>
     </item>

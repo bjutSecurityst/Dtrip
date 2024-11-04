@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>8</hour>
+           <hour>0</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -1013,7 +1013,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
      <rect>
       <x>940</x>
       <y>70</y>
-      <width>301</width>
+      <width>311</width>
       <height>341</height>
      </rect>
     </property>
@@ -1022,7 +1022,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       <rect>
        <x>10</x>
        <y>0</y>
-       <width>281</width>
+       <width>291</width>
        <height>331</height>
       </rect>
      </property>
@@ -1035,7 +1035,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       <rect>
        <x>20</x>
        <y>0</y>
-       <width>261</width>
+       <width>271</width>
        <height>321</height>
       </rect>
      </property>

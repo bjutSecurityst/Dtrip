@@ -179,7 +179,7 @@ void Map::on_buttons_clicked()
         QString maxcompany="";
         int companytime[100];
         if(mode==1 && modeAD==0){
-            ui->label_7->setText("城市："+btn->objectName());
+            ui->label_7->setText("城市：\n"+btn->objectName());
             for(i=0;i<myticketnum;i++){
                 if(userLogs[i].sou.mid(0,btn->objectName().length()).contains(btn->objectName())) {
                     times++;
@@ -214,11 +214,11 @@ void Map::on_buttons_clicked()
                     }
                 }
             }
-            ui->label_10->setText("始发次数："+QString::number(times));
-            if(!datenow.isNull()) ui->label_9->setText("最近出发日期："+datenow.toString());
-            else ui->label_9->setText("最近出发日期：未知");
-            if(dateall!=0) ui->label_11->setText("平均出发间隔："+QString::number(dateall/datetimes)+"天");
-            else ui->label_11->setText("平均出发间隔：未知");
+            ui->label_10->setText("始发次数：\n"+QString::number(times));
+            if(!datenow.isNull()) ui->label_9->setText("最近出发日期：\n"+datenow.toString());
+            else ui->label_9->setText("最近出发日期：\n未知");
+            if(dateall!=0) ui->label_11->setText("平均出发间隔：\n"+QString::number(dateall/datetimes)+"天");
+            else ui->label_11->setText("平均出发间隔：\n未知");
             for(i=0;i<6;i++){
                 if(timenoon[i]>max){
                     max=timenoon[i];
@@ -234,12 +234,12 @@ void Map::on_buttons_clicked()
                 }
                 i++;
             }
-            ui->label_12->setText("常乘航司："+maxcompany);
+            ui->label_12->setText("常乘航司：\n"+maxcompany);
             QString timenoons[6]={"半夜","凌晨","早上","中午","下午","晚上"};
-            ui->label_13->setText("常选出发时间："+timenoons[maxtime]);
+            ui->label_13->setText("常选出发时间：\n"+timenoons[maxtime]);
         }
         else if(mode==1 && modeAD==1){
-            ui->label_7->setText("城市："+btn->objectName());
+            ui->label_7->setText("城市：\n"+btn->objectName());
             for(i=0;i<myticketnum;i++){
                 if(userLogs[i].des.mid(0,btn->objectName().length()).contains(btn->objectName())) {
                     times++;
@@ -274,11 +274,11 @@ void Map::on_buttons_clicked()
                     }
                 }
             }
-            ui->label_10->setText(QString::number(times));
-            if(!datenow.isNull()) ui->label_9->setText("最近到达日期："+datenow.toString());
-            else ui->label_9->setText("最近到达日期：未知");
-            if(dateall!=0) ui->label_11->setText("平均到达间隔："+QString::number(dateall/datetimes)+"天");
-            else ui->label_11->setText("平均到达间隔：未知");
+            ui->label_10->setText("到达次数：\n"+QString::number(times));
+            if(!datenow.isNull()) ui->label_9->setText("最近到达日期：\n"+datenow.toString());
+            else ui->label_9->setText("最近到达日期：\n未知");
+            if(dateall!=0) ui->label_11->setText("平均到达间隔：\n"+QString::number(dateall/datetimes)+"天");
+            else ui->label_11->setText("平均到达间隔：\n未知");
             for(i=0;i<6;i++){
                 if(timenoon[i]>max){
                     max=timenoon[i];
@@ -294,9 +294,9 @@ void Map::on_buttons_clicked()
                 }
                 i++;
             }
-            ui->label_12->setText("常乘航司："+maxcompany);
+            ui->label_12->setText("常乘航司：\n"+maxcompany);
             QString timenoons[6]={"半夜","凌晨","早上","中午","下午","晚上"};
-            ui->label_13->setText("常选到达时间："+timenoons[maxtime]);
+            ui->label_13->setText("常选到达时间：\n"+timenoons[maxtime]);
         }
         else{
             if(ui->label_3->text()=="始发地：请点击始发地") ui->label_3->setText("始发地："+btn->objectName());
@@ -368,8 +368,14 @@ void Map::on_pushButton_4_clicked()
         ui->pushButton_4->setText("显示航线");
     }
     else{
-        if(mode==1){
+        if(mode==1 && modemul==0){
             int i,j,begin,end;
+            int souToDes[16][16];
+            for(i=0;i<16;i++){
+                for(j=0;j<16;j++){
+                    souToDes[i][j]=0;
+                }
+            }
             for(i=0;i<myticketnum;i++){
                 for(begin=0;begin<16;begin++){
                     if(userLogs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
@@ -377,7 +383,90 @@ void Map::on_pushButton_4_clicked()
                 for(end=0;end<16;end++){
                     if(userLogs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
                 }
-                addcursorline(cityp[begin].rx(),cityp[end].rx(),cityp[begin].ry(),cityp[end].ry(),1,1,scene);
+                souToDes[begin][end]++;
+                //addcursorline(cityp[begin].rx(),cityp[end].rx(),cityp[begin].ry(),cityp[end].ry(),1,1,scene);
+            }
+            for(i=0;i<16;i++){
+                for(j=0;j<i;j++){
+                    bool from=false,to=false;
+                    int max;
+                    if(souToDes[i][j]>0) from=true;
+                    if(souToDes[j][i]>0) to=true;
+                    if(from){
+                        if(souToDes[i][j]>4) max=0;
+                        else if(souToDes[i][j]>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,max,scene);
+                    }
+                    if(to){
+                        if(souToDes[j][i]>4) max=0;
+                        else if(souToDes[j][i]>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[j].rx(),cityp[i].rx(),cityp[j].ry(),cityp[i].ry(),1,max,scene);
+                    }
+                }
+            }
+            ui->pushButton_4->setText("清除航线");
+        }
+        else if(mode==1 && modemul==1){
+            int i,j,begin,end;
+            int souToDes[16][16];
+            for(i=0;i<16;i++){
+                for(j=0;j<16;j++){
+                    souToDes[i][j]=0;
+                }
+            }
+            for(i=0;i<myticketnum;i++){
+                if(userLogs[i].next==NULL){
+                    for(begin=0;begin<16;begin++){
+                        if(userLogs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                    }
+                    for(end=0;end<16;end++){
+                        if(userLogs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
+                    }
+                    souToDes[begin][end]++;
+                }
+                else{
+                    Log *p=&userLogs[i];
+                    while(p->next!=NULL){
+                        p=p->next;
+                        for(begin=0;begin<16;begin++){
+                            if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                        }
+                        for(end=0;end<16;end++){
+                            if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
+                        }
+                        souToDes[begin][end]++;
+                    }
+                }
+            }
+            for(i=0;i<16;i++){
+                for(j=0;j<i;j++){
+                    bool from=false,to=false;
+                    int max;
+                    if(souToDes[i][j]>0) from=true;
+                    if(souToDes[j][i]>0) to=true;
+                    if(souToDes[i][j]>souToDes[j][i]) max=souToDes[i][j];
+                    else max=souToDes[j][i];
+                    if(to && from) {
+                        if(max>4) max=0;
+                        else if(max>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),2,max,scene);
+                    }
+                    else if(from){
+                        if(souToDes[i][j]>4) max=0;
+                        else if(souToDes[i][j]>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,max,scene);
+                    }
+                    else if(to){
+                        if(souToDes[j][i]>4) max=0;
+                        else if(souToDes[j][i]>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[j].rx(),cityp[i].rx(),cityp[j].ry(),cityp[i].ry(),1,max,scene);
+                    }
+                }
             }
             ui->pushButton_4->setText("清除航线");
         }
@@ -465,5 +554,11 @@ void Map::on_pushButton_7_clicked()
         modeAD=0;
         ui->pushButton_7->setText("始发模式");
     }
+}
+
+void Map::on_checkBox_stateChanged(int arg1)
+{
+    if(arg1) modemul=1;
+    else modemul=0;
 }
 

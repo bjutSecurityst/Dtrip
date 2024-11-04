@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->setParent(this);
     widget0->hide();
     widget0->move(180,80);
-    widget0->resize(915,610);
+    widget0->resize(955,610);
     //游离layout需要加到widget上
     ui->widget->setVisible(false);
 }
@@ -260,7 +260,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             max_number = sql_query2.value(0).toInt();
         }
         if(p->next==NULL){
-            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business);
+            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business);
             if(!sql_query2.exec(insert_sql))
             {
                 qDebug() << sql_query2.lastError();
@@ -1518,6 +1518,8 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int
         this->time_money=time_money;
         this->time_time=time_time;
         this->time_straight=time_straight;
+        if(ui->pushButton_2->isChecked()) on_pushButton_2_clicked();
+        else if(ui->pushButton_3->isChecked()) on_pushButton_3_clicked();
     }
     loginW=NULL;
 }
@@ -1618,14 +1620,14 @@ void MainWindow::on_pushButton_2_clicked()
             verticalLayout_7->addWidget(ticket0);
         }
         else{
-            if(myticketnum<=5){
+            if(myticketnum<5){
                 for(i=0;i<myticketnum;i++){
                     ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                     verticalLayout_7->addWidget(ticket0);
                 }
-                //QSpacerItem* sp1=new QSpacerItem(20,40,QSizePolicy::Minimum,QSizePolicy::Expanding);
-                //verticalLayout_7->addItem(sp1);
+                QSpacerItem* sp1=new QSpacerItem(20,130*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+                verticalLayout_7->addItem(sp1);
             }
             else{
                 for(i=0;i<5;i++){

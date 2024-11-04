@@ -224,7 +224,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>8</hour>
+      <hour>0</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2024</year>
@@ -268,16 +268,16 @@
       <x>20</x>
       <y>510</y>
       <width>661</width>
-      <height>61</height>
+      <height>41</height>
      </rect>
     </property>
     <widget class="QPushButton" name="pushButton_6">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>17</y>
+       <y>0</y>
        <width>651</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -288,12 +288,12 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>0</y>
+       <y>-10</y>
        <width>631</width>
        <height>61</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0,1,2,1,1,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0,1,0,2,0,1,0,1,0,1">
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
@@ -319,9 +319,23 @@
        </widget>
       </item>
       <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>最近到达日期：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
        </widget>
       </item>
@@ -333,9 +347,23 @@
        </widget>
       </item>
       <item>
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_12">
         <property name="text">
          <string>常乘航司：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_4">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
        </widget>
       </item>
@@ -365,10 +393,10 @@
    <widget class="QPushButton" name="pushButton_7">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>527</y>
-      <width>56</width>
-      <height>31</height>
+      <x>685</x>
+      <y>510</y>
+      <width>61</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">

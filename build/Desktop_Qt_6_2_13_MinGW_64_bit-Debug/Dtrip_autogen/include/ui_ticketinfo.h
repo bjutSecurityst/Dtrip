@@ -252,7 +252,7 @@ public:
     void retranslateUi(QWidget *ticketInfo)
     {
         ticketInfo->setWindowTitle(QCoreApplication::translate("ticketInfo", "Form", nullptr));
-        label_13->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
+        label_13->setText(QCoreApplication::translate("ticketInfo", "PID", nullptr));
         label->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_2->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_3->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));

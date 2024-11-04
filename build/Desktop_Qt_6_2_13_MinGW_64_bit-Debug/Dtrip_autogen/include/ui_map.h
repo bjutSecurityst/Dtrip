@@ -15,6 +15,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDateEdit>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -53,9 +54,13 @@ public:
     QLabel *label_7;
     QLabel *label_8;
     QLabel *label_10;
+    QFrame *line;
     QLabel *label_9;
+    QFrame *line_2;
     QLabel *label_11;
+    QFrame *line_3;
     QLabel *label_12;
+    QFrame *line_4;
     QLabel *label_13;
     QCheckBox *checkBox;
     QPushButton *pushButton_7;
@@ -161,7 +166,7 @@ public:
         dateEdit = new QDateEdit(centralwidget);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setGeometry(QRect(20, 10, 110, 31));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
         pushButton_5 = new QPushButton(centralwidget);
@@ -170,13 +175,13 @@ public:
         pushButton_5->setMinimumSize(QSize(0, 31));
         widget = new QWidget(centralwidget);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(20, 510, 661, 61));
+        widget->setGeometry(QRect(20, 510, 661, 41));
         pushButton_6 = new QPushButton(widget);
         pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
-        pushButton_6->setGeometry(QRect(0, 17, 651, 31));
+        pushButton_6->setGeometry(QRect(0, 0, 651, 41));
         horizontalLayoutWidget_2 = new QWidget(widget);
         horizontalLayoutWidget_2->setObjectName(QString::fromUtf8("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(10, 0, 631, 61));
+        horizontalLayoutWidget_2->setGeometry(QRect(10, -10, 631, 61));
         horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_2);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -196,20 +201,48 @@ public:
 
         horizontalLayout_2->addWidget(label_10);
 
+        line = new QFrame(horizontalLayoutWidget_2);
+        line->setObjectName(QString::fromUtf8("line"));
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_2->addWidget(line);
+
         label_9 = new QLabel(horizontalLayoutWidget_2);
         label_9->setObjectName(QString::fromUtf8("label_9"));
 
         horizontalLayout_2->addWidget(label_9);
+
+        line_2 = new QFrame(horizontalLayoutWidget_2);
+        line_2->setObjectName(QString::fromUtf8("line_2"));
+        line_2->setFrameShape(QFrame::VLine);
+        line_2->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_2->addWidget(line_2);
 
         label_11 = new QLabel(horizontalLayoutWidget_2);
         label_11->setObjectName(QString::fromUtf8("label_11"));
 
         horizontalLayout_2->addWidget(label_11);
 
+        line_3 = new QFrame(horizontalLayoutWidget_2);
+        line_3->setObjectName(QString::fromUtf8("line_3"));
+        line_3->setFrameShape(QFrame::VLine);
+        line_3->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_2->addWidget(line_3);
+
         label_12 = new QLabel(horizontalLayoutWidget_2);
         label_12->setObjectName(QString::fromUtf8("label_12"));
 
         horizontalLayout_2->addWidget(label_12);
+
+        line_4 = new QFrame(horizontalLayoutWidget_2);
+        line_4->setObjectName(QString::fromUtf8("line_4"));
+        line_4->setFrameShape(QFrame::VLine);
+        line_4->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_2->addWidget(line_4);
 
         label_13 = new QLabel(horizontalLayoutWidget_2);
         label_13->setObjectName(QString::fromUtf8("label_13"));
@@ -218,16 +251,16 @@ public:
 
         horizontalLayout_2->setStretch(0, 1);
         horizontalLayout_2->setStretch(2, 1);
-        horizontalLayout_2->setStretch(3, 2);
-        horizontalLayout_2->setStretch(4, 1);
-        horizontalLayout_2->setStretch(5, 1);
+        horizontalLayout_2->setStretch(4, 2);
         horizontalLayout_2->setStretch(6, 1);
+        horizontalLayout_2->setStretch(8, 1);
+        horizontalLayout_2->setStretch(10, 1);
         checkBox = new QCheckBox(centralwidget);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
         checkBox->setGeometry(QRect(240, 20, 81, 16));
         pushButton_7 = new QPushButton(centralwidget);
         pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
-        pushButton_7->setGeometry(QRect(700, 527, 56, 31));
+        pushButton_7->setGeometry(QRect(685, 510, 61, 41));
         Map->setCentralWidget(centralwidget);
         graphicsView->raise();
         pushButton_3->raise();

@@ -343,7 +343,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -543,13 +543,13 @@ public:
         comboBox_2->setDuplicatesEnabled(false);
         widget = new QWidget(centralwidget);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(940, 70, 301, 341));
+        widget->setGeometry(QRect(940, 70, 311, 341));
         pushButton_11 = new QPushButton(widget);
         pushButton_11->setObjectName(QString::fromUtf8("pushButton_11"));
-        pushButton_11->setGeometry(QRect(10, 0, 281, 331));
+        pushButton_11->setGeometry(QRect(10, 0, 291, 331));
         verticalLayoutWidget_3 = new QWidget(widget);
         verticalLayoutWidget_3->setObjectName(QString::fromUtf8("verticalLayoutWidget_3"));
-        verticalLayoutWidget_3->setGeometry(QRect(20, 0, 261, 321));
+        verticalLayoutWidget_3->setGeometry(QRect(20, 0, 271, 321));
         verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget_3);
         verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
         verticalLayout_6->setContentsMargins(0, 0, 0, 0);
