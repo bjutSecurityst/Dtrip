@@ -72,6 +72,10 @@ private slots:
 
     void on_pushButton_10_clicked();
 
+    void on_verticalScrollBar_3_sliderMoved(int position);
+
+    void on_verticalScrollBar_3_sliderReleased();
+
 private:
     Ui::MainWindow *ui;
     // 计时器
@@ -108,7 +112,7 @@ private:
     // 主页模式3 用户地图
     Map *m=NULL;
     // 改签模式，上次排序模式
-    int changemode=0,sortmode=0;
+    int changemode=0,sortmode=0,mysortmode=0;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
     void getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight);

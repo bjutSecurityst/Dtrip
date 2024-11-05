@@ -7,6 +7,7 @@
 #include "Log.h"
 using namespace std;
 #define THRESHOLD 8
+#define sortnum 8
 void QuickSort(Log* array, int n,int mode);
 void ModQuickSort1(Log* array, int left, int right,int mode);
 int partition1(Log* array, int left, int right,int mode);
@@ -23,6 +24,12 @@ void insertSort4(Log* array, int n,int mode);
 void ModQuickSort5(Log* array, int left, int right,int mode);
 int partition5(Log* array, int left, int right,int mode);
 void insertSort5(Log* array, int n,int mode);
+void ModQuickSort6(Log* array, int left, int right,int mode);
+int partition6(Log* array, int left, int right,int mode);
+void insertSort6(Log* array, int n,int mode);
+void ModQuickSort7(Log* array, int left, int right,int mode);
+int partition7(Log* array, int left, int right,int mode);
+void insertSort7(Log* array, int n,int mode);
 int timediffer(QString time0,QString time1);
 void QuickSort_Turn(Log logs,Log* array,int n);
 void ModQuickSort_Turn(Log logs,Log* array, int left, int right);
@@ -44,7 +51,7 @@ int partition1(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    if(mode<6){
+    if(mode<sortnum){
         while (l != r) {
             while (r > l) {
                 if (timediffer(array[l].time0,array[l].time1) <= timediffer(t.time0,t.time1)) l++;
@@ -90,7 +97,7 @@ int partition1(Log* array, int left, int right,int mode) {
 void insertSort1(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    if(mode<6){
+    if(mode<sortnum){
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
@@ -127,7 +134,7 @@ int partition2(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    if(mode<6){
+    if(mode<sortnum){
         while (l != r) {
             while (r > l) {
                 if (array[l].price <= t.price) l++;
@@ -173,7 +180,7 @@ int partition2(Log* array, int left, int right,int mode) {
 void insertSort2(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    if(mode<6){
+    if(mode<sortnum){
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
@@ -210,7 +217,7 @@ int partition3(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    if(mode<6){
+    if(mode<sortnum){
         while (l != r) {
             while (r > l) {
                 if (timediffer("00:00",array[l].time0) <= timediffer("00:00",t.time0)) l++;
@@ -256,7 +263,7 @@ int partition3(Log* array, int left, int right,int mode) {
 void insertSort3(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    if(mode<6){
+    if(mode<sortnum){
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
@@ -280,25 +287,33 @@ void insertSort3(Log* array, int n,int mode) {
     }
 }
 void QuickSort(Log* array, int n,int mode) {
-    if(mode%5==1){
+    if(mode%(sortnum-1)==1){
         ModQuickSort1(array, 0, n - 1,mode);
         insertSort1(array, n,mode);
     }
-    else if(mode%5==2){
+    else if(mode%(sortnum-1)==2){
         ModQuickSort2(array, 0, n - 1,mode);
         insertSort2(array, n,mode);
     }
-    else if(mode%5==3){
+    else if(mode%(sortnum-1)==3){
         ModQuickSort3(array, 0, n - 1,mode);
         insertSort3(array, n,mode);
     }
-    else if(mode%5==4){
+    else if(mode%(sortnum-1)==4){
         ModQuickSort4(array, 0, n - 1,mode);
         insertSort4(array, n,mode);
     }
-    else if(mode%5==0){
+    else if(mode%(sortnum-1)==5){
         ModQuickSort5(array, 0, n - 1,mode);
         insertSort5(array, n,mode);
+    }
+    else if(mode%(sortnum-1)==6){
+        ModQuickSort6(array, 0, n - 1,mode);
+        insertSort6(array, n,mode);
+    }
+    else if(mode%(sortnum-1)==0){
+        ModQuickSort7(array, 0, n - 1,mode);
+        insertSort7(array, n,mode);
     }
 
 }
@@ -316,7 +331,7 @@ int partition4(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    if(mode<6){
+    if(mode<sortnum){
         while (l != r) {
             while (r > l) {
                 if (timediffer("00:00",array[l].time1) <= timediffer("00:00",t.time1)) l++;
@@ -362,7 +377,7 @@ int partition4(Log* array, int left, int right,int mode) {
 void insertSort4(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    if(mode<6){
+    if(mode<sortnum){
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
@@ -399,7 +414,7 @@ int partition5(Log* array, int left, int right,int mode) {
     int l = left, r = right;
     int i;
     Log t = array[r];
-    if(mode<6){
+    if(mode<sortnum){
         while (l != r) {
             while (r > l) {
                 if (array[l].chi.left(array[l].chi.size()-1).toDouble() <= t.chi.left(t.chi.size()-1).toDouble()) l++;
@@ -445,7 +460,7 @@ int partition5(Log* array, int left, int right,int mode) {
 void insertSort5(Log* array, int n,int mode) {
     int  i, j;
     Log t;
-    if(mode<6){
+    if(mode<sortnum){
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
@@ -461,6 +476,172 @@ void insertSort5(Log* array, int n,int mode) {
             t = array[i];
             int j = i - 1;
             while (j >= 0 && t.chi.left(t.chi.size()-1).toDouble() > array[j].chi.left(array[j].chi.size()-1).toDouble()) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+}
+void ModQuickSort6(Log* array, int left, int right,int mode) {
+    if (right - left + 1 > THRESHOLD) {
+        int j;
+        int pivot = (left+right)/2;
+        swap(array[pivot], array[right]);
+        pivot = partition6(array, left, right,mode);
+        ModQuickSort6(array, left, pivot - 1,mode);
+        ModQuickSort6(array, pivot + 1, right,mode);
+    }
+}
+int partition6(Log* array, int left, int right,int mode) {
+    int l = left, r = right;
+    int i;
+    Log t = array[r];
+    if(mode<sortnum){
+        while (l != r) {
+            while (r > l) {
+                if (array[l].PID <= t.PID) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].PID >= t.PID) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (array[l].PID >= t.PID) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (array[r].PID <= t.PID) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    array[l] = t;
+    return l;
+}
+void insertSort6(Log* array, int n,int mode) {
+    int  i, j;
+    Log t;
+    if(mode<sortnum){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.PID < array[j].PID) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && t.PID > array[j].PID) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+}
+void ModQuickSort7(Log* array, int left, int right,int mode) {
+    if (right - left + 1 > THRESHOLD) {
+        int j;
+        int pivot = (left+right)/2;
+        swap(array[pivot], array[right]);
+        pivot = partition7(array, left, right,mode);
+        ModQuickSort7(array, left, pivot - 1,mode);
+        ModQuickSort7(array, pivot + 1, right,mode);
+    }
+}
+int partition7(Log* array, int left, int right,int mode) {
+    int l = left, r = right;
+    int i;
+    Log t = array[r];
+    if(mode<sortnum){
+        while (l != r) {
+            while (r > l) {
+                if (QDate::fromString(array[l].curdate).daysTo(QDate::fromString(t.curdate))>=0) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (QDate::fromString(array[r].curdate).daysTo(QDate::fromString(t.curdate))<=0) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    else{
+        while (l != r) {
+            while (r > l) {
+                if (QDate::fromString(array[l].curdate).daysTo(QDate::fromString(t.curdate))<=0) l++;
+                else break;
+            }
+            if (l < r) {
+                array[r] = array[l];
+                r--;
+            }
+            while (r > l) {
+                if (QDate::fromString(array[r].curdate).daysTo(QDate::fromString(t.curdate))>=0) r--;
+                else break;
+            }
+            if (l < r) {
+                array[l] = array[r];
+                l++;
+            }
+        }
+    }
+    array[l] = t;
+    return l;
+}
+void insertSort7(Log* array, int n,int mode) {
+    int  i, j;
+    Log t;
+    if(mode<sortnum){
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && QDate::fromString(array[j].curdate).daysTo(QDate::fromString(t.curdate))<0) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+    else{
+        for (i = 1; i < n; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= 0 && QDate::fromString(array[j].curdate).daysTo(QDate::fromString(t.curdate))>0) {
                 array[j + 1] = array[j];
                 j = j - 1;
             }

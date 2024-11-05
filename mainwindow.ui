@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>0</hour>
+           <hour>16</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -745,7 +745,10 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>999</number>
+    </property>
+    <property name="pageStep">
+     <number>10</number>
     </property>
     <property name="orientation">
      <enum>Qt::Orientation::Vertical</enum>
@@ -915,6 +918,9 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="maximum">
+     <number>999</number>
     </property>
     <property name="value">
      <number>0</number>

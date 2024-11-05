@@ -74,8 +74,8 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     QImage img;
     img.load("E:/Qtproject/Dtrip/地图.png");
     scene->addPixmap(QPixmap::fromImage(img));
-    ui->graphicsView->resize(780,585);
-    ui->centralwidget->resize(780,585);
+    ui->graphicsView->resize(780,586);
+    ui->centralwidget->resize(780,586);
     ui->horizontalSlider->resize(250,32);
     ui->horizontalSlider->move(450,13);
     ui->label->move(430,13);
@@ -178,6 +178,10 @@ void Map::on_buttons_clicked()
         QStringList st;
         QString maxcompany="";
         int companytime[100];
+        if(sortmode!=7 && myticketnum!=0) {
+            QuickSort(userLogs,myticketnum,7);
+            sortmode=7;
+        }
         if(mode==1 && modeAD==0){
             ui->label_7->setText("城市：\n"+btn->objectName());
             for(i=0;i<myticketnum;i++){
@@ -187,7 +191,7 @@ void Map::on_buttons_clicked()
                     else{
                         datepre=datenow;
                         datenow=QDate::fromString(userLogs[i].curdate);
-                        dateall+=datepre.daysTo(datenow);
+                        dateall+=abs(datepre.daysTo(datenow));
                         datetimes++;
                     }
                     if(timediffer("22:00",userLogs[i].time0)>0 || timediffer("02:00",userLogs[i].time0)<=0) timenoon[0]++;
@@ -247,7 +251,7 @@ void Map::on_buttons_clicked()
                     else{
                         datepre=datenow;
                         datenow=QDate::fromString(userLogs[i].curdate);
-                        dateall+=datepre.daysTo(datenow);
+                        dateall+=abs(datepre.daysTo(datenow));
                         datetimes++;
                     }
                     if(timediffer("22:00",userLogs[i].time1)>0 || timediffer("02:00",userLogs[i].time1)<=0) timenoon[0]++;
@@ -548,11 +552,11 @@ void Map::on_pushButton_7_clicked()
 {
     if(modeAD==0){
         modeAD=1;
-        ui->pushButton_7->setText("到达模式");
+        ui->pushButton_7->setText("始发模式");
     }
     else{
         modeAD=0;
-        ui->pushButton_7->setText("始发模式");
+        ui->pushButton_7->setText("到达模式");
     }
 }
 

@@ -224,7 +224,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>0</hour>
+      <hour>16</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2024</year>
@@ -400,7 +400,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>到达模式</string>
+     <string>始发模式</string>
     </property>
    </widget>
    <zorder>graphicsView</zorder>

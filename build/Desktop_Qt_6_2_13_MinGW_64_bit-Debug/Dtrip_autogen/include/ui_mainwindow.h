@@ -343,7 +343,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -436,7 +436,8 @@ public:
         verticalScrollBar_2->setObjectName(QString::fromUtf8("verticalScrollBar_2"));
         verticalScrollBar_2->setGeometry(QRect(880, 350, 17, 299));
         verticalScrollBar_2->setMinimum(1);
-        verticalScrollBar_2->setMaximum(100);
+        verticalScrollBar_2->setMaximum(999);
+        verticalScrollBar_2->setPageStep(10);
         verticalScrollBar_2->setOrientation(Qt::Orientation::Vertical);
         verticalScrollBar_2->setInvertedAppearance(false);
         pushButton_6 = new QPushButton(centralwidget);
@@ -521,6 +522,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(verticalScrollBar_3->sizePolicy().hasHeightForWidth());
         verticalScrollBar_3->setSizePolicy(sizePolicy);
+        verticalScrollBar_3->setMaximum(999);
         verticalScrollBar_3->setValue(0);
         verticalScrollBar_3->setOrientation(Qt::Orientation::Vertical);
         pushButton_9 = new QPushButton(centralwidget);

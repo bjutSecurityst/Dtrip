@@ -252,6 +252,7 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     if(mode==2 || mode==5) ui->pushButton->setVisible(false);
     else if(mode==3) ui->pushButton->setText("查看");
     else if(mode==4) ui->pushButton->setText("改签");
+    ui->label_13->setVisible(false);
 }
 ticketInfo::~ticketInfo()
 {

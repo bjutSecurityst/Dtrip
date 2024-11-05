@@ -208,6 +208,11 @@ void MainWindow::getticketwindowMessage(Log* tlog){
         Log pp=userLogs[0];
     }
     else {
+        if(mysortmode==13) invert(userLogs,myticketnum);
+        else {
+            QuickSort(userLogs,myticketnum,6);
+            mysortmode=6;
+        }
         tlog->setPID(userLogs[myticketnum-1].PID+1);
         Log *p=tlog;
         Log *q=&userLogs[myticketnum];
@@ -681,7 +686,7 @@ void MainWindow::on_pushButton_4_clicked()
     if(time_straight!=0) time_straight-=time_straight/10;
     if(mode==1) time_money++;
     else if(mode==2) time_time++;
-    else time_straight++;
+    else if(mode==3) time_straight++;
     if(mode==2) sortmode=1;
     else sortmode=2;
     if(deepmode && mode!=3 && mode!=0){
@@ -831,7 +836,7 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
     if(ticketnum>2){
         int i=0;
         int j=3;
-        j=(ticketnum+1)*((double)position/(double)100);
+        j=(ticketnum+1)*((double)position/(double)999);
         if(j<3)j=3;
         if(j>ticketnum) j=ticketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -860,7 +865,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
     if(ticketnum>2){
         int i=0;
         int j=3;
-        j=(ticketnum-3)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)99)+3;
+        j=(ticketnum-3)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)999)+3;
         if(j<3)j=3;
         if(j>ticketnum) j=ticketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -873,7 +878,6 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 
             delete item;
         }
-        ticket_now=j-3;
         ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
         ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
         ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
@@ -1358,7 +1362,7 @@ void MainWindow::on_pushButton_7_clicked()
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*100);
+            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
     }
     else if(ui->pushButton_2->isChecked()){
@@ -1385,7 +1389,7 @@ void MainWindow::on_pushButton_7_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*100);
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
             }
         }
         else{
@@ -1411,7 +1415,7 @@ void MainWindow::on_pushButton_7_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
             }
         }
     }
@@ -1446,7 +1450,7 @@ void MainWindow::on_pushButton_6_clicked()
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*100);
+            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
     }
     else if(ui->pushButton_2->isChecked()){
@@ -1473,7 +1477,7 @@ void MainWindow::on_pushButton_6_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*100);
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
             }
         }
         else{
@@ -1499,7 +1503,7 @@ void MainWindow::on_pushButton_6_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*100);
+                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
             }
         }
     }
@@ -1583,16 +1587,13 @@ void MainWindow::on_pushButton_2_clicked()
         ui->label_11->setVisible(false);
         ui->widget_2->setVisible(false);
         //修改位置
-        if(changemode==1){
-            ui->pushButton_9->setVisible(true);
-            ui->comboBox_2->setVisible(true);
+        ui->pushButton_9->setVisible(true);
+        ui->comboBox_2->setVisible(true);
+        ui->comboBox_2->setGeometry(180,65,201,22);
+        if(ui->comboBox_2->count()==10){
+            ui->comboBox_2->addItems({"PID-升序","PID-降序","出发日期-升序","出发日期-降序"});
         }
-        else{
-            ui->pushButton_9->setVisible(false);
-            ui->comboBox_2->setVisible(false);
-        }
-        ui->comboBox_2->setGeometry(180,60,201,22);
-        ui->pushButton_9->setGeometry(390,60,31,22);
+        ui->pushButton_9->setGeometry(390,65,31,22);
         ui->label_4->setVisible(false);
         ui->label_7->setVisible(false);
         ui->comboBox->setVisible(false);
@@ -1626,7 +1627,7 @@ void MainWindow::on_pushButton_2_clicked()
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                     verticalLayout_7->addWidget(ticket0);
                 }
-                QSpacerItem* sp1=new QSpacerItem(20,130*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+                QSpacerItem* sp1=new QSpacerItem(20,125*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
                 verticalLayout_7->addItem(sp1);
             }
             else{
@@ -1671,6 +1672,12 @@ void MainWindow::on_pushButton_1_clicked()
         ui->comboBox_2->setVisible(false);
         ui->comboBox_2->setGeometry(280,324,201,22);
         ui->pushButton_9->setGeometry(490,324,31,22);
+        if(ui->comboBox_2->count()==14){
+            ui->comboBox_2->removeItem(10);
+            ui->comboBox_2->removeItem(10);
+            ui->comboBox_2->removeItem(10);
+            ui->comboBox_2->removeItem(10);
+        }
         ui->label_4->setVisible(true);
         ui->label_7->setVisible(true);
         ui->comboBox->setVisible(true);
@@ -1803,7 +1810,7 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
         if(ticketnum>4){
             int i=0;
             int j=5;
-            j=(ticketnum-5)*((double)value/(double)99)+5;
+            j=(ticketnum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>ticketnum) j=ticketnum;
             while (QLayoutItem* item = verticalLayout_7->takeAt(0))
@@ -1811,7 +1818,7 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
                 if (QWidget* widget = item->widget()) widget->deleteLater();
                 delete item;
             }
-            ticket_now=j-5;
+            //ticket_now=j-5;
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
                 verticalLayout_7->addWidget(ticket0);
@@ -1823,7 +1830,7 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
         if(myticketnum>4){
             int i=0;
             int j=5;
-            j=(myticketnum-5)*((double)value/(double)99)+5;
+            j=(myticketnum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>myticketnum) j=myticketnum;
             while (QLayoutItem* item = verticalLayout_7->takeAt(0))
@@ -1831,7 +1838,7 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
                 if (QWidget* widget = item->widget()) widget->deleteLater();
                     delete item;
             }
-            ticket_now=j-5;
+            //ticket_now=j-5;
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
                 verticalLayout_7->addWidget(ticket0);
@@ -1845,17 +1852,37 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
 {
     int index=ui->comboBox_2->currentIndex();
     int i,k;
-    switch(index){
-    case 0:if(sortmode==7) invert(logs,ticketnum); else QuickSort(logs,ticketnum,2); sortmode=2;break;
-    case 1:if(sortmode==2) invert(logs,ticketnum); else QuickSort(logs,ticketnum,7); sortmode=7;break;
-    case 2:if(sortmode==6) invert(logs,ticketnum); else QuickSort(logs,ticketnum,1); sortmode=1;break;
-    case 3:if(sortmode==1) invert(logs,ticketnum); else QuickSort(logs,ticketnum,6); sortmode=6;break;
-    case 4:if(sortmode==8) invert(logs,ticketnum); else QuickSort(logs,ticketnum,3); sortmode=3;break;
-    case 5:if(sortmode==3) invert(logs,ticketnum); else QuickSort(logs,ticketnum,8); sortmode=8;break;
-    case 6:if(sortmode==9) invert(logs,ticketnum); else QuickSort(logs,ticketnum,4); sortmode=4;break;
-    case 7:if(sortmode==4) invert(logs,ticketnum); else QuickSort(logs,ticketnum,9); sortmode=9;break;
-    case 8:if(sortmode==5) invert(logs,ticketnum); else QuickSort(logs,ticketnum,10); sortmode=10;break;
-    case 9:if(sortmode==10) invert(logs,ticketnum); else QuickSort(logs,ticketnum,5); sortmode=5;break;
+    if(ui->pushButton_2->isChecked() && changemode==0 && myticketnum!=0){
+        switch(index){
+        case 0:if(mysortmode==9) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,2); mysortmode=2;break;
+        case 1:if(mysortmode==2) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,9); mysortmode=9;break;
+        case 2:if(mysortmode==8) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,1); mysortmode=1;break;
+        case 3:if(mysortmode==1) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,8); mysortmode=8;break;
+        case 4:if(mysortmode==10) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,3); mysortmode=3;break;
+        case 5:if(mysortmode==3) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,10); mysortmode=10;break;
+        case 6:if(mysortmode==11) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,4); mysortmode=4;break;
+        case 7:if(mysortmode==4) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,11); mysortmode=11;break;
+        case 8:if(mysortmode==5) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,12); mysortmode=12;break;
+        case 9:if(mysortmode==12) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,5); mysortmode=5;break;
+        case 10:if(mysortmode==13) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,6); mysortmode=6;break;
+        case 11:if(mysortmode==6) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,13); mysortmode=13;break;
+        case 12:if(mysortmode==14) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,7); mysortmode=7;break;
+        case 13:if(mysortmode==7) invert(userLogs,myticketnum); else QuickSort(userLogs,myticketnum,14); mysortmode=14;break;
+        }
+    }
+    else if(ticketnum!=0){
+        switch(index){
+        case 0:if(sortmode==9) invert(logs,ticketnum); else QuickSort(logs,ticketnum,2); sortmode=2;break;
+        case 1:if(sortmode==2) invert(logs,ticketnum); else QuickSort(logs,ticketnum,9); sortmode=9;break;
+        case 2:if(sortmode==8) invert(logs,ticketnum); else QuickSort(logs,ticketnum,1); sortmode=1;break;
+        case 3:if(sortmode==1) invert(logs,ticketnum); else QuickSort(logs,ticketnum,8); sortmode=8;break;
+        case 4:if(sortmode==10) invert(logs,ticketnum); else QuickSort(logs,ticketnum,3); sortmode=3;break;
+        case 5:if(sortmode==3) invert(logs,ticketnum); else QuickSort(logs,ticketnum,10); sortmode=10;break;
+        case 6:if(sortmode==11) invert(logs,ticketnum); else QuickSort(logs,ticketnum,4); sortmode=4;break;
+        case 7:if(sortmode==4) invert(logs,ticketnum); else QuickSort(logs,ticketnum,11); sortmode=11;break;
+        case 8:if(sortmode==5) invert(logs,ticketnum); else QuickSort(logs,ticketnum,12); sortmode=12;break;
+        case 9:if(sortmode==12) invert(logs,ticketnum); else QuickSort(logs,ticketnum,5); sortmode=5;break;
+        }
     }
     if(ui->pushButton_1->isChecked()){
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
@@ -1877,7 +1904,6 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
             }
         }
         if(k==0) {
-            k=0;
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
             ticketInfo* ticket0=new ticketInfo(logno,0);
@@ -1921,6 +1947,43 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         else{
             for(i=0;i<k;i++){
                 ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                verticalLayout_7->addWidget(ticket0);
+            }
+        }
+    }
+    else if((ui->pushButton_2->isChecked() && changemode==0)){
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+        if(myticketnum==0) {
+            Log* logno=new Log();
+            if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
+            else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            ticketInfo* ticket0=new ticketInfo(logno,2);
+            verticalLayout_7->addWidget(ticket0);
+        }
+        else if(myticketnum<5){
+            for(i=0;i<myticketnum;i++){
+                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                verticalLayout_7->addWidget(ticket0);
+            }
+            QSpacerItem* sp1=new QSpacerItem(20,130*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+            verticalLayout_7->addItem(sp1);
+        }
+        else{
+            for(i=0;i<5;i++){
+                ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
                 connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 verticalLayout_7->addWidget(ticket0);
             }
@@ -1991,5 +2054,19 @@ void MainWindow::on_pushButton_8_clicked()
 void MainWindow::on_pushButton_10_clicked()
 {
     this->close();
+}
+
+
+void MainWindow::on_verticalScrollBar_3_sliderMoved(int position)
+{
+    // int value=ui->verticalScrollBar_3->value();
+    // ticket_now=(myticketnum-5)*((double)value/(double)999);
+}
+
+
+void MainWindow::on_verticalScrollBar_3_sliderReleased()
+{
+    int value=ui->verticalScrollBar_3->value();
+    ticket_now=(myticketnum-5)*((double)value/(double)999);
 }
 

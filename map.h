@@ -42,7 +42,7 @@ private:
     QPoint cityp[17]={QPoint(1115,338),QPoint(1252,649),QPoint(735,828),QPoint(1025,885),QPoint(1245,834),QPoint(900,540),QPoint(310,192),QPoint(1392,139),QPoint(419,674),QPoint(699,459),QPoint(774,1472),QPoint(1230,1117),QPoint(677,1132),QPoint(1739,495),QPoint(1400,440),QPoint(42,721)};
     QGraphicsScene *scene;
     Log* userLogs;
-    int mode,modeAD=0,modemul=0,myticketnum;
+    int mode,modeAD=0,modemul=0,myticketnum,sortmode=0;
     void wheelEvent(QWheelEvent *event);
     void on_MyGraphicsView_rubberBandChanged();
     void on_buttons_clicked();
