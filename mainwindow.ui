@@ -503,7 +503,7 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
         <widget class="QDateEdit" name="dateEdit">
          <property name="dateTime">
           <datetime>
-           <hour>16</hour>
+           <hour>0</hour>
            <minute>0</minute>
            <second>0</second>
            <year>2024</year>
@@ -1234,6 +1234,63 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
      <layout class="QVBoxLayout" name="verticalLayout_2"/>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>324</y>
+      <width>221</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>请选择筛选方式  </string>
+    </property>
+    <property name="icon">
+     <iconset theme="QIcon::ThemeIcon::GoDown"/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>12</width>
+      <height>9</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>345</y>
+      <width>221</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="widgetResizable">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>219</width>
+       <height>119</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <zorder>widget_2</zorder>
    <zorder>backgroundsky</zorder>
    <zorder>layoutbutton_2</zorder>
@@ -1260,6 +1317,8 @@ font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
    <zorder>pushButton</zorder>
    <zorder>pushButton_4</zorder>
    <zorder>widget</zorder>
+   <zorder>pushButton_12</zorder>
+   <zorder>scrollArea</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

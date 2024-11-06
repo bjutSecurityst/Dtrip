@@ -110,6 +110,8 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->resize(955,610);
     //游离layout需要加到widget上
     ui->widget->setVisible(false);
+    ui->pushButton_12->setVisible(false);
+    ui->scrollArea->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -801,6 +803,67 @@ void MainWindow::on_pushButton_4_clicked()
     ui->pushButton_7->setVisible(true);
     ui->pushButton_9->setVisible(true);
     ui->comboBox_2->setVisible(true);
+    QStringList st,sroute;
+    int pricemin[200];
+    for(i=0;i<200;i++){
+        pricemin[i]=INT_MAX;
+    }
+    if(ticketnum!=0){
+        for(i=0;i<ticketnum;i++){
+            bool find=false;
+            j=0;
+            foreach (QString company,st){
+                if(company==logs[i].company) {
+                    find=true;
+                    if(pricemin[j]>logs[i].price) pricemin[j]=logs[i].price;
+                    break;
+                }
+                j++;
+            }
+            if(!find){
+                st.append(logs[i].company);
+                pricemin[j]=logs[i].price;
+            }
+        }
+        for(i=0;i<ticketnum;i++){
+            bool find=false;
+            foreach (QString route,sroute){
+                if(route==logs[i].route) {
+                    find=true;
+                    break;
+                }
+                j++;
+            }
+            if(!find){
+                sroute.append(logs[i].route);
+            }
+        }
+        for(i=0;i<sroute.count();i++){
+            sroute[i]=routeTranslate(sroute[i]);
+        }
+        for(i=0;i<st.count();i++){
+            st[i]=st[i]+" ￥"+QString::number(pricemin[i]);
+        }
+        QWidget *wid=new QWidget();
+        QVBoxLayout *l=new QVBoxLayout();
+        foreach (QString var, st) {
+            QCheckBox *b=new QCheckBox();
+            b->setText(var);
+            b->setObjectName(var);
+            connect(b,&QCheckBox::stateChanged,this,&MainWindow::getScrollBarMessage);
+            l->addWidget(b);
+        }
+        foreach (QString var, sroute) {
+            QCheckBox *b=new QCheckBox();
+            b->setText(var);
+            b->setObjectName(var);
+            connect(b,&QCheckBox::stateChanged,this,&MainWindow::getScrollBarMessage);
+            l->addWidget(b);
+        }
+        wid->setLayout(l);
+        ui->scrollArea->setWidget(wid);
+        ui->pushButton_12->setVisible(true);
+    }
     if(logs[2].ID=="" || logs[2].des=="不可达"){
         k=2;
         if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
@@ -828,17 +891,49 @@ void MainWindow::on_pushButton_4_clicked()
     c_end = clock();
     ui->label_14->setText("查询用时："+QString::number((double)(c_end - c_start) / CLOCKS_PER_SEC)+"s");
     printf("time=%f\n", (double)(c_end - c_start) / CLOCKS_PER_SEC);
+    copymode=0;
 }
 
-
-void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
+void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 {
-    if(ticketnum>2){
+    Log* scrollLogs;
+    int scrollTicketnum;
+    int position=ui->verticalScrollBar_2->sliderPosition();
+    if(copymode==0){
+        scrollLogs=logs;
+        scrollTicketnum=ticketnum;
+        if(scrollTicketnum>2){
+            int i=0;
+            int j=3;
+            j=(scrollTicketnum+1)*((double)position/(double)999);
+            if(j<3)j=3;
+            if(j>scrollTicketnum) j=scrollTicketnum;
+            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+            {
+                if (QWidget* widget = item->widget())
+                    widget->deleteLater();
+
+                delete item;
+            }
+            ticket_now=j-3;
+            ticketInfo* ticket0=new ticketInfo(&scrollLogs[j-3],0);
+            ticketInfo* ticket1=new ticketInfo(&scrollLogs[j-2],0);
+            ticketInfo* ticket2=new ticketInfo(&scrollLogs[j-1],0);
+            ui->verticalLayout_2->addWidget(ticket0);
+            ui->verticalLayout_2->addWidget(ticket1);
+            ui->verticalLayout_2->addWidget(ticket2);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+        }
+    }
+    else if(copymode==1 && copynum>2){
+        scrollTicketnum=copynum;
         int i=0;
         int j=3;
-        j=(ticketnum+1)*((double)position/(double)999);
+        j=(scrollTicketnum+1)*((double)position/(double)999);
         if(j<3)j=3;
-        if(j>ticketnum) j=ticketnum;
+        if(j>scrollTicketnum) j=scrollTicketnum;
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
         {
             if (QWidget* widget = item->widget())
@@ -847,40 +942,9 @@ void MainWindow::on_verticalScrollBar_2_sliderMoved(int position)
             delete item;
         }
         ticket_now=j-3;
-        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
-        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
-        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
-        ui->verticalLayout_2->addWidget(ticket0);
-        ui->verticalLayout_2->addWidget(ticket1);
-        ui->verticalLayout_2->addWidget(ticket2);
-        connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-        connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-    }
-}
-
-
-void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
-{
-    if(ticketnum>2){
-        int i=0;
-        int j=3;
-        j=(ticketnum-3)*((double)ui->verticalScrollBar_2->sliderPosition()/(double)999)+3;
-        if(j<3)j=3;
-        if(j>ticketnum) j=ticketnum;
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget())
-                widget->deleteLater();
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
-        }
-        ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
-        ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
-        ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
+        ticketInfo* ticket0=new ticketInfo(copylogs[j-3],0);
+        ticketInfo* ticket1=new ticketInfo(copylogs[j-2],0);
+        ticketInfo* ticket2=new ticketInfo(copylogs[j-1],0);
         ui->verticalLayout_2->addWidget(ticket0);
         ui->verticalLayout_2->addWidget(ticket1);
         ui->verticalLayout_2->addWidget(ticket2);
@@ -953,6 +1017,7 @@ void MainWindow::setLog(string s,int mode){
                     i++;
                 }
                 logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                logs[j].setRoute(QString::fromStdString(s));
                 logs[j].next=NULL;
                 j++;
             }
@@ -996,6 +1061,7 @@ void MainWindow::setLog(string s,int mode){
                         log0->setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         logs[j].next=log0;
                         logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        logs[j].setRoute(QString::fromStdString(s));
                         j++;
                     }
                     //QuickSort4(logs,j);
@@ -1094,6 +1160,7 @@ void MainWindow::setLog(string s,int mode){
                                         q=q->next;
                                     }
                                     logs[l].setLog(logs[i].company,logs[i].ID,logs[i].sou,logs0[k].des,logs[i].time0,logs0[k].time1,logs0[k].price+price1,chi_min,curdate.toString());
+                                    logs[l].setRoute(QString::fromStdString(s));
                                     Log* log2=new Log();
                                     log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
                                     q->next=log2;
@@ -1589,6 +1656,8 @@ void MainWindow::on_pushButton_2_clicked()
         //修改位置
         ui->pushButton_9->setVisible(true);
         ui->comboBox_2->setVisible(true);
+        ui->pushButton_12->setVisible(false);
+        ui->scrollArea->setVisible(false);
         ui->comboBox_2->setGeometry(180,65,201,22);
         if(ui->comboBox_2->count()==10){
             ui->comboBox_2->addItems({"PID-升序","PID-降序","出发日期-升序","出发日期-降序"});
@@ -1670,6 +1739,8 @@ void MainWindow::on_pushButton_1_clicked()
         ui->label_11->setVisible(true);
         ui->pushButton_9->setVisible(false);
         ui->comboBox_2->setVisible(false);
+        ui->pushButton_12->setVisible(false);
+        ui->scrollArea->setVisible(false);
         ui->comboBox_2->setGeometry(280,324,201,22);
         ui->pushButton_9->setGeometry(490,324,31,22);
         if(ui->comboBox_2->count()==14){
@@ -1729,6 +1800,8 @@ void MainWindow::on_pushButton_3_clicked()
         ui->label_11->setVisible(false);
         ui->pushButton_9->setVisible(false);
         ui->comboBox_2->setVisible(false);
+        ui->pushButton_12->setVisible(false);
+        ui->scrollArea->setVisible(false);
         ui->label_4->setVisible(false);
         ui->label_7->setVisible(false);
         ui->label_8->setVisible(false);
@@ -1884,7 +1957,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         case 9:if(sortmode==12) invert(logs,ticketnum); else QuickSort(logs,ticketnum,5); sortmode=5;break;
         }
     }
-    if(ui->pushButton_1->isChecked()){
+    if(ui->pushButton_1->isChecked() && copymode==0){
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
         {
             if (QWidget* widget = item->widget()){
@@ -1917,6 +1990,9 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
                 ui->verticalLayout_2->addWidget(ticket0);
             }
         }
+    }
+    else if(ui->pushButton_1->isChecked() && copymode==1){
+        getScrollBarMessage();
     }
     else if(ui->pushButton_2->isChecked() && changemode==1){
         k=5;
@@ -2056,17 +2132,113 @@ void MainWindow::on_pushButton_10_clicked()
     this->close();
 }
 
-
-void MainWindow::on_verticalScrollBar_3_sliderMoved(int position)
-{
-    // int value=ui->verticalScrollBar_3->value();
-    // ticket_now=(myticketnum-5)*((double)value/(double)999);
-}
-
-
 void MainWindow::on_verticalScrollBar_3_sliderReleased()
 {
     int value=ui->verticalScrollBar_3->value();
     ticket_now=(myticketnum-5)*((double)value/(double)999);
+}
+
+QString MainWindow::routeTranslate(QString qs){
+    QStringList qsl=qs.split(' ');
+    QRegularExpression numbers( "0|[1-9]\\d{0,1}" );
+    QRegularExpressionMatch matchnum;
+    QString coc="",ari="",beg="",las="";
+    QStringList mid;
+    Log *p,*q;
+    int i=0,j=0,k=0,price_max=0;;
+    foreach (QString item, qsl) {
+        matchnum = numbers.match(item);
+        if(item=="不可达") return "";
+        if(matchnum.hasMatch()){
+            if(item.toInt()<20){
+                if(coc=="") coc=citys[item.toInt()];
+                else {
+                    mid.append(citys[item.toInt()]);
+                    i++;
+                }
+                ari=citys[item.toInt()];
+            }
+            else if(price_max<item.toInt()) price_max=item.toInt();
+        }
+    }
+    QString route;
+    if(mid.count()==1) route="起："+coc+"| ";
+    else route="起："+coc+"| 经：";
+    for(i=0;i<mid.count()-1;i++){
+        route=route+mid[i]+"| ";
+    }
+    route=route+"降："+ari+" ￥"+QString::number(price_max);
+    return route;
+}
+
+void MainWindow::getScrollBarMessage(){
+    int i;
+    QStringList st;
+    QWidget* wid=ui->scrollArea->widget();
+    foreach(QCheckBox* child,wid->findChildren<QCheckBox*>()){
+        if(child->isChecked()) st.append(child->objectName());
+    }
+    if(st.empty()){
+        copymode=0;
+        ui->verticalScrollBar_2->setSliderPosition(0);
+        on_verticalScrollBar_2_valueChanged(0);
+        return;
+    }
+    copynum=0;
+    copymode=1;
+    for(i=0;i<ticketnum;i++){
+        foreach(QString item,st){
+            if(item.left(1)=="起"){
+                if(routeTranslate(logs[i].route)==item){
+                    copylogs[copynum]=&logs[i];
+                    copynum++;
+                    break;
+                }
+            }
+            else{
+                if(item.mid(0,logs[i].company.length()).contains(logs[i].company)){
+                    copylogs[copynum]=&logs[i];
+                    copynum++;
+                    break;
+                }
+            }
+        }
+    }
+    while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
+    {
+        if (QWidget* widget = item->widget())
+            widget->deleteLater();
+
+        delete item;
+    }
+    ticket_now=0;
+    if(copynum==0){
+            Log* logno=new Log();
+            logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            ticketInfo* ticket0=new ticketInfo(logno,0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalLayout_2->addWidget(ticket0);
+    }
+    else if(copynum<3){
+        for(i=0;i<copynum;i++){
+            ticketInfo* ticket0=new ticketInfo(copylogs[i],0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalLayout_2->addWidget(ticket0);
+        }
+    }
+    else{
+        for(i=0;i<3;i++){
+            ticketInfo* ticket0=new ticketInfo(copylogs[i],0);
+            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            ui->verticalLayout_2->addWidget(ticket0);
+        }
+    }
+    ui->verticalScrollBar_2->setSliderPosition(0);
+}
+
+void MainWindow::on_pushButton_12_clicked()
+{
+    if(ui->scrollArea->isVisible()) ui->scrollArea->setVisible(false);
+    else ui->scrollArea->setVisible(true);
 }
 

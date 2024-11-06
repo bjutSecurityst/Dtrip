@@ -36,8 +36,6 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    void on_verticalScrollBar_2_sliderMoved(int position);
-
     void on_verticalScrollBar_2_valueChanged(int value);
 
     void setLog(string s,int mode);
@@ -72,9 +70,11 @@ private slots:
 
     void on_pushButton_10_clicked();
 
-    void on_verticalScrollBar_3_sliderMoved(int position);
-
     void on_verticalScrollBar_3_sliderReleased();
+
+    QString routeTranslate(QString qs);
+
+    void on_pushButton_12_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -83,7 +83,7 @@ private:
     // 图片计数器
     int picId;
     // 票数计数器
-    int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum=0;
+    int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum=0,copynum=0;
     // 家所在城市，常去城市
     int home=-1,common=-1;
     // 对应概率
@@ -100,7 +100,7 @@ private:
     QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
     QPoint cityp[17]={QPoint(1115,338),QPoint(1252,649),QPoint(735,828),QPoint(1025,885),QPoint(1245,834),QPoint(900,540),QPoint(310,192),QPoint(1392,139),QPoint(419,674),QPoint(699,459),QPoint(774,1472),QPoint(1230,1117),QPoint(677,1132),QPoint(1739,495),QPoint(1400,440),QPoint(42,721)};
-    Log logs[4000];
+    Log logs[4000],*copylogs[4000];
     QString username="",userpassword;
     // 用户票据，改签票据
     Log *userLogs,*clog;
@@ -112,12 +112,13 @@ private:
     // 主页模式3 用户地图
     Map *m=NULL;
     // 改签模式，上次排序模式
-    int changemode=0,sortmode=0,mysortmode=0;
+    int changemode=0,sortmode=0,mysortmode=0,copymode=0;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
     void getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight);
     void getticketInfoMessage(Log* tlog,int mode);
     void getticketwindowMessage(Log* tlog);
+    void getScrollBarMessage();
     void changeTicketMain(Log* tlog);
     void changeTicketSearch(Log* tlog);
     void refundTicketMain(Log* tlog);

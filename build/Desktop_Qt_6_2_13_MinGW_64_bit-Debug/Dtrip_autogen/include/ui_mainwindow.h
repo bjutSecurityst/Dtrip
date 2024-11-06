@@ -22,6 +22,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
@@ -124,6 +125,9 @@ public:
     QWidget *widget_2;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout_2;
+    QPushButton *pushButton_12;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -343,7 +347,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -672,6 +676,27 @@ public:
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        pushButton_12 = new QPushButton(centralwidget);
+        pushButton_12->setObjectName(QString::fromUtf8("pushButton_12"));
+        pushButton_12->setGeometry(QRect(560, 324, 221, 22));
+        pushButton_12->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
+        QIcon icon3(QIcon::fromTheme(QString::fromUtf8("QIcon::ThemeIcon::GoDown")));
+        pushButton_12->setIcon(icon3);
+        pushButton_12->setIconSize(QSize(12, 9));
+        scrollArea = new QScrollArea(centralwidget);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+        scrollArea->setGeometry(QRect(560, 345, 221, 131));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(scrollArea->sizePolicy().hasHeightForWidth());
+        scrollArea->setSizePolicy(sizePolicy1);
+        scrollArea->setWidgetResizable(false);
+        scrollArea->setAlignment(Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 219, 119));
+        scrollArea->setWidget(scrollAreaWidgetContents);
         MainWindow->setCentralWidget(centralwidget);
         widget_2->raise();
         backgroundsky->raise();
@@ -699,6 +724,8 @@ public:
         pushButton->raise();
         pushButton_4->raise();
         widget->raise();
+        pushButton_12->raise();
+        scrollArea->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
@@ -783,6 +810,7 @@ public:
         label_23->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\347\224\273\345\203\217\357\274\232", nullptr));
         label_24->setText(QCoreApplication::translate("MainWindow", "\346\246\202\347\216\207\357\274\232", nullptr));
         label_19->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267\345\270\270\347\224\250\346\220\234\347\264\242\346\226\271\345\274\217\357\274\232", nullptr));
+        pushButton_12->setText(QCoreApplication::translate("MainWindow", "\350\257\267\351\200\211\346\213\251\347\255\233\351\200\211\346\226\271\345\274\217  ", nullptr));
     } // retranslateUi
 
 };

@@ -15,6 +15,7 @@ public:
     int PID=-1;
     bool business=false;
     Log* next=NULL;
+    QString route="";
     Log() {}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
         this->company=company;
@@ -39,12 +40,16 @@ public:
         this->curdate=tlog->curdate;
         this->PID=tlog->PID;
         this->business=tlog->business;
+        this->route=tlog->route;
     }
     void setPID(int PID){
         this->PID=PID;
     }
     void setBus(bool business){
         this->business=business;
+    }
+    void setRoute(QString route){
+        this->route=route;
     }
     void clear(){
         this->company="";
@@ -58,6 +63,7 @@ public:
         this->curdate="";
         this->PID=-1;
         this->business=false;
+        this->route="";
         Log *p,*q;
         if(this->next!=NULL){
             p=this->next;
