@@ -15,6 +15,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -38,6 +39,8 @@ public:
     QPushButton *pushButton_4;
     QLabel *label_3;
     QLabel *label_4;
+    QSpinBox *spinBox;
+    QLabel *label_5;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *ticketWindow)
@@ -101,8 +104,16 @@ public:
         label_3->setGeometry(QRect(1150, 620, 101, 31));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(1080, 622, 51, 21));
+        label_4->setGeometry(QRect(1080, 625, 51, 21));
         label_4->setStyleSheet(QString::fromUtf8("font: 700 12pt \"Microsoft YaHei UI\";"));
+        spinBox = new QSpinBox(centralwidget);
+        spinBox->setObjectName(QString::fromUtf8("spinBox"));
+        spinBox->setGeometry(QRect(1100, 510, 42, 22));
+        spinBox->setMinimum(1);
+        spinBox->setMaximum(10);
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(1069, 510, 31, 20));
         ticketWindow->setCentralWidget(centralwidget);
         pushButton->raise();
         label->raise();
@@ -115,6 +126,8 @@ public:
         pushButton_4->raise();
         label_3->raise();
         label_4->raise();
+        spinBox->raise();
+        label_5->raise();
         statusbar = new QStatusBar(ticketWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         ticketWindow->setStatusBar(statusbar);
@@ -136,6 +149,7 @@ public:
         pushButton_4->setText(QCoreApplication::translate("ticketWindow", "\350\277\224\345\233\236", nullptr));
         label_3->setText(QCoreApplication::translate("ticketWindow", "\346\263\250\357\274\232\345\225\206\345\212\241=\347\273\217\346\265\216*2", nullptr));
         label_4->setText(QCoreApplication::translate("ticketWindow", "\347\273\217\346\265\216\344\273\223", nullptr));
+        label_5->setText(QCoreApplication::translate("ticketWindow", "\347\245\250\346\225\260\357\274\232", nullptr));
     } // retranslateUi
 
 };

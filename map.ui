@@ -224,7 +224,7 @@
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>16</hour>
+      <hour>8</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2024</year>
@@ -314,7 +314,7 @@
       <item>
        <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>到达次数：</string>
+         <string>始发次数：</string>
         </property>
        </widget>
       </item>
@@ -328,7 +328,7 @@
       <item>
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>最近到达日期：</string>
+         <string>最近出发日期：</string>
         </property>
        </widget>
       </item>
@@ -342,7 +342,7 @@
       <item>
        <widget class="QLabel" name="label_11">
         <property name="text">
-         <string>平均到达间隔：</string>
+         <string>平均出发间隔：</string>
         </property>
        </widget>
       </item>
@@ -370,7 +370,7 @@
       <item>
        <widget class="QLabel" name="label_13">
         <property name="text">
-         <string>常选到达时间：</string>
+         <string>常选出发时间：</string>
         </property>
        </widget>
       </item>
@@ -400,7 +400,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>始发模式</string>
+     <string>到达模式</string>
     </property>
    </widget>
    <zorder>graphicsView</zorder>

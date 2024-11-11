@@ -12,7 +12,7 @@ public:
     int price;
     QString chi;
     QString curdate;
-    int PID=-1;
+    int PID=-1,num=1;
     bool business=false;
     Log* next=NULL;
     QString route="";
@@ -41,6 +41,7 @@ public:
         this->PID=tlog->PID;
         this->business=tlog->business;
         this->route=tlog->route;
+        this->num=tlog->num;
     }
     void setPID(int PID){
         this->PID=PID;
@@ -50,6 +51,9 @@ public:
     }
     void setRoute(QString route){
         this->route=route;
+    }
+    void setnum(int num){
+        this->num=num;
     }
     void clear(){
         this->company="";

@@ -30,6 +30,8 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_pushButton_6_clicked();
+
 signals:
     void sendToMainWindow(QString name,Log* logs,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight);
 private:

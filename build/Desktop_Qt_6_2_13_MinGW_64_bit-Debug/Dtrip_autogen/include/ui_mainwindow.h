@@ -347,7 +347,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -423,17 +423,17 @@ public:
         pushButton_4->setAutoDefault(false);
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(920, 80, 331, 541));
+        label_8->setGeometry(QRect(920, 80, 331, 561));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QString::fromUtf8("label_9"));
         label_9->setGeometry(QRect(440, 670, 381, 16));
         label_9->setStyleSheet(QString::fromUtf8("font: 10pt \"Microsoft YaHei UI\";"));
         label_10 = new QLabel(centralwidget);
         label_10->setObjectName(QString::fromUtf8("label_10"));
-        label_10->setGeometry(QRect(209, 350, 551, 261));
+        label_10->setGeometry(QRect(209, 350, 631, 291));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setGeometry(QRect(380, 570, 531, 41));
+        label_11->setGeometry(QRect(260, 580, 531, 41));
         label_11->setStyleSheet(QString::fromUtf8("font: 20pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";color: rgb(255, 255, 255);\n"
 ""));
         verticalScrollBar_2 = new QScrollBar(centralwidget);
@@ -779,7 +779,7 @@ public:
         label_8->setText(QString());
         label_9->setText(QCoreApplication::translate("MainWindow", "\302\251 2024 bjutSecurityst  |   \344\272\254ICP\345\244\2071145141919\345\217\267   |    \344\275\277\347\224\250\346\235\241\346\254\276", nullptr));
         label_10->setText(QString());
-        label_11->setText(QCoreApplication::translate("MainWindow", "\345\271\277\345\221\212\344\275\215\346\213\233\347\247\237", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "\345\271\277\345\221\212\344\275\215", nullptr));
         pushButton_6->setText(QCoreApplication::translate("MainWindow", "\342\206\221", nullptr));
         pushButton_7->setText(QCoreApplication::translate("MainWindow", "\342\206\223", nullptr));
         label_14->setText(QCoreApplication::translate("MainWindow", "\346\237\245\350\257\242\347\224\250\346\227\266\357\274\232", nullptr));

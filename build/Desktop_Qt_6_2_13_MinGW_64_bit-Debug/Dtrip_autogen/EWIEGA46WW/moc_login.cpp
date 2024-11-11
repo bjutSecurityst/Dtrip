@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Login_t {
-    uint offsetsAndSizes[44];
-    char stringdata0[287];
+    uint offsetsAndSizes[46];
+    char stringdata0[311];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_Login_t::offsetsAndSizes) + ofs), len 
@@ -50,7 +50,8 @@ static const qt_meta_stringdata_Login_t qt_meta_stringdata_Login = {
         QT_MOC_LITERAL(209, 4),  // "arg1"
         QT_MOC_LITERAL(214, 26),  // "on_checkBox_2_stateChanged"
         QT_MOC_LITERAL(241, 21),  // "on_pushButton_clicked"
-        QT_MOC_LITERAL(263, 23)   // "on_pushButton_3_clicked"
+        QT_MOC_LITERAL(263, 23),  // "on_pushButton_3_clicked"
+        QT_MOC_LITERAL(287, 23)   // "on_pushButton_6_clicked"
     },
     "Login\0sendToMainWindow\0\0name\0Log*\0"
     "logs\0myticketnum\0home\0probability\0"
@@ -59,7 +60,8 @@ static const qt_meta_stringdata_Login_t qt_meta_stringdata_Login = {
     "on_pushButton_2_clicked\0"
     "on_checkBox_2_checkStateChanged\0"
     "Qt::CheckState\0arg1\0on_checkBox_2_stateChanged\0"
-    "on_pushButton_clicked\0on_pushButton_3_clicked"
+    "on_pushButton_clicked\0on_pushButton_3_clicked\0"
+    "on_pushButton_6_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,7 +71,7 @@ static const uint qt_meta_data_Login[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,15 +79,16 @@ static const uint qt_meta_data_Login[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,   10,   56,    2, 0x06,    1 /* Public */,
+       1,   10,   62,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-      14,    0,   77,    2, 0x08,   12 /* Private */,
-      15,    0,   78,    2, 0x08,   13 /* Private */,
-      16,    1,   79,    2, 0x08,   14 /* Private */,
-      19,    1,   82,    2, 0x08,   16 /* Private */,
-      20,    0,   85,    2, 0x08,   18 /* Private */,
-      21,    0,   86,    2, 0x08,   19 /* Private */,
+      14,    0,   83,    2, 0x08,   12 /* Private */,
+      15,    0,   84,    2, 0x08,   13 /* Private */,
+      16,    1,   85,    2, 0x08,   14 /* Private */,
+      19,    1,   88,    2, 0x08,   16 /* Private */,
+      20,    0,   91,    2, 0x08,   18 /* Private */,
+      21,    0,   92,    2, 0x08,   19 /* Private */,
+      22,    0,   93,    2, 0x08,   20 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, 0x80000000 | 4, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Int, QMetaType::Double, QMetaType::Float, QMetaType::Float, QMetaType::Float,    3,    5,    6,    7,    8,    9,   10,   11,   12,   13,
@@ -95,6 +98,7 @@ static const uint qt_meta_data_Login[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 17,   18,
     QMetaType::Void, QMetaType::Int,   18,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -114,6 +118,7 @@ void Login::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 4: _t->on_checkBox_2_stateChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 5: _t->on_pushButton_clicked(); break;
         case 6: _t->on_pushButton_3_clicked(); break;
+        case 7: _t->on_pushButton_6_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -136,7 +141,7 @@ const QMetaObject Login::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_Login_t
 , QtPrivate::TypeAndForceComplete<Login, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<QString, std::false_type>, QtPrivate::TypeAndForceComplete<Log *, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<double, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<double, std::false_type>, QtPrivate::TypeAndForceComplete<float, std::false_type>, QtPrivate::TypeAndForceComplete<float, std::false_type>, QtPrivate::TypeAndForceComplete<float, std::false_type>
-, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const Qt::CheckState &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const Qt::CheckState &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 >,
@@ -163,13 +168,13 @@ int Login::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

@@ -29,16 +29,22 @@ ticketWindow::ticketWindow(Log* tlog,int mode,QWidget *parent)
         ui->pushButton_2->setText("退票");
         ui->pushButton_3->setText("改签");
         ui->pushButton_4->setVisible(true);
+        ui->label_5->setVisible(false);
+        ui->spinBox->setVisible(false);
     }
     else if(mode==2){
         ui->pushButton_2->setText("改签");
         ui->pushButton_3->setText("返回");
         ui->pushButton_4->setVisible(false);
+        ui->label_5->setVisible(false);
+        ui->spinBox->setVisible(false);
     }
     else {
         ui->pushButton_2->setText("经济舱");
         ui->pushButton_3->setText("购买商务舱");
         ui->pushButton_4->setVisible(true);
+        ui->label_5->setVisible(true);
+        ui->spinBox->setVisible(true);
     }
     if(p->next!=NULL) p=p->next;
     while(p!=NULL){
@@ -131,5 +137,11 @@ void ticketWindow::on_pushButton_4_clicked()
     this->setAttribute(Qt::WA_DeleteOnClose, true);
     emit Exit();
     this->close();
+}
+
+
+void ticketWindow::on_spinBox_valueChanged(int arg1)
+{
+    tlog->setnum(arg1);
 }
 

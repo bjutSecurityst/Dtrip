@@ -166,7 +166,7 @@ public:
         dateEdit = new QDateEdit(centralwidget);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setGeometry(QRect(20, 10, 110, 31));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
         pushButton_5 = new QPushButton(centralwidget);
@@ -302,13 +302,13 @@ public:
         pushButton_6->setText(QString());
         label_7->setText(QCoreApplication::translate("Map", "\345\237\216\345\270\202\357\274\232\344\270\212\346\265\267", nullptr));
         label_8->setText(QCoreApplication::translate("Map", "|", nullptr));
-        label_10->setText(QCoreApplication::translate("Map", "\345\210\260\350\276\276\346\254\241\346\225\260\357\274\232", nullptr));
-        label_9->setText(QCoreApplication::translate("Map", "\346\234\200\350\277\221\345\210\260\350\276\276\346\227\245\346\234\237\357\274\232", nullptr));
-        label_11->setText(QCoreApplication::translate("Map", "\345\271\263\345\235\207\345\210\260\350\276\276\351\227\264\351\232\224\357\274\232", nullptr));
+        label_10->setText(QCoreApplication::translate("Map", "\345\247\213\345\217\221\346\254\241\346\225\260\357\274\232", nullptr));
+        label_9->setText(QCoreApplication::translate("Map", "\346\234\200\350\277\221\345\207\272\345\217\221\346\227\245\346\234\237\357\274\232", nullptr));
+        label_11->setText(QCoreApplication::translate("Map", "\345\271\263\345\235\207\345\207\272\345\217\221\351\227\264\351\232\224\357\274\232", nullptr));
         label_12->setText(QCoreApplication::translate("Map", "\345\270\270\344\271\230\350\210\252\345\217\270\357\274\232", nullptr));
-        label_13->setText(QCoreApplication::translate("Map", "\345\270\270\351\200\211\345\210\260\350\276\276\346\227\266\351\227\264\357\274\232", nullptr));
+        label_13->setText(QCoreApplication::translate("Map", "\345\270\270\351\200\211\345\207\272\345\217\221\346\227\266\351\227\264\357\274\232", nullptr));
         checkBox->setText(QCoreApplication::translate("Map", "\346\213\206\345\210\206\346\250\241\345\274\217", nullptr));
-        pushButton_7->setText(QCoreApplication::translate("Map", "\345\247\213\345\217\221\346\250\241\345\274\217", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("Map", "\345\210\260\350\276\276\346\250\241\345\274\217", nullptr));
     } // retranslateUi
 
 };

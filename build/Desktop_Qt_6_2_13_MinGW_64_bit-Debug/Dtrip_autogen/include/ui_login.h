@@ -10,6 +10,7 @@
 #define UI_LOGIN_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
@@ -36,8 +37,8 @@ public:
     QSpacerItem *verticalSpacer_4;
     QHBoxLayout *horizontalLayout;
     QLineEdit *lineEdit_2;
+    QPushButton *pushButton_6;
     QVBoxLayout *verticalLayout_2;
-    QPushButton *pushButton;
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton_2;
     QHBoxLayout *horizontalLayout_5;
@@ -48,7 +49,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QPushButton *pushButton_3;
     QSpacerItem *horizontalSpacer;
-    QLabel *label_3;
+    QPushButton *pushButton;
     QSpacerItem *verticalSpacer_5;
     QLabel *label_2;
     QLineEdit *lineEdit_3;
@@ -123,15 +124,18 @@ public:
 
         horizontalLayout->addWidget(lineEdit_2);
 
+        pushButton_6 = new QPushButton(verticalLayoutWidget);
+        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
+        pushButton_6->setMinimumSize(QSize(0, 30));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/eye.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_6->setIcon(icon);
+        pushButton_6->setFlat(true);
+
+        horizontalLayout->addWidget(pushButton_6);
+
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        pushButton = new QPushButton(verticalLayoutWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setMinimumSize(QSize(0, 30));
-        pushButton->setFlat(true);
-
-        verticalLayout_2->addWidget(pushButton);
-
 
         horizontalLayout->addLayout(verticalLayout_2);
 
@@ -195,16 +199,15 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer);
 
-        label_3 = new QLabel(verticalLayoutWidget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setMinimumSize(QSize(0, 20));
-        label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        pushButton = new QPushButton(verticalLayoutWidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setMinimumSize(QSize(0, 0));
+        pushButton->setFlat(true);
 
-        horizontalLayout_3->addWidget(label_3);
+        horizontalLayout_3->addWidget(pushButton);
 
         horizontalLayout_3->setStretch(0, 1);
         horizontalLayout_3->setStretch(1, 4);
-        horizontalLayout_3->setStretch(2, 1);
 
         verticalLayout->addLayout(horizontalLayout_3);
 
@@ -267,6 +270,7 @@ public:
 
         retranslateUi(Login);
 
+        pushButton_6->setDefault(false);
         pushButton_2->setDefault(false);
 
 
@@ -280,13 +284,13 @@ public:
         pushButton_5->setText(QCoreApplication::translate("Login", "\350\277\224\345\233\236\343\200\213", nullptr));
         lineEdit->setPlaceholderText(QCoreApplication::translate("Login", "\350\264\246\345\217\267 (\350\213\261\346\226\207\346\225\260\345\255\227)", nullptr));
         lineEdit_2->setPlaceholderText(QCoreApplication::translate("Login", "\347\231\273\351\231\206\345\257\206\347\240\201 (\351\225\277\345\272\246>=6)", nullptr));
-        pushButton->setText(QCoreApplication::translate("Login", "\345\277\230\350\256\260\345\257\206\347\240\201", nullptr));
+        pushButton_6->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("Login", "\347\231\273 \345\275\225", nullptr));
         checkBox->setText(QString());
         label_5->setText(QCoreApplication::translate("Login", "TextLabel", nullptr));
         label_6->setText(QCoreApplication::translate("Login", "\345\222\214\344\270\252\344\272\272\344\277\241\346\201\257", nullptr));
         pushButton_3->setText(QCoreApplication::translate("Login", "\346\233\264\346\224\271\345\257\206\347\240\201", nullptr));
-        label_3->setText(QCoreApplication::translate("Login", "\350\207\252\345\212\250\346\263\250\345\206\214", nullptr));
+        pushButton->setText(QCoreApplication::translate("Login", "\345\277\230\350\256\260\345\257\206\347\240\201", nullptr));
         label_2->setText(QCoreApplication::translate("Login", "\346\243\200\346\265\213\345\210\260\346\202\250\344\270\272\346\226\260\347\224\250\346\210\267\357\274\214\350\257\267\345\206\215\346\254\241\347\241\256\350\256\244\346\202\250\347\232\204\350\264\246\345\217\267\345\257\206\347\240\201\357\274\232", nullptr));
         lineEdit_3->setPlaceholderText(QCoreApplication::translate("Login", "\347\231\273\351\231\206\345\257\206\347\240\201", nullptr));
         label_7->setText(QCoreApplication::translate("Login", "\344\273\245\344\270\213\344\270\272\345\257\206\344\277\235\351\227\256\351\242\230\357\274\214\350\257\267\345\233\236\347\255\224\346\211\200\345\234\250\345\237\216\345\270\202\357\274\232", nullptr));

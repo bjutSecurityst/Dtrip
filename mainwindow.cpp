@@ -87,8 +87,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,&QTimer::timeout,this,&MainWindow::Timerout);
 
     QImage imgGg;
-    imgGg.load("E:/Qtproject/Dtrip/广告位招租.jpg");
-    ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),40));
+    imgGg.load("E:/Qtproject/Dtrip/北京旅.jpg");
+    ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),5));
     ui->label_10->setScaledContents(true);
     ui->pushButton_6->setVisible(false);
     ui->pushButton_7->setVisible(false);
@@ -267,7 +267,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             max_number = sql_query2.value(0).toInt();
         }
         if(p->next==NULL){
-            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business);
+            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
             if(!sql_query2.exec(insert_sql))
             {
                 qDebug() << sql_query2.lastError();
@@ -288,7 +288,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             while(p!=NULL){
                 QString insert_sql;
                 if(head) {
-                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business);
+                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business).arg(p->num);
                     head=false;
                 }
                 else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
@@ -717,6 +717,9 @@ void MainWindow::on_pushButton_4_clicked()
             blist[i]=false;
         }
         QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+        while(list.size()>4){
+            list.removeLast();
+        }
         for(i=0;i<list.size();i++) {
             qDebug() << list[i] << "\n";
         }
@@ -727,7 +730,15 @@ void MainWindow::on_pushButton_4_clicked()
     }
     else{
         CMap* pMap = new CMap(nodeNum,arcNum);
-        CMapSet(curDate,citys,pMap,mode);
+        int modeuser;
+        if(mode!=0) CMapSet(curDate,citys,pMap,mode);
+        else {
+            modeuser=1;
+            if(time_time>=time_straight && time_time>time_money){
+                modeuser=2;
+            }
+            CMapSet(curDate,citys,pMap,modeuser);
+        }
         for(begin=0;begin<17;begin++){
             if(citys[begin]==ui->lineEditdep->text()) break;
         }
@@ -742,10 +753,10 @@ void MainWindow::on_pushButton_4_clicked()
                 dist = pMap->Dijkstra(begin);
                 //获取最低路径
                 string s = pMap->visit_first(dist,begin,end);
-                setLog(s,1);
+                setLog(s,modeuser);
                 if(ticketnum<10){
                     string s1 = pMap->visit_second(dist,begin,end);
-                    setLog(s1,1);
+                    setLog(s1,modeuser);
                     if(ticketnum<3){
                         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
                         {
@@ -760,7 +771,7 @@ void MainWindow::on_pushButton_4_clicked()
                         ticketnum=0;
                         ticket_checkednum=0;
                         pMap = new CMap(nodeNum,10000);
-                        CMapSet(curDate,citys,pMap,1);
+                        CMapSet(curDate,citys,pMap,modeuser);
                         dist = pMap->DijkstraPlus(begin);
                         for(i=0;i<16;i++) {
                             qDebug() << dist[i].m_vertex;
@@ -775,11 +786,14 @@ void MainWindow::on_pushButton_4_clicked()
                             blist[i]=false;
                         }
                         QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+                        while(list.size()>4){
+                            list.removeLast();
+                        }
                         for(i=0;i<list.size();i++) {
                             qDebug() << list[i] << "\n";
                         }
                         while (!list.empty()) {
-                            setLog(list[0].toStdString(),1);
+                            setLog(list[0].toStdString(),modeuser);
                             list.removeFirst();
                         }
                     }
@@ -1171,7 +1185,21 @@ void MainWindow::setLog(string s,int mode){
                         }
                         if(log_number==0) logs[i].des="不可达";
                     }
+
                     ticketnum=l+1;
+                    for(i=ticket_checkednum;i<=ticketnum;i++){
+                        if(logs[i].des=="不可达"){
+                            for(j=i;j<=ticketnum;j++){
+                                logs[j]=logs[j+1];
+                            }
+                            if(ticketnum==1){
+                                logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+                            }
+                            logs[ticketnum].clear();
+                            i--;
+                            ticketnum--;
+                        }
+                    }
                     for(i=0;i<ticketnum;i++){
                         qDebug() <<"过"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     }
@@ -1429,7 +1457,7 @@ void MainWindow::on_pushButton_7_clicked()
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
+            //ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
     }
     else if(ui->pushButton_2->isChecked()){
@@ -1456,7 +1484,7 @@ void MainWindow::on_pushButton_7_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
+                //ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
             }
         }
         else{
@@ -1482,7 +1510,7 @@ void MainWindow::on_pushButton_7_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
+                //ui->verticalScrollBar_3->setValue((ticket_now/(double)(myticketnum-5))*999);
             }
         }
     }
@@ -1517,7 +1545,7 @@ void MainWindow::on_pushButton_6_clicked()
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
+            //ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
     }
     else if(ui->pushButton_2->isChecked()){
@@ -1544,7 +1572,7 @@ void MainWindow::on_pushButton_6_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
+                //ui->verticalScrollBar_3->setValue(ticket_now/(double)(ticketnum-5)*999);
             }
         }
         else{
@@ -1570,7 +1598,7 @@ void MainWindow::on_pushButton_6_clicked()
                     verticalLayout_7->addWidget(ticket0);
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
-                ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
+                //ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
             }
         }
     }
@@ -1591,6 +1619,22 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int
         this->time_straight=time_straight;
         if(ui->pushButton_2->isChecked()) on_pushButton_2_clicked();
         else if(ui->pushButton_3->isChecked()) on_pushButton_3_clicked();
+        bool bus=false;
+        float probus=0;
+        userImageAnalyse(userLogs,&bus,&probus);
+        QImage imgGg;
+        if(!bus && common!=-1){
+            QString ts="E:/Qtproject/Dtrip/"+citys[this->common]+"旅.jpg";
+            imgGg.load(ts);
+            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+        }
+        else if(home!=-1){
+            if(this->home==0 ||this->home==1 || this->home==3){
+                imgGg.load("E:/Qtproject/Dtrip/"+citys[this->home]+"商.jpg");
+            }
+            else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
+            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+        }
     }
     loginW=NULL;
 }

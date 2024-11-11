@@ -9,8 +9,10 @@
 	"INCLUDE_DIR" : "E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/include",
 	"INPUTS" : 
 	[
+		"E:/Qtproject/Dtrip/eye.png",
 		"E:/Qtproject/Dtrip/trip.png",
-		"E:/Qtproject/Dtrip/ApplicationIcon.png"
+		"E:/Qtproject/Dtrip/ApplicationIcon.png",
+		"E:/Qtproject/Dtrip/change.png"
 	],
 	"LOCK_FILE" : "E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/Dtrip_autogen.dir/AutoRcc_ApplicationIcon_EWIEGA46WW_Lock.lock",
 	"MULTI_CONFIG" : false,

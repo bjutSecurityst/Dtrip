@@ -124,12 +124,14 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
         ui->horizontalSpacer->changeSize(0, 0);
         QLabel* ldate=new QLabel(my->curdate);
         ui->horizontalLayout->addWidget(ldate);
-        QLabel* business;
+        QLabel* business,*num;
         if(my->business) business=new QLabel("商务舱");
         else business=new QLabel("经济舱");
         business->setStyleSheet("font: 700 12pt Microsoft YaHei UI");
+        num=new QLabel(QString::number(my->num)+"张");
         ui->horizontalLayout->addWidget(ldate);
         ui->horizontalLayout->addWidget(business);
+        ui->horizontalLayout->addWidget(num);
         QSpacerItem* sp1=new QSpacerItem(20,40,QSizePolicy::Expanding,QSizePolicy::Minimum);
         ui->horizontalLayout->addItem(sp1);
     }

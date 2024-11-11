@@ -257,7 +257,7 @@ build Dtrip_autogen/timestamp Dtrip_autogen/mocs_compilation.cpp | ${cmake_ninja
 #############################################
 # Custom command for Dtrip_autogen\EWIEGA46WW\qrc_ApplicationIcon.cpp
 
-build Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp | ${cmake_ninja_workdir}Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp: CUSTOM_COMMAND E$:/Qtproject/Dtrip/ApplicationIcon.qrc CMakeFiles/Dtrip_autogen.dir/AutoRcc_ApplicationIcon_EWIEGA46WW_Info.json E$:/Qtproject/Dtrip/trip.png E$:/Qtproject/Dtrip/ApplicationIcon.png F$:/Qt/6.2.13/mingw_64/./bin/rcc.exe F$:/Qt/6.2.13/mingw_64/./bin/rcc.exe || Dtrip_autogen Dtrip_autogen_timestamp_deps
+build Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp | ${cmake_ninja_workdir}Dtrip_autogen/EWIEGA46WW/qrc_ApplicationIcon.cpp: CUSTOM_COMMAND E$:/Qtproject/Dtrip/ApplicationIcon.qrc CMakeFiles/Dtrip_autogen.dir/AutoRcc_ApplicationIcon_EWIEGA46WW_Info.json E$:/Qtproject/Dtrip/eye.png E$:/Qtproject/Dtrip/trip.png E$:/Qtproject/Dtrip/ApplicationIcon.png E$:/Qtproject/Dtrip/change.png F$:/Qt/6.2.13/mingw_64/./bin/rcc.exe F$:/Qt/6.2.13/mingw_64/./bin/rcc.exe || Dtrip_autogen Dtrip_autogen_timestamp_deps
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D E:\Qtproject\Dtrip\build\Desktop_Qt_6_2_13_MinGW_64_bit-Debug && F:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/Dtrip_autogen.dir/AutoRcc_ApplicationIcon_EWIEGA46WW_Info.json Debug"
   DESC = Automatic RCC for ApplicationIcon.qrc
   restat = 1

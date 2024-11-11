@@ -44,6 +44,7 @@ Login::Login(QWidget *parent)
     file.open(QFile::ReadOnly);
     QString styleSheet = tr(file.readAll());
     ui->pushButton_2->setStyleSheet(styleSheet);
+    ui->verticalSpacer->changeSize(20,150);
 }
 
 Login::~Login()
@@ -64,12 +65,10 @@ void Login::on_pushButton_2_clicked()
     if(!ui->checkBox->isChecked()){
         ui->label_2->setVisible(true);
         ui->label_2->setText("请勾选我已阅读并同意Dtrip的服务政策和个人隐私保护政策");
+        ui->verticalSpacer->changeSize(20,112);
         return;
     }
-    else if(log_mode==0) {
-        ui->label_2->setVisible(false);
-        ui->label_2->setText("检测到您为新用户，请再次确认您的账号密码：");
-    }
+    else ui->verticalSpacer->changeSize(20,150);
     if(ui->lineEdit->text()==""){
         ui->lineEdit->setPlaceholderText("用户名不能为空");
         ui->lineEdit->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
@@ -136,7 +135,7 @@ void Login::on_pushButton_2_clicked()
                 QString company,ID,sou,des,time0,time1,chi,date;
                 bool business;
                 Log *p,*q;
-                int price=0,j=0,next,PID,i=1;
+                int price=0,j=0,next,PID,i=1,num;
                 query.exec("SELECT * FROM ticket");
                 while(query.next())
                 {
@@ -152,9 +151,11 @@ void Login::on_pushButton_2_clicked()
                     next = query.value(9).toInt();
                     date = query.value(10).toString();
                     business = query.value(11).toBool();
+                    num = query.value(12).toInt();
                     logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
                     logs[j].setPID(PID);
                     logs[j].setBus(business);
+                    logs[j].setnum(num);
                     logs[j].next=NULL;
                     p=&logs[j];
                     j++;
@@ -208,6 +209,9 @@ void Login::on_pushButton_2_clicked()
             ui->lineEdit_3->setVisible(true);
             ui->lineEdit_4->setVisible(true);
             ui->pushButton_2->setDisabled(true);
+            ui->label_2->setVisible(false);
+            ui->label_2->setText("检测到您为新用户，请再次确认您的账号密码：");
+            ui->verticalSpacer->changeSize(20,20);
             QString name0 = QSqlDatabase::database().connectionName();
             QSqlDatabase::removeDatabase(name0);
             return;
@@ -265,7 +269,7 @@ void Login::on_pushButton_2_clicked()
         {
             //创建表格
             QSqlQuery sql_query(database);
-            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30), business bool)";
+            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30), business bool, num int)";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -435,3 +439,10 @@ void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pc
     }
     if(max!=0) *pco=max/(double)(max+premax);
 }
+
+void Login::on_pushButton_6_clicked()
+{
+    if(ui->lineEdit_2->echoMode()==QLineEdit::Password) ui->lineEdit_2->setEchoMode(QLineEdit::Normal);
+    else ui->lineEdit_2->setEchoMode(QLineEdit::Password);
+}
+

@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>trip.png</file>
         <file>ApplicationIcon.png</file>
+        <file>change.png</file>
+        <file>eye.png</file>
     </qresource>
 </RCC>

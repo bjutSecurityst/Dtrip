@@ -148,24 +148,30 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>忘记密码</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="ApplicationIcon.qrc">
+          <normaloff>:/eye.png</normaloff>:/eye.png</iconset>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
       </item>
      </layout>
     </item>
@@ -268,7 +274,7 @@ selection-background-color: rgb(255, 170, 0);</string>
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4,0">
       <item>
        <widget class="QPushButton" name="pushButton_3">
         <property name="minimumSize">
@@ -299,18 +305,18 @@ selection-background-color: rgb(255, 170, 0);</string>
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QPushButton" name="pushButton">
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>20</height>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
-         <string>自动注册</string>
+         <string>忘记密码</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignCenter</set>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -460,6 +466,8 @@ selection-background-color: rgb(255, 170, 0);</string>
   <zorder>verticalLayoutWidget</zorder>
   <zorder>label_4</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="ApplicationIcon.qrc"/>
+ </resources>
  <connections/>
 </ui>
