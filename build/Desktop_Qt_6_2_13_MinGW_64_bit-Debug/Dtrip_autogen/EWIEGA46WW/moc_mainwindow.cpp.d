@@ -69,6 +69,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtCore/qprocessordetection.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qrect.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qrefcount.h \
+  F:/Qt/6.2.13/mingw_64/include/QtCore/qregularexpression.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qscopedpointer.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qscopeguard.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qset.h \
@@ -122,6 +123,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtgui-config.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtguiglobal.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtransform.h \
+  F:/Qt/6.2.13/mingw_64/include/QtGui/qvalidator.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs_win.h \
   F:/Qt/6.2.13/mingw_64/include/QtSql/QSqlDatabase \
@@ -132,13 +134,16 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtSql/qsqlquery.h \
   F:/Qt/6.2.13/mingw_64/include/QtSql/qtsql-config.h \
   F:/Qt/6.2.13/mingw_64/include/QtSql/qtsqlglobal.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/QDateEdit \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QVBoxLayout \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QWidget \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractbutton.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractspinbox.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qboxlayout.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qdatetimeedit.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgridlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayout.h \

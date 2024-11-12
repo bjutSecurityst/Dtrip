@@ -13,6 +13,7 @@
 #include "mysqlite.h"
 #include <QVBoxLayout>
 #include "login.h"
+#include <QDateEdit>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -76,6 +77,10 @@ private slots:
 
     void on_pushButton_12_clicked();
 
+    void on_checkBox_2_stateChanged(int arg1);
+
+    void on_dateEdit_2_userDateChanged(const QDate &date);
+
 private:
     Ui::MainWindow *ui;
     // 计时器
@@ -85,17 +90,20 @@ private:
     // 票数计数器
     int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum=0,copynum=0;
     // 家所在城市，常去城市
-    int home=-1,common=-1;
+    int home=-1,common=-1,commonfrom=-1,commonto=-1;
+    // 对应概率
+    float profrom,proto;
     // 对应概率
     double probability=0,pco=0;
-    float time_money=0,time_time=0,time_straight=0;
+    // 查询计数器（费用最少，时间最短，直飞，城市计数）
+    float time_money=0,time_time=0,time_straight=0,*citytimesfrom,*citytimesto;
     QTimer *timer;
     // 当前日期
     QDate curdate;
     // dijiestela结果
     Dist *dist;
     // 工具栏visible，是否登录,是否商业
-    bool btvisible=true,login=false;
+    bool btvisible=true,login=false,mode2filter=false,copymode=false,business=false;
     // 交换按钮
     QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
@@ -111,11 +119,11 @@ private:
     Login* loginW=NULL;
     // 主页模式3 用户地图
     Map *m=NULL;
-    // 改签模式，上次排序模式
-    int changemode=0,sortmode=0,mysortmode=0,copymode=0;
+    // 改签模式(界面2)，上次查询机票排序模式，我的机票排序模式，筛选模式（界面1）
+    int changemode=0,sortmode=0,mysortmode=0;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
-    void getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight);
+    void getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float* citytimesfrom,float *citytimesto);
     void getticketInfoMessage(Log* tlog,int mode);
     void getticketwindowMessage(Log* tlog);
     void getScrollBarMessage();
@@ -123,5 +131,6 @@ private:
     void changeTicketSearch(Log* tlog);
     void refundTicketMain(Log* tlog);
     void userImageAnalyse(Log* userLogs,bool *bus,float *probus);
+    void userSearchAnalyse(int *commonfrom,int * commonto,float *profrom,float *proto);
 };
 #endif // MAINWINDOW_H

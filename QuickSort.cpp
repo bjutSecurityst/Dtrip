@@ -137,7 +137,7 @@ int partition2(Log* array, int left, int right,int mode) {
     if(mode<sortnum){
         while (l != r) {
             while (r > l) {
-                if (array[l].price <= t.price) l++;
+                if (array[l].price*(array[l].business+1) <= t.price*(t.business+1)) l++;
                 else break;
             }
             if (l < r) {
@@ -145,7 +145,7 @@ int partition2(Log* array, int left, int right,int mode) {
                 r--;
             }
             while (r > l) {
-                if (array[r].price >= t.price) r--;
+                if (array[r].price*(array[r].business+1) >= t.price*(t.business+1)) r--;
                 else break;
             }
             if (l < r) {
@@ -157,7 +157,7 @@ int partition2(Log* array, int left, int right,int mode) {
     else{
         while (l != r) {
             while (r > l) {
-                if (array[l].price >= t.price) l++;
+                if (array[l].price*(array[l].business+1) >= t.price*(t.business+1)) l++;
                 else break;
             }
             if (l < r) {
@@ -165,7 +165,7 @@ int partition2(Log* array, int left, int right,int mode) {
                 r--;
             }
             while (r > l) {
-                if (array[r].price <= t.price) r--;
+                if (array[r].price*(array[r].business+1) <= t.price*(t.business+1)) r--;
                 else break;
             }
             if (l < r) {
@@ -184,7 +184,7 @@ void insertSort2(Log* array, int n,int mode) {
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
-            while (j >= 0 && t.price < array[j].price) {
+            while (j >= 0 && t.price*(t.business+1) < array[j].price*(array[j].business+1)) {
                 array[j + 1] = array[j];
                 j = j - 1;
             }
@@ -195,7 +195,7 @@ void insertSort2(Log* array, int n,int mode) {
         for (i = 1; i < n; i++) {
             t = array[i];
             int j = i - 1;
-            while (j >= 0 && t.price > array[j].price) {
+            while (j >= 0 && t.price*(t.business+1) > array[j].price*(array[j].business+1)) {
                 array[j + 1] = array[j];
                 j = j - 1;
             }

@@ -1039,6 +1039,7 @@ E:/Qtproject/Dtrip/mainwindow.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qprocessordetection.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qrect.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qrefcount.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qregularexpression.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qscopedpointer.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qscopeguard.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtCore/qset.h
@@ -1092,6 +1093,7 @@ E:/Qtproject/Dtrip/mainwindow.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qtgui-config.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qtguiglobal.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qtransform.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qvalidator.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs_win.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtSql/QSqlDatabase
@@ -1102,13 +1104,16 @@ E:/Qtproject/Dtrip/mainwindow.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtSql/qsqlquery.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtSql/qtsql-config.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtSql/qtsqlglobal.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QDateEdit
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QVBoxLayout
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/QWidget
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractbutton.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractspinbox.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qboxlayout.h
+ mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qdatetimeedit.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgridlayout.h
  mdp:F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayout.h

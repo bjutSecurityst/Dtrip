@@ -55,7 +55,7 @@ Login::~Login()
 void Login::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
-    emit sendToMainWindow("",NULL,myticketnum,0,0,0,0,0,0,0);
+    emit sendToMainWindow("",NULL,myticketnum,0,0,0,0,0,0,0,NULL,NULL);
     this->close();
 }
 
@@ -95,6 +95,7 @@ void Login::on_pushButton_2_clicked()
         database2.setUserName("root");
         database2.setPassword("123456");
         float time_money,time_time,time_straight;
+        float *citytimesfrom=new float[16],*citytimesto=new float[16];
         //database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc;");
         if (!database2.open())
         {
@@ -183,6 +184,25 @@ void Login::on_pushButton_2_clicked()
                     }
                 }
                 myticketnum=j;
+                query.exec("SELECT * FROM searchtimes");
+                if(query.next())
+                {
+                    for(i=1;i<17;i++){
+                        citytimesfrom[i-1]=query.value(i).toFloat();
+                    }
+                }
+                else{
+                    qDebug() << "fault!";
+                }
+                if(query.next())
+                {
+                    for(i=1;i<17;i++){
+                        citytimesto[i-1]=query.value(i).toFloat();
+                    }
+                }
+                else{
+                    qDebug() << "fault!";
+                }
                 database.close();
             }
             qDebug() << "success!";
@@ -196,7 +216,7 @@ void Login::on_pushButton_2_clicked()
         int home,common;
         double probability,pco;
         userHomeAnalyse(&home,&probability,&common,&pco);
-        emit sendToMainWindow(name,logs,myticketnum,home,probability,common,pco,time_money,time_time,time_straight);
+        emit sendToMainWindow(name,logs,myticketnum,home,probability,common,pco,time_money,time_time,time_straight,citytimesfrom,citytimesto);
         this->close();
     }
     else
@@ -289,6 +309,34 @@ void Login::on_pushButton_2_clicked()
             {
                 qDebug() << "Table created!";
             }
+            create_sql = "create table searchtimes (LABEL int primary key,北京 float, 上海 float, 昆明 float, 广州 float, 台北 float, 西安 float, 乌鲁木齐 float, 哈尔滨 float, 拉萨 float, 西宁 float, 新加坡 float, 马尼拉 float, 曼谷 float, 东京 float, 首尔 float, 新德里 float)";
+            sql_query.prepare(create_sql);
+            if(!sql_query.exec())
+            {
+                qDebug() << "Error: Fail to create table." << sql_query.lastError();
+            }
+            else
+            {
+                qDebug() << "Table created!";
+            }
+            QString insert_sql = QString("insert into searchtimes (LABEL, 北京, 上海, 昆明, 广州, 台北, 西安, 乌鲁木齐, 哈尔滨, 拉萨, 西宁, 新加坡, 马尼拉, 曼谷, 东京, 首尔, 新德里) values('0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0') ");
+            if(!sql_query.exec(insert_sql))
+            {
+                qDebug() << sql_query.lastError();
+            }
+            else
+            {
+                qDebug() << "inserted searchtime0!";
+            }
+            insert_sql = QString("insert into searchtimes (LABEL, 北京, 上海, 昆明, 广州, 台北, 西安, 乌鲁木齐, 哈尔滨, 拉萨, 西宁, 新加坡, 马尼拉, 曼谷, 东京, 首尔, 新德里) values('1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0') ");
+            if(!sql_query.exec(insert_sql))
+            {
+                qDebug() << sql_query.lastError();
+            }
+            else
+            {
+                qDebug() << "inserted searchtime1!";
+            }
             database.close();
             QString name0 = QSqlDatabase::database().connectionName();
             QSqlDatabase::removeDatabase(name0);
@@ -323,7 +371,7 @@ void Login::on_pushButton_2_clicked()
                 }
                 else
                 {
-                    qDebug() << "inserted Wang!";
+                    qDebug() << "inserted users!";
                 }
                 database2.close();
             }
@@ -332,7 +380,12 @@ void Login::on_pushButton_2_clicked()
         name=ui->lineEdit->text();
         QString name0 = QSqlDatabase::database().connectionName();
         QSqlDatabase::removeDatabase(name0);
-        emit sendToMainWindow(name,logs,myticketnum,-1,0,-1,0,0,0,0);
+        float *citytimesfrom=new float[16],*citytimesto=new float[16];
+        for(int i=0;i<16;i++){
+            citytimesfrom[i]=0;
+            citytimesto[i]=0;
+        }
+        emit sendToMainWindow(name,logs,myticketnum,-1,0,-1,0,0,0,0,citytimesfrom,citytimesto);
         this->close();
     }
 }
