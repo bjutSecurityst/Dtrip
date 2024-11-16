@@ -301,6 +301,7 @@
 			"EWIEGA46WW/moc_QuickSort.cpp",
 			null
 		],
+		[ "E:/Qtproject/Dtrip/des.h", "MU", "EWIEGA46WW/moc_des.cpp", null ],
 		[ "E:/Qtproject/Dtrip/login.h", "MU", "EWIEGA46WW/moc_login.cpp", null ],
 		[
 			"E:/Qtproject/Dtrip/mainwindow.h",
@@ -331,6 +332,12 @@
 			"E:/Qtproject/Dtrip/ticketwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_ticketwindow.cpp",
+			null
+		],
+		[
+			"E:/Qtproject/Dtrip/userinfo.h",
+			"MU",
+			"EWIEGA46WW/moc_userinfo.cpp",
 			null
 		]
 	],
@@ -401,6 +408,7 @@
 	[
 		[ "E:/Qtproject/Dtrip/MyGraphicsView.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/QuickSort.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/des.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/login.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/main.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/mainwindow.cpp", "MU", null ],
@@ -408,7 +416,8 @@
 		[ "E:/Qtproject/Dtrip/mysqlite.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/passwordfix.cpp", "MU", null ],
 		[ "E:/Qtproject/Dtrip/ticketinfo.cpp", "MU", null ],
-		[ "E:/Qtproject/Dtrip/ticketwindow.cpp", "MU", null ]
+		[ "E:/Qtproject/Dtrip/ticketwindow.cpp", "MU", null ],
+		[ "E:/Qtproject/Dtrip/userinfo.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

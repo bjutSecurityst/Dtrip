@@ -12,10 +12,14 @@
 #include <QRegularExpression>
 #include "QuickSort.h"
 #include "login.h"
+#include "userinfo.h"
 #include "ticketwindow.h"
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <random>
+#include "des.h"
+#include <ctime>
 //#include "mysqlite.h"
 #include <QMessageBox>
 #pragma comment(lib,"winmm.lib")
@@ -24,7 +28,6 @@
 #define TIMEOUT 4000
 #define WindowWidth 1280
 #define WindowHeight 720
-QPixmap changeImage(QPixmap img_in,int radius);
 void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode);
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -111,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget0->setParent(this);
     widget0->hide();
     widget0->move(180,80);
-    widget0->resize(955,610);
+    widget0->resize(1055,610);
     //游离layout需要加到widget上
     ui->widget->setVisible(false);
     ui->pushButton_12->setVisible(false);
@@ -120,6 +123,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->dateEdit->setDateTime(time);
     ui->dateEdit_2->setVisible(false);
     ui->checkBox_2->setVisible(false);
+    ui->checkBox_3->setVisible(false);
+    ui->lineEditari->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEditdep->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
 }
 
 MainWindow::~MainWindow()
@@ -128,60 +134,47 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::Timerout(){
-    //定时的图片更新函数
-    QString path("E:/Qtproject/Dtrip/scene");
-    path+=QString::number(picId);
-    path+=".jpg";
-    QImage img;
-    img.load(path);
-    ui->label_8->setPixmap(changeImage(QPixmap::fromImage(img),30));
-    picId++;
-    picId=picId % 4;
-    if(picId%2==1){
-        QImage imgGg;
-        if(!business && common!=-1){
-            QString ts="E:/Qtproject/Dtrip/"+citys[this->common]+"旅.jpg";
-            imgGg.load(ts);
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
-        else if(home!=-1){
-            if(this->home==0 ||this->home==1 || this->home==3){
-                imgGg.load("E:/Qtproject/Dtrip/"+citys[this->home]+"商.jpg");
+    if(ui->pushButton_1->isChecked()){
+        //定时的图片更新函数
+        QString path("E:/Qtproject/Dtrip/scene");
+        path+=QString::number(picId);
+        path+=".jpg";
+        QImage img;
+        img.load(path);
+        ui->label_8->setPixmap(changeImage(QPixmap::fromImage(img),30));
+        picId++;
+        picId=picId % 4;
+        if(picId%2==1){
+            QImage imgGg;
+            if(!business && common!=-1){
+                QString ts="E:/Qtproject/Dtrip/"+citys[this->common]+"旅.jpg";
+                imgGg.load(ts);
+                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
             }
-            else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
-        else if(commonfrom!=-1){
-            if(this->commonfrom==0 ||this->commonfrom==1 || this->commonfrom==3){
-                imgGg.load("E:/Qtproject/Dtrip/"+citys[this->commonfrom]+"商.jpg");
+            else if(home!=-1){
+                if(this->home==0 ||this->home==1 || this->home==3){
+                    imgGg.load("E:/Qtproject/Dtrip/"+citys[this->home]+"商.jpg");
+                }
+                else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
+                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
             }
-            else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+            else if(commonfrom!=-1){
+                if(this->commonfrom==0 ||this->commonfrom==1 || this->commonfrom==3){
+                    imgGg.load("E:/Qtproject/Dtrip/"+citys[this->commonfrom]+"商.jpg");
+                }
+                else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
+                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+            }
+        }
+        else{
+            QImage imgGg;
+            if(commonto!=-1){
+                QString ts="E:/Qtproject/Dtrip/"+citys[this->commonto]+"旅.jpg";
+                imgGg.load(ts);
+                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+            }
         }
     }
-    else{
-        QImage imgGg;
-        if(commonto!=-1){
-            QString ts="E:/Qtproject/Dtrip/"+citys[this->commonto]+"旅.jpg";
-            imgGg.load(ts);
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
-    }
-}
-
-QPixmap changeImage(QPixmap img_in,int radius){
-    //图片圆角化
-    QSize size = QSize(img_in.size());
-    QBitmap mask = QBitmap(size);
-    QPainter painter = QPainter(&mask);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.fillRect(mask.rect(), Qt::white);
-    painter.setBrush(QColor(0, 0, 0));
-    painter.drawRoundedRect(mask.rect(), radius, radius);
-    painter.end();
-    img_in.setMask(mask);
-    return img_in;
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -233,41 +226,30 @@ void MainWindow::getticketInfoMessage(Log* tlog,int mode){
     }
 }
 void MainWindow::getticketwindowMessage(Log* tlog){
-    if(userLogs[0].PID==-1) {
-        tlog->setPID(1);
-        Log *p=tlog;
-        Log *q=&userLogs[0];
-        while(p->next!=NULL){
-            p=p->next;
-            Log* log1=new Log();
-            log1->setlogL(p);
-            q->next=log1;
-            q=q->next;
-        }
-        userLogs[0].setlogL(tlog);
-        Log pp=userLogs[0];
-    }
-    else {
-        if(mysortmode==13) invert(userLogs,myticketnum);
-        else {
-            QuickSort(userLogs,myticketnum,6);
-            mysortmode=6;
-        }
-        tlog->setPID(userLogs[myticketnum-1].PID+1);
-        Log *p=tlog;
-        Log *q=&userLogs[myticketnum];
-        while(p->next!=NULL){
-            p=p->next;
-            Log* log1=new Log();
-            log1->setlogL(p);
-            q->next=log1;
-            q=q->next;
-        }
-        userLogs[myticketnum].setlogL(tlog);
-        Log pp=userLogs[0];
-        Log qq=userLogs[1];
-    }
+    std::time_t t = std::time(0);
+    string timeString=std::to_string(t);
+    std::random_device rd;
+    std::mt19937_64 g2 (rd());
+    uint32_t u32Random = g2();
+    DES *mydes=new DES();
+    string time_H=mydes->longToA((long)t,36);
+    string s=mydes->uint_32ToA(u32Random,36).substr(1,4);
+    string sPID=time_H+username.mid(0,4).toStdString()+s;
+    sPID=mydes->des_encrypt_ECB(sPID,"security");
+    sPID=mydes->des_H(sPID);
+    sPID=mydes->des_2To32(sPID);
+    tlog->setPID(QString::fromStdString(sPID));
     Log *p=tlog;
+    Log *q=&userLogs[myticketnum];
+    while(p->next!=NULL){
+        p=p->next;
+        Log* log1=new Log();
+        log1->setlogL(p);
+        q->next=log1;
+        q=q->next;
+    }
+    userLogs[myticketnum].setlogL(tlog);
+    p=tlog;
     QString password;
     bool open=openDatabasegetPassword(&password,username);
     if(!open) return;
@@ -293,19 +275,9 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     else
     {
         QSqlQuery sql_query2(database);
-        sql_query2.exec("SELECT PID FROM ticket ORDER BY PID DESC LIMIT 1");
-        int max_number;
-        if(!sql_query2.next()){
-            qDebug() << "Error: Fail to read." << sql_query2.lastError();
-            max_number=0;
-        }
-        else
-        {
-            qDebug() << "success!";
-            max_number = sql_query2.value(0).toInt();
-        }
+        QString PID=p->PID;
         if(p->next==NULL){
-            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
+            QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(p->PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
             if(!sql_query2.exec(insert_sql))
             {
                 qDebug() << sql_query2.lastError();
@@ -313,6 +285,15 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             else
             {
                 qDebug() << "inserted Wang!";
+                cost+=tlog->price*(tlog->business+1);
+                int begin,end;
+                for(begin=0;begin<16;begin++){
+                    if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                }
+                for(end=0;end<16;end++){
+                    if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
+                }
+                mileage+=calDistance(cityp[begin],cityp[end]);
             }
         }
         else{
@@ -326,10 +307,11 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             while(p!=NULL){
                 QString insert_sql;
                 if(head) {
-                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business).arg(p->num);
+                    insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business).arg(p->num);
                     head=false;
+                    cost+=tlog->price*(tlog->business+1);
                 }
-                else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(max_number+1).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
+                else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
                 if(!sql_query2.exec(insert_sql))
                 {
                     qDebug() << sql_query2.lastError();
@@ -337,6 +319,16 @@ void MainWindow::getticketwindowMessage(Log* tlog){
                 else
                 {
                     qDebug() << "inserted SUCCESS!";
+                    if(!head){
+                        int begin,end;
+                        for(begin=0;begin<16;begin++){
+                            if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                        }
+                        for(end=0;end<16;end++){
+                            if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
+                        }
+                        mileage+=calDistance(cityp[begin],cityp[end]);
+                    }
                 }
                 i++;
                 p=p->next;
@@ -355,11 +347,13 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
     myticketnum++;
+    updateUserCostandMileage(cost,mileage,username);
     this->show();
 }
 void MainWindow::changeTicketMain(Log* tlog){
-    Log *q,*t;
-    int i=0,PID;
+    Log *t;
+    int i=0;
+    QString PID;
     Log *p=tlog;
     QString password;
     bool open=openDatabasegetPassword(&password,username);
@@ -385,6 +379,23 @@ void MainWindow::changeTicketMain(Log* tlog){
     else
     {
         QSqlQuery sql_query2(database);
+        QString copy_log=QString("INSERT into preticket(PID,name,id,sou,des,time0,time1,price,chi,date,business,num)  select PID,name,id,sou,des,time0,time1,price,chi,date,business,num from ticket where PID='%1'").arg(clog->PID);
+        if(!sql_query2.exec(copy_log)){
+            qDebug() << "Error: Fail to copy." << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "success!";
+        }
+        QString update_prelog=QString("UPDATE preticket SET status='%1' WHERE PID='%2'").arg("改签").arg(clog->PID);
+        if(!sql_query2.exec(update_prelog))
+        {
+            qDebug() << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "prelog updated!";
+        }
         QString PID_log = QString("select * from ticket where PID = '%1'").arg(clog->PID);
         sql_query2.exec(PID_log);
         int next;
@@ -394,7 +405,7 @@ void MainWindow::changeTicketMain(Log* tlog){
         else
         {
             qDebug() << "success!";
-            PID= sql_query2.value(0).toInt();
+            PID= sql_query2.value(0).toString();
             next = sql_query2.value(9).toInt();
         }
         QString update_sql=QString("UPDATE ticket SET name='%1', id='%2', sou='%3', des='%4', time0='%5', time1='%6', price='%7', chi='%8' WHERE PID='%9'").arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(clog->PID);
@@ -405,6 +416,8 @@ void MainWindow::changeTicketMain(Log* tlog){
         else
         {
             qDebug() << "updated!";
+            cost-=clog->price*(clog->business+1);
+            cost+=tlog->price*(tlog->business+1);
         }
         if(next!=-1){
             i=1;
@@ -447,11 +460,10 @@ void MainWindow::changeTicketMain(Log* tlog){
                 q=q->next;
             }
             userLogs[i].setlogL(tlog);
-            Log* pp=&userLogs[i];
-            pp=&userLogs[i];
             break;
         }
     }
+    updateUserCostandMileage(cost,mileage,username);
     this->show();
     changemode=0;
     on_pushButton_2_clicked();
@@ -545,7 +557,8 @@ void MainWindow::changeTicketSearch(Log* tlog){
 }
 void MainWindow::refundTicketMain(Log* tlog){
     Log *q,*t;
-    int i=0,j,PID;
+    int i=0,j;
+    QString PID;
     Log *p=tlog;
     QString password;
     bool open=openDatabasegetPassword(&password,username);
@@ -571,6 +584,24 @@ void MainWindow::refundTicketMain(Log* tlog){
     else
     {
         QSqlQuery sql_query2(database);
+        QString copy_log=QString("INSERT into preticket(PID,name,id,sou,des,time0,time1,price,chi,date,business,num)  select PID,name,id,sou,des,time0,time1,price,chi,date,business,num from ticket where PID='%1'").arg(tlog->PID);
+        sql_query2.exec(copy_log);
+        if(!sql_query2.next()){
+            qDebug() << "Error: Fail to copy." << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "success!";
+        }
+        QString update_prelog=QString("UPDATE preticket SET status='%1' WHERE PID='%2'").arg("退票").arg(tlog->PID);
+        if(!sql_query2.exec(update_prelog))
+        {
+            qDebug() << sql_query2.lastError();
+        }
+        else
+        {
+            qDebug() << "prelog updated!";
+        }
         QString PID_log = QString("select * from ticket where PID = '%1'").arg(tlog->PID);
         sql_query2.exec(PID_log);
         int next;
@@ -580,7 +611,7 @@ void MainWindow::refundTicketMain(Log* tlog){
         else
         {
             qDebug() << "success!";
-            PID= sql_query2.value(0).toInt();
+            PID= sql_query2.value(0).toString();
             next = sql_query2.value(9).toInt();
         }
         QString delete_sql=QString("DELETE FROM ticket WHERE PID = '%1'").arg(tlog->PID);
@@ -591,6 +622,15 @@ void MainWindow::refundTicketMain(Log* tlog){
         else
         {
             qDebug() << "deleted!";
+            cost-=tlog->price;
+            int begin,end;
+            for(begin=0;begin<16;begin++){
+                if(tlog->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+            }
+            for(end=0;end<16;end++){
+                if(tlog->des.mid(0,citys[end].length()).contains(citys[end])) break;
+            }
+            mileage-=calDistance(cityp[begin],cityp[end]);
         }
         if(next!=-1){
             i=1;
@@ -629,6 +669,7 @@ void MainWindow::refundTicketMain(Log* tlog){
             break;
         }
     }
+    updateUserCostandMileage(cost,mileage,username);
     this->show();
     on_pushButton_2_clicked();
 }
@@ -1284,13 +1325,19 @@ void MainWindow::setLog(string s,int mode){
 }
 
 void MainWindow::on_pushButton_5_clicked()
-{
-    if(loginW==NULL){
-        loginW=new Login();
-        loginW->show();
-        connect(loginW,&Login::sendToMainWindow,this,&MainWindow::getLoginMessage);
+{   if(!login){
+        if(loginW==NULL){
+            loginW=new Login();
+            loginW->show();
+            connect(loginW,&Login::sendToMainWindow,this,&MainWindow::getLoginMessage);
+        }
+        else loginW->raise();
     }
-    else loginW->raise();
+    else{
+        userinfo *userui=new userinfo(username,cost,mileage);
+        userui->show();
+        connect(userui,&userinfo::sendToMainWindow,this,&MainWindow::getuserinfoMessage);
+    }
 }
 
 
@@ -1551,7 +1598,34 @@ void MainWindow::on_pushButton_7_clicked()
             }
         }
         else{
-            if(copymode==0 && myticketnum>5 && ticket_now<myticketnum-5){
+            if(copymode==0 && premode==1 && myticketnum+mypreticketnum>5 && ticket_now<myticketnum+mypreticketnum-5){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
+
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
+
+                    delete item;
+                }
+                ticket_now=ticket_now+1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0;
+                    if(i>=myticketnum){
+                        ticket0=new ticketInfo(&prelogs[i-myticketnum],3);
+                    }
+                    else ticket0=new ticketInfo(&userLogs[i],3);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+            }
+            else if(copymode==0 && myticketnum>5 && ticket_now<myticketnum-5){
                 int i=0,j;
                 while (QLayoutItem* item = verticalLayout_7->takeAt(0))
                 {
@@ -1680,6 +1754,31 @@ void MainWindow::on_pushButton_6_clicked()
             }
         }
         else{
+            if(copymode==0 && premode==1 && myticketnum+mypreticketnum>5 && ticket_now>0){
+                int i=0,j;
+                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+                {
+                    if (QWidget* widget = item->widget()){
+                        widget->disconnect();
+                        widget->deleteLater();
+                    }
+
+                    if (QSpacerItem* spaerItem = item->spacerItem()){
+                        verticalLayout_7->removeItem(spaerItem);
+                    }
+
+                    delete item;
+                }
+                ticket_now=ticket_now-1;
+                j=ticket_now+5;
+                for(i=j-5;i<j;i++){
+                    ticketInfo* ticket0;
+                    if(i>=myticketnum) ticket0=new ticketInfo(&prelogs[i-myticketnum],3);
+                    else ticket0=new ticketInfo(&userLogs[i],3);
+                    verticalLayout_7->addWidget(ticket0);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                }
+            }
             if(copymode==0 && myticketnum>5 && ticket_now>0){
                 int i=0,j;
                 while (QLayoutItem* item = verticalLayout_7->takeAt(0))
@@ -1730,11 +1829,13 @@ void MainWindow::on_pushButton_6_clicked()
         }
     }
 }
-void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float *citytimesfrom,float *citytimesto){
+void MainWindow::getLoginMessage(QString username,Log* mylog,Log * prelogs,int myticketnum,int mypreticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float *citytimesfrom,float *citytimesto,int cost,int mileage){
     if(username!=""){
         this->username=username;
         this->userLogs=mylog;
+        this->prelogs=prelogs;
         this->myticketnum=myticketnum;
+        this->mypreticketnum=mypreticketnum;
         ui->pushButton_5->setText("你好！ "+username);
         login=true;
         this->home=home;
@@ -1746,6 +1847,8 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int
         this->time_straight=time_straight;
         this->citytimesfrom=citytimesfrom;
         this->citytimesto=citytimesto;
+        this->cost=cost;
+        this->mileage=mileage;
         if(ui->pushButton_2->isChecked()) on_pushButton_2_clicked();
         else if(ui->pushButton_3->isChecked()) on_pushButton_3_clicked();
         bool bus=false;
@@ -1776,6 +1879,13 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,int myticketnum,int
     loginW=NULL;
 }
 
+void MainWindow::getuserinfoMessage()
+{
+    this->login=false;
+    this->username="";
+    this->myticketnum=0;
+    ui->pushButton_5->setText("登录");
+}
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
@@ -1863,7 +1973,10 @@ void MainWindow::on_pushButton_2_clicked()
         ui->dateEdit_2->setVisible(true);
         ui->checkBox_2->move(620,68);
         ui->checkBox_2->setVisible(true);
+        ui->checkBox_3->setVisible(true);
+        ui->checkBox_3->move(750,68);
         copymode=0;
+        premode=0;
         ticket_now=0;
         if(m!=NULL){
             m->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -1934,6 +2047,7 @@ void MainWindow::on_pushButton_1_clicked()
         ui->pushButton_9->setGeometry(490,324,31,22);
         ui->dateEdit_2->setVisible(false);
         ui->checkBox_2->setVisible(false);
+        ui->checkBox_3->setVisible(false);
         if(ui->comboBox_2->count()==14){
             ui->comboBox_2->removeItem(10);
             ui->comboBox_2->removeItem(10);
@@ -2008,6 +2122,7 @@ void MainWindow::on_pushButton_3_clicked()
         ui->widget->setVisible(true);
         ui->dateEdit_2->setVisible(false);
         ui->checkBox_2->setVisible(false);
+        ui->checkBox_3->setVisible(false);
         while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
         {
             if (QWidget* widget = item->widget()){
@@ -2105,7 +2220,31 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
         }
     }
     else{
-        if(myticketnum>4 && copymode==0){
+        if(copymode==0 && premode==1 && myticketnum+mypreticketnum>4){
+            int i=0;
+            int j=5;
+            j=(myticketnum+mypreticketnum-5)*((double)value/(double)999)+5;
+            if(j<5)j=5;
+            if(j>myticketnum+mypreticketnum) j=myticketnum+mypreticketnum;
+            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()) widget->deleteLater();
+
+                if (QSpacerItem* spaerItem = item->spacerItem())
+                    verticalLayout_7->removeItem(spaerItem);
+
+                delete item;
+            }
+            //ticket_now=j-5;
+            for(i=j-5;i<j;i++){
+                ticketInfo* ticket0;
+                if(i>=myticketnum) ticket0=new ticketInfo(&prelogs[i-myticketnum],3);
+                else ticket0=new ticketInfo(&userLogs[i],3);
+                verticalLayout_7->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
+        }
+        else if(myticketnum>4 && copymode==0){
             int i=0;
             int j=5;
             j=(myticketnum-5)*((double)value/(double)999)+5;
@@ -2285,7 +2424,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
                 connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 verticalLayout_7->addWidget(ticket0);
             }
-            QSpacerItem* sp1=new QSpacerItem(20,130*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+            QSpacerItem* sp1=new QSpacerItem(20,125*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
             verticalLayout_7->addItem(sp1);
         }
         else{
@@ -2297,6 +2436,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         }
     }
     ticket_now=0;
+    ui->checkBox_3->setCheckState(Qt::Unchecked);
 }
 void MainWindow::closeEvent(QCloseEvent *event) {
     if(m!=NULL){
@@ -2684,6 +2824,96 @@ void MainWindow::on_dateEdit_2_userDateChanged(const QDate &date)
             }
         }
         ui->verticalScrollBar_3->setSliderPosition(0);
+    }
+}
+
+void MainWindow::on_checkBox_3_stateChanged(int arg1)
+{
+    if(arg1) {
+        premode=true;
+        ui->checkBox_2->setEnabled(false);
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+        if(myticketnum+mypreticketnum==0){
+            Log* logno=new Log();
+            if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
+            else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            ticketInfo* ticket0=new ticketInfo(logno,2);
+            verticalLayout_7->addWidget(ticket0);
+        }
+        else{
+            if(myticketnum+mypreticketnum<5){
+                for(int i=0;i<myticketnum+mypreticketnum;i++){
+                    ticketInfo* ticket0;
+                    if(i>=myticketnum) ticket0=new ticketInfo(&prelogs[i-myticketnum],3);
+                    else ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+                QSpacerItem* sp1=new QSpacerItem(20,125*(5-myticketnum-mypreticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+                verticalLayout_7->addItem(sp1);
+            }
+            else{
+                for(int i=0;i<5;i++){
+                    ticketInfo* ticket0;
+                    if(i>=myticketnum) ticket0=new ticketInfo(&userLogs[i-myticketnum],3);
+                    else ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+            }
+        }
+    }
+    else {
+        premode=false;
+        ui->checkBox_2->setEnabled(true);
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+        if(myticketnum==0){
+            Log* logno=new Log();
+            if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
+            else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            ticketInfo* ticket0=new ticketInfo(logno,2);
+            verticalLayout_7->addWidget(ticket0);
+        }
+        else{
+            if(myticketnum<5){
+                for(int i=0;i<myticketnum;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+                QSpacerItem* sp1=new QSpacerItem(20,125*(5-myticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
+                verticalLayout_7->addItem(sp1);
+            }
+            else{
+                for(int i=0;i<5;i++){
+                    ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
+                    connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+                    verticalLayout_7->addWidget(ticket0);
+                }
+            }
+        }
     }
 }
 

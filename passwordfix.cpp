@@ -9,7 +9,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-
+#include <QRegularExpressionValidator>
 Passwordfix::Passwordfix(QString name,QString password,int mode,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Passwordfix)
@@ -42,6 +42,10 @@ Passwordfix::Passwordfix(QString name,QString password,int mode,QWidget *parent)
         ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
         ui->lineEdit_2->setEchoMode(QLineEdit::Password);
     }
+    ui->lineEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_2->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_3->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_4->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
 }
 
 Passwordfix::~Passwordfix()

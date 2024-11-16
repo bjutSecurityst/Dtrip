@@ -46,6 +46,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         mysqlite.h mysqlite.cpp
         passwordfix.h passwordfix.cpp passwordfix.ui
         ticketwindow.h ticketwindow.cpp ticketwindow.ui
+        des.h des.cpp
+        userinfo.h userinfo.cpp userinfo.ui
 
 
     )

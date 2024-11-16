@@ -5,6 +5,9 @@
 #include <QCoreApplication>
 #include <QDir>
 #include "Log.h"
+#include "QWindow"
+#include <QPixmap>
+#include <QPainter>
 using namespace std;
 #define THRESHOLD 8
 #define sortnum 8
@@ -778,4 +781,23 @@ void invert(Log* array,int n){
     for(i=0;i<n-i-1;i++){
         swap(array[i],array[n-i-1]);
     }
+}
+QPixmap changeImage(QPixmap img_in,int radius){
+    //图片圆角化
+    QSize size = QSize(img_in.size());
+    QBitmap mask = QBitmap(size);
+    QPainter painter = QPainter(&mask);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.fillRect(mask.rect(), Qt::white);
+    painter.setBrush(QColor(0, 0, 0));
+    painter.drawRoundedRect(mask.rect(), radius, radius);
+    painter.end();
+    img_in.setMask(mask);
+    return img_in;
+}
+int calDistance(QPoint city0,QPoint city1){
+    float ratio=2.815478;
+    float dis=sqrt((double)pow((city0.rx()-city1.rx()),2)+pow((city0.ry()-city1.ry()),2))*ratio;
+    return (int)dis;
 }

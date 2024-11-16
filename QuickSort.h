@@ -32,4 +32,6 @@ void insertSort_Turn(Log logs,Log* array, int n);
 int modSearch(Log logs0[],QString time1,int a,int b);
 void invert(Log* array,int n);
 QString pathCreator(QString a);
+QPixmap changeImage(QPixmap img_in,int radius);
+int calDistance(QPoint city0,QPoint city1);
 #endif // QUICKSORT_H

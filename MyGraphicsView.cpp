@@ -1,5 +1,4 @@
-﻿
-#include "MyGraphicsView.h"
+﻿#include "MyGraphicsView.h"
 #include "QWheelEvent"
 MyGraphicsView::MyGraphicsView(QWidget *parent):QGraphicsView(parent)
 {

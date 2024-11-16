@@ -24,9 +24,9 @@ QT_BEGIN_NAMESPACE
 class Ui_ticketInfo
 {
 public:
+    QPushButton *pushButton_2;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
-    QLabel *label_13;
     QLabel *label;
     QVBoxLayout *verticalLayout;
     QLabel *label_2;
@@ -50,8 +50,9 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QLabel *label_6;
     QPushButton *pushButton;
+    QVBoxLayout *verticalLayout_6;
+    QLabel *label_13;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton_2;
 
     void setupUi(QWidget *ticketInfo)
     {
@@ -63,6 +64,9 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(ticketInfo->sizePolicy().hasHeightForWidth());
         ticketInfo->setSizePolicy(sizePolicy);
+        pushButton_2 = new QPushButton(ticketInfo);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(0, 0, 1221, 101));
         horizontalLayoutWidget = new QWidget(ticketInfo);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
         horizontalLayoutWidget->setGeometry(QRect(10, 10, 1201, 81));
@@ -70,12 +74,6 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SizeConstraint::SetMinimumSize);
         horizontalLayout->setContentsMargins(0, 0, 2, 0);
-        label_13 = new QLabel(horizontalLayoutWidget);
-        label_13->setObjectName(QString::fromUtf8("label_13"));
-        label_13->setStyleSheet(QString::fromUtf8("color: rgb(0, 145, 218);font: 12pt \"Microsoft YaHei UI\";"));
-
-        horizontalLayout->addWidget(label_13);
-
         label = new QLabel(horizontalLayoutWidget);
         label->setObjectName(QString::fromUtf8("label"));
 
@@ -183,9 +181,10 @@ public:
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        verticalLayout_5->setContentsMargins(-1, 10, -1, 10);
         label_5 = new QLabel(horizontalLayoutWidget);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_5->setStyleSheet(QString::fromUtf8("font: 11pt \"Microsoft YaHei UI\";"));
         label_5->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         verticalLayout_5->addWidget(label_5);
@@ -201,7 +200,7 @@ public:
 
         label_12 = new QLabel(horizontalLayoutWidget);
         label_12->setObjectName(QString::fromUtf8("label_12"));
-        label_12->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        label_12->setStyleSheet(QString::fromUtf8("font: 11pt \"Microsoft YaHei UI\";"));
         label_12->setFrameShape(QFrame::Shape::NoFrame);
         label_12->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
@@ -234,15 +233,22 @@ public:
 
         horizontalLayout->addWidget(pushButton);
 
+        verticalLayout_6 = new QVBoxLayout();
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        verticalLayout_6->setContentsMargins(-1, 20, -1, 20);
+        label_13 = new QLabel(horizontalLayoutWidget);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+        label_13->setStyleSheet(QString::fromUtf8("color: rgb(0, 145, 218);font: 9pt \"Microsoft YaHei UI\";"));
+
+        verticalLayout_6->addWidget(label_13);
+
+
+        horizontalLayout->addLayout(verticalLayout_6);
+
         horizontalSpacer = new QSpacerItem(520, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        pushButton_2 = new QPushButton(ticketInfo);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(0, 0, 1221, 101));
-        pushButton_2->raise();
-        horizontalLayoutWidget->raise();
 
         retranslateUi(ticketInfo);
 
@@ -252,7 +258,7 @@ public:
     void retranslateUi(QWidget *ticketInfo)
     {
         ticketInfo->setWindowTitle(QCoreApplication::translate("ticketInfo", "Form", nullptr));
-        label_13->setText(QCoreApplication::translate("ticketInfo", "PID", nullptr));
+        pushButton_2->setText(QString());
         label->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_2->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_3->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
@@ -266,7 +272,7 @@ public:
         label_12->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         label_6->setText(QCoreApplication::translate("ticketInfo", "TextLabel", nullptr));
         pushButton->setText(QCoreApplication::translate("ticketInfo", "PushButton", nullptr));
-        pushButton_2->setText(QString());
+        label_13->setText(QCoreApplication::translate("ticketInfo", "PID: ", nullptr));
     } // retranslateUi
 
 };

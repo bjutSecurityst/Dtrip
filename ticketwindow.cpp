@@ -86,6 +86,8 @@ ticketWindow::ticketWindow(Log* tlog,int mode,Log* clog,QWidget *parent)
     ui->pushButton_2->setText("改签");
     ui->pushButton_3->setText("返回");
     ui->pushButton_4->setVisible(false);
+    ui->label_5->setVisible(false);
+    ui->spinBox->setVisible(false);
     if(tlog->business) ui->label_4->setText("商务舱");
     else ui->label_4->setText("经济舱");
     if(p->next!=NULL) p=p->next;

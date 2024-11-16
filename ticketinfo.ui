@@ -19,6 +19,19 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1221</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
@@ -35,16 +48,6 @@
     <property name="rightMargin">
      <number>2</number>
     </property>
-    <item>
-     <widget class="QLabel" name="label_13">
-      <property name="styleSheet">
-       <string notr="true">color: rgb(0, 145, 218);font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
-      </property>
-      <property name="text">
-       <string>PID</string>
-      </property>
-     </widget>
-    </item>
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
@@ -231,10 +234,16 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_5" stretch="5,2,5">
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_5">
         <property name="styleSheet">
-         <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+         <string notr="true">font: 11pt &quot;Microsoft YaHei UI&quot;;</string>
         </property>
         <property name="text">
          <string>TextLabel</string>
@@ -269,7 +278,7 @@
       <item>
        <widget class="QLabel" name="label_12">
         <property name="styleSheet">
-         <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
+         <string notr="true">font: 11pt &quot;Microsoft YaHei UI&quot;;</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::Shape::NoFrame</enum>
@@ -327,6 +336,26 @@
      </widget>
     </item>
     <item>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <property name="topMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_13">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 145, 218);font: 9pt &quot;Microsoft YaHei UI&quot;;</string>
+        </property>
+        <property name="text">
+         <string>PID: </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
@@ -344,21 +373,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1221</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <zorder>pushButton_2</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections/>

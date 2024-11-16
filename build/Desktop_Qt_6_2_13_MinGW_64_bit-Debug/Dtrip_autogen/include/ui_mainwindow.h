@@ -138,6 +138,7 @@ public:
     QWidget *scrollAreaWidgetContents;
     QDateEdit *dateEdit_2;
     QCheckBox *checkBox_2;
+    QCheckBox *checkBox_3;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -440,7 +441,7 @@ public:
         label_9->setStyleSheet(QString::fromUtf8("font: 10pt \"Microsoft YaHei UI\";"));
         label_10 = new QLabel(centralwidget);
         label_10->setObjectName(QString::fromUtf8("label_10"));
-        label_10->setGeometry(QRect(209, 350, 631, 291));
+        label_10->setGeometry(QRect(229, 350, 601, 281));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QString::fromUtf8("label_11"));
         label_11->setGeometry(QRect(260, 580, 531, 41));
@@ -765,6 +766,9 @@ public:
         checkBox_2 = new QCheckBox(centralwidget);
         checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
         checkBox_2->setGeometry(QRect(500, 30, 121, 16));
+        checkBox_3 = new QCheckBox(centralwidget);
+        checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
+        checkBox_3->setGeometry(QRect(600, 30, 101, 16));
         MainWindow->setCentralWidget(centralwidget);
         widget_2->raise();
         backgroundsky->raise();
@@ -796,6 +800,7 @@ public:
         scrollArea->raise();
         dateEdit_2->raise();
         checkBox_2->raise();
+        checkBox_3->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
@@ -886,6 +891,7 @@ public:
         label_28->setText(QCoreApplication::translate("MainWindow", "\346\246\202\347\216\207\357\274\232", nullptr));
         pushButton_12->setText(QCoreApplication::translate("MainWindow", "\350\257\267\351\200\211\346\213\251\347\255\233\351\200\211\346\226\271\345\274\217  ", nullptr));
         checkBox_2->setText(QCoreApplication::translate("MainWindow", "\347\255\233\351\200\211\345\275\223\345\211\215\346\227\245\346\234\237\346\234\272\347\245\250", nullptr));
+        checkBox_3->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\345\244\261\346\225\210\347\245\250\346\215\256", nullptr));
     } // retranslateUi
 
 };

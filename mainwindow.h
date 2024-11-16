@@ -81,6 +81,8 @@ private slots:
 
     void on_dateEdit_2_userDateChanged(const QDate &date);
 
+    void on_checkBox_3_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     // 计时器
@@ -88,7 +90,7 @@ private:
     // 图片计数器
     int picId;
     // 票数计数器
-    int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum=0,copynum=0;
+    int ticketnum=0,ticket_checkednum=0,ticket_now=0,myticketnum=0,mypreticketnum=0,copynum=0;
     // 家所在城市，常去城市
     int home=-1,common=-1,commonfrom=-1,commonto=-1;
     // 对应概率
@@ -103,7 +105,7 @@ private:
     // dijiestela结果
     Dist *dist;
     // 工具栏visible，是否登录,是否商业
-    bool btvisible=true,login=false,mode2filter=false,copymode=false,business=false;
+    bool btvisible=true,login=false,mode2filter=false,copymode=false,business=false,premode=false;
     // 交换按钮
     QPushButton* button_swap;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
@@ -111,7 +113,7 @@ private:
     Log logs[5000],*copylogs[4000];
     QString username="",userpassword;
     // 用户票据，改签票据
-    Log *userLogs,*clog;
+    Log *userLogs,*clog,*prelogs;
     // 主页模式2 widget
     QWidget* widget0;
     QVBoxLayout* verticalLayout_7;
@@ -121,12 +123,15 @@ private:
     Map *m=NULL;
     // 改签模式(界面2)，上次查询机票排序模式，我的机票排序模式，筛选模式（界面1）
     int changemode=0,sortmode=0,mysortmode=0;
+    // 用户总消费，用户总里程
+    int cost=0,mileage=0;
     void Timerout();
     void getMapMessage(QString a,QString b,QDate curdate);
-    void getLoginMessage(QString username,Log* mylog,int myticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float* citytimesfrom,float *citytimesto);
+    void getLoginMessage(QString username,Log* mylog,Log * prelogs,int myticketnum,int allmyticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float* citytimesfrom,float *citytimesto,int cost,int mileage);
     void getticketInfoMessage(Log* tlog,int mode);
     void getticketwindowMessage(Log* tlog);
     void getScrollBarMessage();
+    void getuserinfoMessage();
     void changeTicketMain(Log* tlog);
     void changeTicketSearch(Log* tlog);
     void refundTicketMain(Log* tlog);

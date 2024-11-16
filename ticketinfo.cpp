@@ -114,10 +114,12 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     if(mode==2 || mode==5) ui->pushButton->setVisible(false);
     else if(mode==3) ui->pushButton->setText("查看");
     else if(mode==4) ui->pushButton->setText("改签");
-    if(mode!=3) ui->label_13->setVisible(false);
+    if(mode!=3) {
+        ui->label_13->setVisible(false);
+    }
     else {
         ui->label_13->setVisible("true");
-        ui->label_13->setNum(my->PID);
+        ui->label_13->setText("PID: "+my->PID);
         ui->label_12->setVisible(true);
         ui->line_3->setVisible(true);
         ui->label_12->setText("准点率："+chi);
@@ -129,11 +131,17 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
         else business=new QLabel("经济舱");
         business->setStyleSheet("font: 700 12pt Microsoft YaHei UI");
         num=new QLabel(QString::number(my->num)+"张");
-        ui->horizontalLayout->addWidget(ldate);
+        ui->verticalLayout_6->addWidget(ldate);
         ui->horizontalLayout->addWidget(business);
         ui->horizontalLayout->addWidget(num);
         QSpacerItem* sp1=new QSpacerItem(20,40,QSizePolicy::Expanding,QSizePolicy::Minimum);
         ui->horizontalLayout->addItem(sp1);
+    }
+    if(my->status!=""){
+        ui->pushButton->setText("已"+my->status);
+        ui->pushButton->setFlat(true);
+        ui->pushButton->setEnabled(false);
+        ui->pushButton->setStyleSheet("font-size:12pt; color:rgb(255,0,0);");
     }
 }
 ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)

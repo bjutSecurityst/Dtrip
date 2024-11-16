@@ -15,6 +15,8 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeRCCompiler.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake \
 	E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/moc_predefs.h \
+	E:/Qtproject/Dtrip/des.cpp \
+	E:/Qtproject/Dtrip/des.h \
 	E:/Qtproject/Dtrip/login.cpp \
 	E:/Qtproject/Dtrip/login.h \
 	E:/Qtproject/Dtrip/main.cpp \
@@ -30,8 +32,11 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/ticketinfo.h \
 	E:/Qtproject/Dtrip/ticketwindow.cpp \
 	E:/Qtproject/Dtrip/ticketwindow.h \
+	E:/Qtproject/Dtrip/userinfo.cpp \
+	E:/Qtproject/Dtrip/userinfo.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QDate \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QString \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/QThread \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/QTimer \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qalgorithms.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qanystringview.h \
@@ -58,7 +63,9 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qcontiguouscache.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdatastream.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdatetime.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qdeadlinetimer.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qdebug.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qelapsedtimer.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qflags.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qgenericatomic.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qglobal.h \
@@ -110,6 +117,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtaggedpointer.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtcore-config.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtextstream.h \
+	F:/Qt/6.2.13/mingw_64/include/QtCore/qthread.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtimer.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtmetamacros.h \
 	F:/Qt/6.2.13/mingw_64/include/QtCore/qtypeinfo.h \
@@ -427,6 +435,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/string_conversions.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ext/type_traits.h \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/functional \
+	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/future \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/initializer_list \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/ios \
 	F:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iosfwd \
@@ -509,6 +518,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sec_api/string_s.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h \
+	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sec_api/tchar_s.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sec_api/wchar_s.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/signal.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/stdio.h \
@@ -516,6 +526,7 @@ Dtrip_autogen/timestamp: \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/swprintf.inl \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sys/timeb.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sys/types.h \
+	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/tchar.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/time.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
 	F:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
@@ -526,4 +537,5 @@ Dtrip_autogen/timestamp: \
 	E:/Qtproject/Dtrip/passwordfix.ui \
 	E:/Qtproject/Dtrip/ticketinfo.ui \
 	E:/Qtproject/Dtrip/ticketwindow.ui \
+	E:/Qtproject/Dtrip/userinfo.ui \
 	F:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -29,3 +29,41 @@ bool openDatabasegetPassword(QString *password,QString username){
         return true;
     }
 }
+
+bool updateUserCostandMileage(int cost,int mileage,QString username){
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
+    database.setDatabaseName(pathCreator("dbs/users.db"));
+    database.setUserName("root");
+    database.setPassword("123456");
+    if (!database.open())
+    {
+        qDebug() << "Error: Failed to connect database." << database.lastError();
+        QString name0 = QSqlDatabase::database().connectionName();
+        QSqlDatabase::removeDatabase(name0);
+        QSqlDatabase::removeDatabase("read_connection");
+        return false;
+    }
+    else
+    {
+        //获取数据
+        QString update_sql = QString("UPDATE users SET cost='%1', mileage='%2' WHERE name='%3'").arg(cost).arg(mileage).arg(username);
+        QSqlQuery queryuser(database);
+        if(!queryuser.exec(update_sql))
+        {
+            qDebug() << queryuser.lastError();
+            QString name0 = QSqlDatabase::database().connectionName();
+            QSqlDatabase::removeDatabase(name0);
+            QSqlDatabase::removeDatabase("read_connection");
+            return false;
+        }
+        else
+        {
+            qDebug() << "updated!";
+            QString name0 = QSqlDatabase::database().connectionName();
+            QSqlDatabase::removeDatabase(name0);
+            QSqlDatabase::removeDatabase("read_connection");
+            return true;
+        }
+    }
+}

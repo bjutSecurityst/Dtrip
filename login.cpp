@@ -8,6 +8,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QRegularExpressionValidator>
 #include "passwordfix.h"
 #pragma comment(lib,"sqlcipher.LIB")
 
@@ -45,6 +46,10 @@ Login::Login(QWidget *parent)
     QString styleSheet = tr(file.readAll());
     ui->pushButton_2->setStyleSheet(styleSheet);
     ui->verticalSpacer->changeSize(20,150);
+    ui->lineEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_2->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_3->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    ui->lineEdit_4->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
 }
 
 Login::~Login()
@@ -55,7 +60,7 @@ Login::~Login()
 void Login::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
-    emit sendToMainWindow("",NULL,myticketnum,0,0,0,0,0,0,0,NULL,NULL);
+    emit sendToMainWindow("",NULL,NULL,myticketnum,mypreticketnum,0,0,0,0,0,0,0,NULL,NULL,0,0);
     this->close();
 }
 
@@ -87,6 +92,12 @@ void Login::on_pushButton_2_clicked()
             ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
             return;
         }
+        else if(ui->lineEdit_2->text().length()<6){
+            ui->lineEdit_2->setText("");
+            ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
+            ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            return;
+        }
         ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
         ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
         QSqlDatabase database2;
@@ -95,6 +106,7 @@ void Login::on_pushButton_2_clicked()
         database2.setUserName("root");
         database2.setPassword("123456");
         float time_money,time_time,time_straight;
+        int cost,mileage;
         float *citytimesfrom=new float[16],*citytimesto=new float[16];
         //database.setConnectOptions("QSQLITE_USE_CIPHER=aes128cbc;");
         if (!database2.open())
@@ -114,6 +126,8 @@ void Login::on_pushButton_2_clicked()
             time_money = queryuser.value(4).toFloat();
             time_time = queryuser.value(5).toFloat();
             time_straight = queryuser.value(6).toFloat();
+            cost=queryuser.value(7).toInt();
+            mileage=queryuser.value(8).toInt();
             database.setDatabaseName(pathCreator("dbs/"+ui->lineEdit->text()+".db"));
             database.setUserName(ui->lineEdit->text());
             database.setPassword(ui->lineEdit_2->text());
@@ -133,14 +147,14 @@ void Login::on_pushButton_2_clicked()
             {
                 ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
                 ui->lineEdit_2->setStyleSheet("color:rgb(0,0,0);");
-                QString company,ID,sou,des,time0,time1,chi,date;
+                QString company,ID,sou,des,time0,time1,chi,date,PID;
                 bool business;
                 Log *p,*q;
-                int price=0,j=0,next,PID,i=1,num;
+                int price=0,j=0,next,i=1,num;
                 query.exec("SELECT * FROM ticket");
                 while(query.next())
                 {
-                    PID= query.value(0).toInt();
+                    PID= query.value(0).toString();
                     company = query.value(1).toString();
                     ID = query.value(2).toString();
                     sou = query.value(3).toString();
@@ -184,6 +198,33 @@ void Login::on_pushButton_2_clicked()
                     }
                 }
                 myticketnum=j;
+                query.exec("SELECT * FROM preticket");
+                QString status;
+                j=0;
+                while(query.next())
+                {
+                    PID= query.value(0).toString();
+                    company = query.value(1).toString();
+                    ID = query.value(2).toString();
+                    sou = query.value(3).toString();
+                    des = query.value(4).toString();
+                    time0 = query.value(5).toString();
+                    time1 = query.value(6).toString();
+                    price = query.value(7).toInt();
+                    chi = query.value(8).toString();
+                    status = query.value(9).toString();
+                    date = query.value(10).toString();
+                    business = query.value(11).toBool();
+                    num = query.value(12).toInt();
+                    prelogs[j].setLog(company,ID,sou,des,time0,time1,price,chi,date);
+                    prelogs[j].setPID(PID);
+                    prelogs[j].setBus(business);
+                    prelogs[j].setnum(num);
+                    prelogs[j].setstatus(status);
+                    prelogs[j].next=NULL;
+                    j++;
+                }
+                mypreticketnum=j;
                 query.exec("SELECT * FROM searchtimes");
                 if(query.next())
                 {
@@ -216,7 +257,7 @@ void Login::on_pushButton_2_clicked()
         int home,common;
         double probability,pco;
         userHomeAnalyse(&home,&probability,&common,&pco);
-        emit sendToMainWindow(name,logs,myticketnum,home,probability,common,pco,time_money,time_time,time_straight,citytimesfrom,citytimesto);
+        emit sendToMainWindow(name,logs,prelogs,myticketnum,mypreticketnum,home,probability,common,pco,time_money,time_time,time_straight,citytimesfrom,citytimesto,cost,mileage);
         this->close();
     }
     else
@@ -229,7 +270,6 @@ void Login::on_pushButton_2_clicked()
             ui->lineEdit_3->setVisible(true);
             ui->lineEdit_4->setVisible(true);
             ui->pushButton_2->setDisabled(true);
-            ui->label_2->setVisible(false);
             ui->label_2->setText("检测到您为新用户，请再次确认您的账号密码：");
             ui->verticalSpacer->changeSize(20,20);
             QString name0 = QSqlDatabase::database().connectionName();
@@ -247,6 +287,12 @@ void Login::on_pushButton_2_clicked()
         ui->lineEdit->setPlaceholderText("账号(英文数字)");
         if(ui->lineEdit_2->text()==""){
             ui->lineEdit_2->setPlaceholderText("密码不能为空");
+            ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
+            return;
+        }
+        else if(ui->lineEdit_2->text().length()<6){
+            ui->lineEdit_2->setText("");
+            ui->lineEdit_2->setPlaceholderText("登陆密码 (长度>=6)");
             ui->lineEdit_2->setStyleSheet("font-size:12pt; color:rgb(0,160,230);");
             return;
         }
@@ -289,7 +335,7 @@ void Login::on_pushButton_2_clicked()
         {
             //创建表格
             QSqlQuery sql_query(database);
-            QString create_sql = "create table ticket (PID int primary key, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30), business bool, num int)";
+            QString create_sql = "create table ticket (PID varchar(30), name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30), business bool, num int, PRIMARY KEY(PID))";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -299,7 +345,7 @@ void Login::on_pushButton_2_clicked()
             {
                 qDebug() << "Table created!";
             }
-            create_sql = "create table subticket (PID int, name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
+            create_sql = "create table subticket (PID varchar(30), name varchar(30), id varchar(30), sou varchar(30), des varchar(30), time0 varchar(30), time1 varchar(30), price int, chi varchar(30), next int, date varchar(30))";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -310,6 +356,16 @@ void Login::on_pushButton_2_clicked()
                 qDebug() << "Table created!";
             }
             create_sql = "create table searchtimes (LABEL int primary key,北京 float, 上海 float, 昆明 float, 广州 float, 台北 float, 西安 float, 乌鲁木齐 float, 哈尔滨 float, 拉萨 float, 西宁 float, 新加坡 float, 马尼拉 float, 曼谷 float, 东京 float, 首尔 float, 新德里 float)";
+            sql_query.prepare(create_sql);
+            if(!sql_query.exec())
+            {
+                qDebug() << "Error: Fail to create table." << sql_query.lastError();
+            }
+            else
+            {
+                qDebug() << "Table created!";
+            }
+            create_sql ="CREATE TABLE preticket (PID varchar(30),name varchar(30),id varchar(30),sou varchar(30),des varchar(30),time0 archar(30),time1 varchar(30),price int,chi varchar(30),status varchar(30),date varchar(30),business bool,num int)";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {
@@ -364,7 +420,7 @@ void Login::on_pushButton_2_clicked()
                     qDebug() << "success!";
                     max_number = sql_query2.value(0).toInt();
                 }
-                QString insert_sql = QString("insert into users(uid, name, password, question, timemoney, timetime, timestraight) values('%1','%2','%3','%4','0','0','0') ").arg(max_number+1).arg(ui->lineEdit->text()).arg(ui->lineEdit_2->text()).arg(ui->lineEdit_4->text());
+                QString insert_sql = QString("insert into users(uid, name, password, question, timemoney, timetime, timestraight, cost, mileage) values('%1','%2','%3','%4','0','0','0','0','0') ").arg(max_number+1).arg(ui->lineEdit->text()).arg(ui->lineEdit_2->text()).arg(ui->lineEdit_4->text());
                 if(!sql_query2.exec(insert_sql))
                 {
                     qDebug() << sql_query2.lastError();
@@ -385,7 +441,7 @@ void Login::on_pushButton_2_clicked()
             citytimesfrom[i]=0;
             citytimesto[i]=0;
         }
-        emit sendToMainWindow(name,logs,myticketnum,-1,0,-1,0,0,0,0,citytimesfrom,citytimesto);
+        emit sendToMainWindow(name,logs,prelogs,myticketnum,mypreticketnum,-1,0,-1,0,0,0,0,citytimesfrom,citytimesto,0,0);
         this->close();
     }
 }

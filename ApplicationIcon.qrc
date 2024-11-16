@@ -4,5 +4,7 @@
         <file>ApplicationIcon.png</file>
         <file>change.png</file>
         <file>eye.png</file>
+        <file>build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/shutdown.png</file>
+        <file>build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/to.png</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 class Log {
 public:
     QString company;
+    QString PID;
     QString ID;
     QString sou;
     QString des;
@@ -12,10 +13,10 @@ public:
     int price;
     QString chi;
     QString curdate;
-    int PID=-1,num=1;
+    int num=1;
     bool business=false;
     Log* next=NULL;
-    QString route="";
+    QString route="",status="";
     Log() {}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
         this->company=company;
@@ -43,7 +44,7 @@ public:
         this->route=tlog->route;
         this->num=tlog->num;
     }
-    void setPID(int PID){
+    void setPID(QString PID){
         this->PID=PID;
     }
     void setBus(bool business){
@@ -55,6 +56,9 @@ public:
     void setnum(int num){
         this->num=num;
     }
+    void setstatus(QString status){
+        this->status=status;
+    }
     void clear(){
         this->company="";
         this->ID="";
@@ -65,9 +69,10 @@ public:
         this->price=0;
         this->chi="";
         this->curdate="";
-        this->PID=-1;
+        this->PID="-1";
         this->business=false;
         this->route="";
+        this->status="";
         Log *p,*q;
         if(this->next!=NULL){
             p=this->next;

@@ -562,7 +562,15 @@ void Map::on_pushButton_7_clicked()
 
 void Map::on_checkBox_stateChanged(int arg1)
 {
-    if(arg1) modemul=1;
-    else modemul=0;
+    if(arg1) {
+        modemul=1;
+        ui->pushButton_4->setText("显示航线");
+        on_pushButton_4_clicked();
+    }
+    else {
+        modemul=0;
+        ui->pushButton_4->setText("显示航线");
+        on_pushButton_4_clicked();
+    }
 }
 
