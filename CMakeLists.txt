@@ -9,6 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+MATH(EXPR stack_size "100*1024*1024")
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,--stack,${stack_size}")
 # set(INC_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher")
 # set(LINK_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/lib")
 include_directories(${INC_DIR})
@@ -17,6 +19,7 @@ link_directories(${LINK_DIR})
 find_package(Qt6 REQUIRED COMPONENTS Sql)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui OpenGLWidgets)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -26,7 +29,8 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Dtrip
+
+qt_add_executable(Dtrip
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         map.h map.cpp map.ui
@@ -48,7 +52,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ticketwindow.h ticketwindow.cpp ticketwindow.ui
         des.h des.cpp
         userinfo.h userinfo.cpp userinfo.ui
+        ranking.h ranking.cpp ranking.ui
 
+        shader.h shader.cpp
+        myopenglwidget.h myopenglwidget.cpp
+        userrankinfo.h userrankinfo.cpp userrankinfo.ui
+        mainwindow4.h mainwindow4.cpp mainwindow4.ui
+        cityweight.h cityweight.cpp cityweight.ui
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -71,6 +81,7 @@ endif()
 
 target_link_libraries(Dtrip PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(Dtrip PRIVATE Qt6::Sql)
+target_link_libraries(Dtrip PRIVATE Qt6::Core Qt6::Gui Qt6::OpenGLWidgets)
 # target_link_libraries(Dtrip PRIVATE sqlcipher.lib)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -492,6 +492,12 @@ public:
         bool same;
         QString s;
         QStringList list,list0;
+        int depth=0;
+        if(blist[ari]) return list;
+        for(j=0;j<16;j++){
+            if(blist[j]) depth++;
+        }
+        if(depth>5) return list;
         blist[ari]=true;
         if(tempdist[ari].m_pre_vertex_list[0]==dep && Ari!=ari){
             if(ari==dep) s="< " + QString::number(dep);

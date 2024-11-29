@@ -42,6 +42,7 @@ public:
     QPushButton *pushButton_1;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
+    QPushButton *pushButton_back;
     QScrollBar *verticalScrollBar;
     QLabel *labelicon0;
     QPushButton *backgroundsky;
@@ -205,6 +206,13 @@ public:
 
         verticaltool->addWidget(pushButton_3);
 
+        pushButton_back = new QPushButton(horizontalLayoutWidget);
+        pushButton_back->setObjectName(QString::fromUtf8("pushButton_back"));
+        pushButton_back->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
+        pushButton_back->setIconSize(QSize(12, 20));
+
+        verticaltool->addWidget(pushButton_back);
+
 
         horizontalLayout->addLayout(verticaltool);
 
@@ -358,7 +366,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(0, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));
@@ -823,6 +831,7 @@ public:
         pushButton_1->setText(QCoreApplication::translate("MainWindow", "\350\210\252\347\217\255\346\237\245\350\257\242", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "\351\200\200\346\224\271\347\245\250", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "\351\243\236\350\241\214\344\277\241\346\201\257\347\273\237\350\256\241", nullptr));
+        pushButton_back->setText(QCoreApplication::translate("MainWindow", "\345\220\216\345\217\260", nullptr));
         labelicon0->setText(QString());
         backgroundsky->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#454545;\">\345\207\272\345\217\221\345\234\260\357\274\232</span></p></body></html>", nullptr));

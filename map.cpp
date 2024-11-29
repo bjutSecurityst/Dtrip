@@ -54,6 +54,15 @@ Map::Map(QDate curDate,QWidget *parent)
     ui->pushButton_4->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px;");
     ui->label_2->setVisible(true);
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
+    float ratioreal=2.815478;
+    float leftx=ui->graphicsView->mapToScene(QPoint(60,660)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,660)).ry();
+    float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
+    itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,660)).rx(),lefty);
+    kilos->setText("200公里");
+    kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).ry(),kilox,kiloy);
+    scene->addItem(itemline);
+    scene->addWidget(kilos);
+    kilos->setStyleSheet("background-color: transparent;");
 }
 Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     : QMainWindow(parent)
@@ -104,6 +113,17 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     ui->pushButton_3->setVisible(false);
     ui->label_2->setVisible(true);
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
+    float ratioreal=2.815478;
+    int posy1=490,posy2;
+    posy2=posy1-25;
+    float leftx=ui->graphicsView->mapToScene(QPoint(60,posy1)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,posy1)).ry();
+    float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
+    itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,posy1)).rx(),lefty);
+    kilos->setText("200公里");
+    kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).ry(),kilox,kiloy);
+    scene->addItem(itemline);
+    scene->addWidget(kilos);
+    kilos->setStyleSheet("background-color: transparent;");
 }
 Map::~Map()
 {
@@ -135,6 +155,52 @@ void Map::wheelEvent(QWheelEvent *event)
         }
         ui->label_2->setVisible(false);
     }
+    float ratioreal=(ui->graphicsView->mapFromScene(p).rx()-ui->graphicsView->mapFromScene(q).rx())/(double)(p.rx()-q.rx());
+    ratioreal=2.815478/ratioreal;
+    int posy1,posy2;
+    if(mode==0){
+        posy1=660;
+    }
+    else{
+        posy1=490;
+    }
+    posy2=posy1-25;
+    float leftx=ui->graphicsView->mapToScene(QPoint(60,posy1)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,posy1)).ry();
+    float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
+    QFont ft;
+    if(kilos->isVisible()) scene->removeItem(itemline);
+    if(ratioreal>2) {
+        itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,posy1)).rx(),lefty);
+        kilos->setText("200公里");
+        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+    }
+    else if(ratioreal>=1) {
+        itemline=new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+100/ratioreal,posy1)).rx(),lefty);
+        kilos->setText("100公里");
+        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+100/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+    }
+    else if(ratioreal>=0.5) {
+        itemline=new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+50/ratioreal,posy1)).rx(),lefty);
+        kilos->setText("50公里");
+        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+50/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+    }
+    if(ratioreal<0.5){
+        kilos->setVisible(false);
+        return;
+    }
+    kilos->setVisible(true);
+    QPen pen;  // creates a default pen
+    if(1.5*ratioreal<1.0) pen.setWidth(1.0);
+    else pen.setWidth(1.5*ratioreal);
+    pen.setBrush(Qt::black);
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    itemline->setPen(pen);
+    scene->addItem(itemline);
+    if(ratioreal>0.5) ft.setPointSize((int)4*ratioreal);
+    else ft.setPointSize(2);
+    kilos->setFont(ft);
+    kilos->show();
 }
 
 
@@ -179,7 +245,7 @@ void Map::on_buttons_clicked()
         QString maxcompany="";
         int companytime[100];
         if(sortmode!=7 && myticketnum!=0) {
-            QuickSort(userLogs,myticketnum,7);
+            QuickSort(userLogs,myticketnum,7,0);
             sortmode=7;
         }
         if(mode==1 && modeAD==0){
@@ -564,12 +630,12 @@ void Map::on_checkBox_stateChanged(int arg1)
 {
     if(arg1) {
         modemul=1;
-        ui->pushButton_4->setText("显示航线");
+        ui->pushButton_4->setText("清除航线");
         on_pushButton_4_clicked();
     }
     else {
         modemul=0;
-        ui->pushButton_4->setText("显示航线");
+        ui->pushButton_4->setText("清除航线");
         on_pushButton_4_clicked();
     }
 }

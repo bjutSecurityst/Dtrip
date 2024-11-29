@@ -7,6 +7,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   E:/Qtproject/Dtrip/Node.h \
   E:/Qtproject/Dtrip/login.h \
   E:/Qtproject/Dtrip/mainwindow.h \
+  E:/Qtproject/Dtrip/mainwindow4.h \
   E:/Qtproject/Dtrip/map.h \
   E:/Qtproject/Dtrip/mysqlite.h \
   E:/Qtproject/Dtrip/passwordfix.h \
@@ -46,6 +47,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtCore/qglobalstatic.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qhash.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qhashfunctions.h \
+  F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevice.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevicebase.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiterable.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiterator.h \
@@ -94,6 +96,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtimer.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtmetamacros.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtypeinfo.h \
+  F:/Qt/6.2.13/mingw_64/include/QtCore/qurl.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qutf8stringview.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qvariant.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -113,12 +116,14 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpainter.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpalette.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpen.h \
+  F:/Qt/6.2.13/mingw_64/include/QtGui/qpicture.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpixelformat.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpixmap.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpolygon.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qregion.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qrgb.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qrgba64.h \
+  F:/Qt/6.2.13/mingw_64/include/QtGui/qtextdocument.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtextoption.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtgui-config.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtguiglobal.h \
@@ -136,6 +141,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtSql/qtsqlglobal.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QDateEdit \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/QLabel \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -144,8 +150,10 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractspinbox.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qboxlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qdatetimeedit.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qframe.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgridlayout.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlabel.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayout.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlayoutitem.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qmainwindow.h \

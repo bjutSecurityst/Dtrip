@@ -23,6 +23,10 @@ private slots:
         QWidget::leaveEvent(event); // 保留父类的默认处理
     }
 
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 signals:
     void sendToMainWindow();
 

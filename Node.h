@@ -20,7 +20,9 @@ public:
             return;
         *this = node;
     }
-
+    ~Node(){
+        free(next);
+    }
 
     Node& operator=(const Node& node)
     {

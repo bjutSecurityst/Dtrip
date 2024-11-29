@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>cityweight</class>
+ <widget class="QWidget" name="cityweight">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>70</width>
+    <height>61</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;Microsoft YaHei UI&quot;;</string>
+   </property>
+   <property name="text">
+    <string>北京</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>51</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <double>16.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.500000000000000</double>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

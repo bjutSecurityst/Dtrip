@@ -34,6 +34,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtCore/qglobalstatic.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qhash.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qhashfunctions.h \
+  F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevice.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiodevicebase.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiterable.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qiterator.h \
@@ -80,6 +81,7 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtextstream.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtmetamacros.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qtypeinfo.h \
+  F:/Qt/6.2.13/mingw_64/include/QtCore/qurl.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qutf8stringview.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qvariant.h \
   F:/Qt/6.2.13/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -97,22 +99,27 @@ E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/EWIE
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpaintdevice.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpalette.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpen.h \
+  F:/Qt/6.2.13/mingw_64/include/QtGui/qpicture.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpixelformat.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpixmap.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qpolygon.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qregion.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qrgb.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qrgba64.h \
+  F:/Qt/6.2.13/mingw_64/include/QtGui/qtextdocument.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtgui-config.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtguiglobal.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qtransform.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs.h \
   F:/Qt/6.2.13/mingw_64/include/QtGui/qwindowdefs_win.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QGraphicsScene \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/QLabel \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QMainWindow \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/QPushButton \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qabstractbutton.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qframe.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qgraphicsscene.h \
+  F:/Qt/6.2.13/mingw_64/include/QtWidgets/qlabel.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qmainwindow.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qpushbutton.h \
   F:/Qt/6.2.13/mingw_64/include/QtWidgets/qsizepolicy.h \

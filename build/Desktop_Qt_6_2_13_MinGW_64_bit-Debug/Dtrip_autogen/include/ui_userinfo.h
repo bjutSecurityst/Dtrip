@@ -42,7 +42,9 @@ public:
     QLabel *label_7;
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton;
+    QSpacerItem *verticalSpacer_4;
     QPushButton *pushButton_2;
+    QSpacerItem *verticalSpacer_5;
     QPushButton *pushButton_3;
     QSpacerItem *verticalSpacer;
 
@@ -150,7 +152,7 @@ public:
 
         pushButton = new QPushButton(verticalLayoutWidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setMinimumSize(QSize(0, 30));
+        pushButton->setMinimumSize(QSize(0, 35));
         pushButton->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
         pushButton->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
         QIcon icon;
@@ -160,18 +162,26 @@ public:
 
         verticalLayout->addWidget(pushButton);
 
+        verticalSpacer_4 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Policy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_4);
+
         pushButton_2 = new QPushButton(verticalLayoutWidget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(0, 30));
+        pushButton_2->setMinimumSize(QSize(0, 35));
         pushButton_2->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
         pushButton_2->setIcon(icon);
         pushButton_2->setIconSize(QSize(10, 10));
 
         verticalLayout->addWidget(pushButton_2);
 
+        verticalSpacer_5 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Policy::Fixed);
+
+        verticalLayout->addItem(verticalSpacer_5);
+
         pushButton_3 = new QPushButton(verticalLayoutWidget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setMinimumSize(QSize(0, 30));
+        pushButton_3->setMinimumSize(QSize(0, 35));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/shutdown.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_3->setIcon(icon1);

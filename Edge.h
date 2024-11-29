@@ -18,6 +18,9 @@ public:
             return;
         *this = edge;
     }
+    ~Edge(){
+        free(next);
+    }
 
     Edge& operator=(const Edge& edge)
     {

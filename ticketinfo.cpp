@@ -23,10 +23,6 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     QString a="";
     QString IDS=ID,timeload;
     bool ID_visible=true;
-    if(my->company=="没有航空公司") {
-        ui->pushButton->setDisabled(true);
-        ui->pushButton->setVisible(false);
-    }
     if(p!=NULL && p->company!="" && mode!=1){
         timeload=p->time1;
         i=0;
@@ -267,11 +263,12 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
 ticketInfo::~ticketInfo()
 {
     delete ui;
+    if(mode==2 && (tlog->company=="没有航空公司"||tlog->company=="您还没有登录"||tlog->company=="您还没有订票"||tlog->company=="没有该日机票")) delete tlog;
 }
 
 QString timeDifferString(QString time0,QString time1,int mode){
     int time0h,time0m,time1h,time1m,i=0,j=0,times_h,times_m;
-    bool dayplus=false;
+    int dayplus=0;
     QString time1_withplus;
     QString time_split;
     QStringList time0l=time0.split(':');
@@ -296,12 +293,13 @@ QString timeDifferString(QString time0,QString time1,int mode){
     foreach (QString item, time1ml) {
         switch(i){
         case(0):time1m=item.toInt();break;
-        case(1):dayplus=true;break;
+        case(1):if(item=="1") dayplus=1;else dayplus=2;break;
         }
         i++;
     }
     times_m=time1m-time0m;
-    if(dayplus==true) times_h=time1h-time0h+24;
+    if(dayplus==1) times_h=time1h-time0h+24;
+    else if(dayplus==2) times_h=time1h-time0h+48;
     else times_h=time1h-time0h;
     if(times_m<0) {
         times_m+=60;

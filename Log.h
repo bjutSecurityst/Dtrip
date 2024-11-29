@@ -5,7 +5,7 @@ class Log {
 public:
     QString company;
     QString PID;
-    QString ID;
+    QString ID="";
     QString sou;
     QString des;
     QString time0;
@@ -18,6 +18,7 @@ public:
     Log* next=NULL;
     QString route="",status="";
     Log() {}
+    ~Log(){}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
         this->company=company;
         this->ID=ID;

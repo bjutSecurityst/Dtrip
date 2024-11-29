@@ -1,5 +1,9 @@
 ﻿#include "MyGraphicsView.h"
 #include "QWheelEvent"
+#include <QGraphicsScene>
+#include <QResizeEvent>
+#include <QGraphicsGridLayout>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 MyGraphicsView::MyGraphicsView(QWidget *parent):QGraphicsView(parent)
 {
 
@@ -18,6 +22,7 @@ void MyGraphicsView::wheelEvent(QWheelEvent *event)
     else scale(ratio, ratio);
     emit sendToMap(event);
 }
+
 //鼠标拖动时传递信号
 void MyGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {

@@ -14,6 +14,7 @@
 #include <QVBoxLayout>
 #include "login.h"
 #include <QDateEdit>
+#include "mainwindow4.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -83,6 +84,8 @@ private slots:
 
     void on_checkBox_3_stateChanged(int arg1);
 
+    void on_pushButton_back_clicked();
+
 private:
     Ui::MainWindow *ui;
     // 计时器
@@ -121,6 +124,7 @@ private:
     Login* loginW=NULL;
     // 主页模式3 用户地图
     Map *m=NULL;
+    MainWindow4 *m4=NULL;
     // 改签模式(界面2)，上次查询机票排序模式，我的机票排序模式，筛选模式（界面1）
     int changemode=0,sortmode=0,mysortmode=0;
     // 用户总消费，用户总里程
@@ -137,5 +141,6 @@ private:
     void refundTicketMain(Log* tlog);
     void userImageAnalyse(Log* userLogs,bool *bus,float *probus);
     void userSearchAnalyse(int *commonfrom,int * commonto,float *profrom,float *proto);
+    void resetChecked();
 };
 #endif // MAINWINDOW_H

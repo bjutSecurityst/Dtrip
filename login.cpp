@@ -365,7 +365,7 @@ void Login::on_pushButton_2_clicked()
             {
                 qDebug() << "Table created!";
             }
-            create_sql ="CREATE TABLE preticket (PID varchar(30),name varchar(30),id varchar(30),sou varchar(30),des varchar(30),time0 archar(30),time1 varchar(30),price int,chi varchar(30),status varchar(30),date varchar(30),business bool,num int)";
+            create_sql ="CREATE TABLE preticket (PID varchar(30),name varchar(30),id varchar(30),sou varchar(30),des varchar(30),time0 archar(30),time1 varchar(30),price int,chi varchar(30),status varchar(30),date varchar(30),business bool,num int, sequence INTEGER,PRIMARY KEY(sequence AUTOINCREMENT))";
             sql_query.prepare(create_sql);
             if(!sql_query.exec())
             {

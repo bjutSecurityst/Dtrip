@@ -9,6 +9,7 @@ class DES:public QObject
     Q_OBJECT
 public:
     DES();
+    ~DES(){}
     string des_encrypt_ECB(string str1, string str2);
     string des_encryptforImage_ECB(string str1, string str2);
     string des_encrypt_CBC(string str1, string str2);

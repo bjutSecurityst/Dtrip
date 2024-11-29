@@ -2,6 +2,7 @@
 #include "ui_userinfo.h"
 #include <QMouseEvent>
 #include "QuickSort.h"
+#include "ranking.h"
 userinfo::userinfo(QString username,int cost,int mileage,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::userinfo)
@@ -16,10 +17,13 @@ userinfo::userinfo(QString username,int cost,int mileage,QWidget *parent)
     img.load(pathCreator("/head.png"));
     ui->label->setPixmap(changeImage(QPixmap::fromImage(img),img.height()/2));
     ui->label->setStyleSheet("border: 2px solid #009ef9; border-radius: 38px;");
+    ui->pushButton->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px;");
+    ui->pushButton_2->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px;");
+    ui->pushButton_3->setStyleSheet("border: 2px solid #009ef9; border-radius: 10px;");
     ui->label_3->setText("消费："+QString::number(cost)+"元");
     ui->label_4->setText("里程："+QString::number(mileage)+"公里");
     QImage img1,img2;
-    QString levels[5]={"青铜","白银","黄金","铂金","钻石"};
+    QString levels[6]={"菜鸟","青铜","白银","黄金","铂金","钻石"};
     int i=0,progress=0,distance=0;
     if(cost<500) {
         i=0;
@@ -41,17 +45,22 @@ userinfo::userinfo(QString username,int cost,int mileage,QWidget *parent)
         progress=(cost*100)/(double)50000;
         distance=50000-cost;
     }
-    else {
+    else if(cost<300000){
         i=4;
+        progress=(cost*100)/(double)300000;
+        distance=300000-cost;
+    }
+    else {
+        i=5;
         progress=100;
     }
     img1.load(pathCreator("/"+levels[i]+".png"));
-    if(i!=4) img2.load(pathCreator("/"+levels[i+1]+".png"));
+    if(i!=5) img2.load(pathCreator("/"+levels[i+1]+".png"));
     ui->label_5->setPixmap(QPixmap::fromImage(img1));
-    if(i!=4) ui->label_6->setPixmap(QPixmap::fromImage(img2));
+    if(i!=5) ui->label_6->setPixmap(QPixmap::fromImage(img2));
     else ui->label_6->setText("满级");
     ui->progressBar->setValue(progress);
-    if(i!=4) ui->label_7->setText("当前成长"+QString::number(cost)+"，距离升级"+levels[i+1]+"会员 还需要"+QString::number(distance));
+    if(i!=5) ui->label_7->setText("当前成长"+QString::number(cost)+"，距离升级"+levels[i+1]+"会员 还需要"+QString::number(distance));
     else ui->label_7->setText("当前成长"+QString::number(cost)+"，已满级");
 
 }
@@ -65,5 +74,19 @@ void userinfo::on_pushButton_3_clicked()
 {
     emit sendToMainWindow();
     this->close();
+}
+
+
+void userinfo::on_pushButton_clicked()
+{
+    ranking *ranking0=new ranking(ui->label_2->text(),0);
+    ranking0->show();
+}
+
+
+void userinfo::on_pushButton_2_clicked()
+{
+    ranking *ranking0=new ranking(ui->label_2->text(),1);
+    ranking0->show();
 }
 

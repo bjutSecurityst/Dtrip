@@ -6,5 +6,11 @@
         <file>eye.png</file>
         <file>build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/shutdown.png</file>
         <file>build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/to.png</file>
+        <file>gradbackground.png</file>
+        <file>box.frag</file>
+        <file>box.vert</file>
+        <file>Color Map.jpg</file>
+        <file>ball.vert</file>
+        <file>ball.frag</file>
     </qresource>
 </RCC>

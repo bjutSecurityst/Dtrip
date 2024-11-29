@@ -39,7 +39,7 @@ private:
     QString name;
     int log_mode=0,myticketnum=0,mypreticketnum=0;
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
-    Log logs[1000],prelogs[100];
+    Log logs[1000],prelogs[200];
     Passwordfix* fix=NULL;
     void getpasswordfixMessage();
     void userHomeAnalyse(int *home,double *probability,int *common,double *pco);

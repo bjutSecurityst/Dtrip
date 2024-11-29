@@ -9,9 +9,15 @@
 	"INCLUDE_DIR" : "E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/Dtrip_autogen/include",
 	"INPUTS" : 
 	[
+		"E:/Qtproject/Dtrip/ball.vert",
+		"E:/Qtproject/Dtrip/ball.frag",
 		"E:/Qtproject/Dtrip/eye.png",
+		"E:/Qtproject/Dtrip/box.frag",
+		"E:/Qtproject/Dtrip/gradbackground.png",
+		"E:/Qtproject/Dtrip/box.vert",
 		"E:/Qtproject/Dtrip/trip.png",
 		"E:/Qtproject/Dtrip/ApplicationIcon.png",
+		"E:/Qtproject/Dtrip/Color Map.jpg",
 		"E:/Qtproject/Dtrip/change.png",
 		"E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/to.png",
 		"E:/Qtproject/Dtrip/build/Desktop_Qt_6_2_13_MinGW_64_bit-Debug/shutdown.png"
