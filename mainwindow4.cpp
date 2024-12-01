@@ -36,7 +36,7 @@ MainWindow4::MainWindow4(QWidget *parent)
         ui->comboBox->addItem(citys[i]);
     }
     ui->lineEdit_4->setValidator(new QRegularExpressionValidator(QRegularExpression("^[0-9]+$")));
-    ui->pushButton->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; background-color: white;");
+    ui->pushButton->setStyleSheet("border: 2px solid #009ef9;border-radius: 10px;background-color: white;");
 }
 
 MainWindow4::~MainWindow4()
@@ -722,12 +722,7 @@ void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
                     qDebug() << "inserted Wang!";
                     cost+=p->price*(p->business+1);
                     int begin,end;
-                    for(begin=0;begin<16;begin++){
-                        if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                    }
-                    for(end=0;end<16;end++){
-                        if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-                    }
+                    findCityNum(*p,begin,end);
                     mileage+=calDistance(cityp[begin],cityp[end]);
                 }
             }
@@ -756,12 +751,7 @@ void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
                         qDebug() << "inserted SUCCESS!";
                         if(!head){
                             int begin,end;
-                            for(begin=0;begin<16;begin++){
-                                if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                            }
-                            for(end=0;end<16;end++){
-                                if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-                            }
+                            findCityNum(*p,begin,end);
                             mileage+=calDistance(cityp[begin],cityp[end]);
                         }
                     }

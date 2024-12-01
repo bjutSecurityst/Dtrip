@@ -180,7 +180,7 @@ public:
 
         pushButton_1 = new QPushButton(horizontalLayoutWidget);
         pushButton_1->setObjectName(QString::fromUtf8("pushButton_1"));
-        pushButton_1->setMinimumSize(QSize(75, 18));
+        pushButton_1->setMinimumSize(QSize(70, 18));
         pushButton_1->setStyleSheet(QString::fromUtf8("font: 12pt \"Microsoft YaHei UI\";"));
         pushButton_1->setIconSize(QSize(12, 18));
         pushButton_1->setCheckable(false);
@@ -366,7 +366,7 @@ public:
 
         dateEdit = new QDateEdit(verticalLayoutWidget_5);
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
-        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(8, 0, 0)));
+        dateEdit->setDateTime(QDateTime(QDate(2024, 9, 20), QTime(16, 0, 0)));
         dateEdit->setMaximumDate(QDate(9999, 12, 31));
         dateEdit->setCalendarPopup(true);
         dateEdit->setDate(QDate(2024, 9, 20));

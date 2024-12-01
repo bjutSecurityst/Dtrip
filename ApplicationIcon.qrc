@@ -12,5 +12,7 @@
         <file>Color Map.jpg</file>
         <file>ball.vert</file>
         <file>ball.frag</file>
+        <file>homepage-background.png</file>
+        <file>easy_stay.png</file>
     </qresource>
 </RCC>

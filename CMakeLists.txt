@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-MATH(EXPR stack_size "100*1024*1024")
+MATH(EXPR stack_size "200*1024*1024")
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,--stack,${stack_size}")
 # set(INC_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/include/sqlcipher")
 # set(LINK_DIR "C:/Users/a1851/vcpkg/packages/sqlcipher_x64-windows/lib")

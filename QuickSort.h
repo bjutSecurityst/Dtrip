@@ -32,6 +32,10 @@ void QuickSort_Turn(Log logs,Log* array,int n,int opt);
 void ModQuickSort_Turn(Log logs,Log* array, int left, int right,int opt);
 int partition_Turn(Log logs,Log* array, int left, int right);
 void insertSort_Turn(Log logs,Log* array, int n);
+void mergeSort(Log* array, Log* temparray,int left, int right);
+void merge(Log* array, Log* temparray, int left, int right, int middle);
+void mergeSortTurn(Log logs,Log* array, Log* temparray,int left, int right);
+void mergeTurn(Log logs,Log* array, Log* temparray, int left, int right, int middle);
 int modSearch(Log logs0[],QString time1,int a,int b);
 void invert(Log* array,int n);
 QString pathCreator(QString a);
@@ -47,4 +51,6 @@ template <typename T>
 int partitioncommon(T* array, int left, int right,int mode);
 template <typename T>
 void insertSortcommon(T* array, int n,int mode);
+void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,int i,int mode,int j,int &l,QDate curdate,string s);
+void findCityNum(Log mylog,int &begin,int &end);
 #endif // QUICKSORT_H

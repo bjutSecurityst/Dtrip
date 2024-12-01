@@ -508,6 +508,9 @@ void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pc
     for(i=0;i<myticketnum;i++){
         for(begin=0;begin<16;begin++){
             if(logs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+            if(begin==4){
+                if(logs[i].sou.mid(0,4).contains("中国台北")) break;
+            }
         }
         cityTimes[begin]++;
     }
@@ -531,6 +534,9 @@ void Login::userHomeAnalyse(int* home,double* probability,int* common,double* pc
     for(i=0;i<myticketnum;i++){
         for(end=0;end<16;end++){
             if(logs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
+            if(end==4){
+                if(logs[i].des.mid(0,4).contains("中国台北")) break;
+            }
         }
         cityTimes[end]++;
     }

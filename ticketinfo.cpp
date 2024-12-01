@@ -1,6 +1,7 @@
 #include "ticketinfo.h"
 #include "ui_ticketinfo.h"
-QString timeDifferString(QString time0,QString time1,int mode);
+#include "QuickSort.h"
+QString timeDifferString(QString time0,QString time1,int mode,QString date0,QString date1);
 ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ticketInfo)
@@ -13,11 +14,11 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     QString company=my->company,ID=my->ID,sou=my->sou,des=my->des,time0=my->time0,time1=my->time1,chi=my->chi;
     int price=my->price;
     Log* next=my->next;
-    QString time_split=timeDifferString(time0,time1,1);
+    QString time_split=timeDifferString(time0,time1,1,my->curdate,my->curdate);
     QImage img;
-    if(company=="中国国航"||company=="春秋航空") img.load("E:/Qtproject/Dtrip/CA.png");
-    else if(company=="山东航空"||company=="南方航空") img.load("E:/Qtproject/Dtrip/CZ.png");
-    else img.load("E:/Qtproject/Dtrip/MU.png");
+    if(company=="中国国航"||company=="春秋航空") img.load(pathCreator("CA.png"));
+    else if(company=="山东航空"||company=="南方航空") img.load(pathCreator("CZ.png"));
+    else img.load(pathCreator("MU.png"));
     ui->label->setPixmap(QPixmap::fromImage(img));
     Log* p=next;
     QString a="";
@@ -25,12 +26,14 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     bool ID_visible=true;
     if(p!=NULL && p->company!="" && mode!=1){
         timeload=p->time1;
+        QString date0=p->curdate;
         i=0;
         while(p->next!=NULL){
             p=p->next;
             if(p->company!=company) ID_visible=false;
-            a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0);
+            a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0,date0,p->curdate);
             timeload=p->time1;
+            date0=p->curdate;
             IDS=IDS+"\n"+p->ID;
             i++;
         }
@@ -49,7 +52,7 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     else ui->label_11->setText("转机"+QString::number(i)+"次,转:"+a);
     ui->pushButton->setText("订票");
     QImage img0;
-    img0.load("E:/Qtproject/Dtrip/横杠.png");
+    img0.load(pathCreator("横杠.png"));
     ui->label_4->setPixmap(QPixmap::fromImage(img0));
     if(mode==1){
         ui->pushButton_2->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; background-color: white;");
@@ -152,11 +155,11 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     QString company=my->company,ID=my->ID,sou=my->sou,des=my->des,time0=my->time0,time1=my->time1,chi=my->chi;
     int price=my->price;
     Log* next=my->next;
-    QString time_split=timeDifferString(time0,time1,1);
+    QString time_split=timeDifferString(time0,time1,1,my->curdate,my->curdate);
     QImage img;
-    if(company=="中国国航"||company=="春秋航空") img.load("E:/Qtproject/Dtrip/CA.png");
-    else if(company=="山东航空"||company=="南方航空") img.load("E:/Qtproject/Dtrip/CZ.png");
-    else img.load("E:/Qtproject/Dtrip/MU.png");
+    if(company=="中国国航"||company=="春秋航空") img.load(pathCreator("CA.png"));
+    else if(company=="山东航空"||company=="南方航空") img.load(pathCreator("CZ.png"));
+    else img.load(pathCreator("MU.png"));
     ui->label->setPixmap(QPixmap::fromImage(img));
     Log* p=next;
     QString a="";
@@ -169,12 +172,14 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     }
     if(p!=NULL && p->company!="" && mode!=1){
         timeload=p->time1;
+        QString date0=p->curdate;
         i=0;
         while(p->next!=NULL){
             p=p->next;
             if(p->company!=company) ID_visible=false;
-            a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0);
+            a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0,date0,p->curdate);
             timeload=p->time1;
+            date0=p->curdate;
             IDS=IDS+"\n"+p->ID;
             i++;
         }
@@ -202,7 +207,7 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
     else ui->label_11->setText("转机"+QString::number(i)+"次,转:"+a);
     ui->pushButton->setText("订票");
     QImage img0;
-    img0.load("E:/Qtproject/Dtrip/横杠.png");
+    img0.load(pathCreator("横杠.png"));
     ui->label_4->setPixmap(QPixmap::fromImage(img0));
     if(mode==1){
         ui->pushButton_2->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; background-color: white;");
@@ -266,17 +271,26 @@ ticketInfo::~ticketInfo()
     if(mode==2 && (tlog->company=="没有航空公司"||tlog->company=="您还没有登录"||tlog->company=="您还没有订票"||tlog->company=="没有该日机票")) delete tlog;
 }
 
-QString timeDifferString(QString time0,QString time1,int mode){
+QString timeDifferString(QString time0,QString time1,int mode,QString date0,QString date1){
     int time0h,time0m,time1h,time1m,i=0,j=0,times_h,times_m;
-    int dayplus=0;
-    QString time1_withplus;
+    int dayplus0=0,dayplus1=0;
+    QString time1_withplus,time0_withplus;
     QString time_split;
     QStringList time0l=time0.split(':');
     QStringList time1l=time1.split(':');
     foreach (QString item, time0l) {
         switch(i){
         case(0):time0h=item.toInt();break;
-        case(1):time0m=item.toInt();break;
+        case(1):time0_withplus=item;break;
+        }
+        i++;
+    }
+    i=0;
+    QStringList time0ml=time0_withplus.split('+');
+    foreach (QString item, time0ml) {
+        switch(i){
+        case(0):time0m=item.toInt();break;
+        case(1):if(item=="1") dayplus0=1;else dayplus0=2;break;
         }
         i++;
     }
@@ -293,18 +307,22 @@ QString timeDifferString(QString time0,QString time1,int mode){
     foreach (QString item, time1ml) {
         switch(i){
         case(0):time1m=item.toInt();break;
-        case(1):if(item=="1") dayplus=1;else dayplus=2;break;
+        case(1):if(item=="1") dayplus1=1;else dayplus1=2;break;
         }
         i++;
     }
     times_m=time1m-time0m;
-    if(dayplus==1) times_h=time1h-time0h+24;
-    else if(dayplus==2) times_h=time1h-time0h+48;
+    int dayplus=dayplus1-dayplus0;
+    if(dayplus!=0) times_h=time1h-time0h+24*dayplus;
     else times_h=time1h-time0h;
     if(times_m<0) {
         times_m+=60;
         times_h-=1;
     }
+    QDate qdate0=QDate::fromString(date0);
+    QDate qdate1=QDate::fromString(date1);
+    int a=qdate0.daysTo(qdate1);
+    if(a!=0) times_h+=24*a;
     if(mode==0) return time_split=QString::number(times_h)+"h"+QString::number(times_m)+ "m";
     else if(time0=="00:00" && time1=="25:00") return time_split="当前查询条件\n下今天内无法完\n成转机";
     else return time_split=QString::number(times_h)+"小时"+QString::number(times_m)+ "分";

@@ -27,7 +27,7 @@ Map::Map(QDate curDate,QWidget *parent)
     mode=0;
     scene = new QGraphicsScene;
     QImage img;
-    img.load("E:/Qtproject/Dtrip/地图.png");
+    img.load(pathCreator("地图.png"));
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
@@ -38,7 +38,7 @@ Map::Map(QDate curDate,QWidget *parent)
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);
         buttons[i]->setObjectName(citys[i]);
-        buttons[i]->setIcon(QIcon("E:/Qtproject/Dtrip/机场.png"));
+        buttons[i]->setIcon(QIcon(pathCreator("机场.png")));
         buttons[i]->setIconSize(QSize(20,30));
         buttons[i]->setFlat(true);
         buttons[i]->setGeometry(2000,2000,70,30);
@@ -81,7 +81,7 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     ui->widget->setVisible(true);
     scene = new QGraphicsScene;
     QImage img;
-    img.load("E:/Qtproject/Dtrip/地图.png");
+    img.load(pathCreator("地图.png"));
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->resize(780,586);
     ui->centralwidget->resize(780,586);
@@ -102,7 +102,7 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);
         buttons[i]->setObjectName(citys[i]);
-        buttons[i]->setIcon(QIcon("E:/Qtproject/Dtrip/机场.png"));
+        buttons[i]->setIcon(QIcon(pathCreator("机场.png")));
         buttons[i]->setIconSize(QSize(20,30));
         buttons[i]->setFlat(true);
         buttons[i]->setGeometry(2000,2000,70,30);
@@ -377,7 +377,7 @@ void Map::on_buttons_clicked()
 
 void addcursorline(int x1,int x2,int y1,int y2,int line,int color,QGraphicsScene *scene){
     QImage img;
-    img.load("E:/Qtproject/Dtrip/icon_airplane.png");
+    img.load(pathCreator("icon_airplane.png"));
     if(line==2){
         double a=sqrt(pow(abs(x2-x1),2)+pow(abs(y2-y1),2));
         double b=sqrt(a/15);
@@ -432,7 +432,7 @@ void Map::on_pushButton_4_clicked()
 {
     if(ui->pushButton_4->text()=="清除航线"){
         QImage img;
-        img.load("E:/Qtproject/Dtrip/地图.png");
+        img.load(pathCreator("地图.png"));
         scene->addPixmap(QPixmap::fromImage(img));
         ui->graphicsView->setScene(scene);
         ui->pushButton_4->setText("显示航线");
@@ -447,12 +447,7 @@ void Map::on_pushButton_4_clicked()
                 }
             }
             for(i=0;i<myticketnum;i++){
-                for(begin=0;begin<16;begin++){
-                    if(userLogs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                }
-                for(end=0;end<16;end++){
-                    if(userLogs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
-                }
+                findCityNum(userLogs[i],begin,end);
                 souToDes[begin][end]++;
                 //addcursorline(cityp[begin].rx(),cityp[end].rx(),cityp[begin].ry(),cityp[end].ry(),1,1,scene);
             }
@@ -462,13 +457,21 @@ void Map::on_pushButton_4_clicked()
                     int max;
                     if(souToDes[i][j]>0) from=true;
                     if(souToDes[j][i]>0) to=true;
-                    if(from){
+                    if(souToDes[i][j]>souToDes[j][i]) max=souToDes[i][j];
+                    else max=souToDes[j][i];
+                    if(to && from) {
+                        if(max>4) max=0;
+                        else if(max>1) max=1;
+                        else max=2;
+                        addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),2,max,scene);
+                    }
+                    else if(from){
                         if(souToDes[i][j]>4) max=0;
                         else if(souToDes[i][j]>1) max=1;
                         else max=2;
                         addcursorline(cityp[i].rx(),cityp[j].rx(),cityp[i].ry(),cityp[j].ry(),1,max,scene);
                     }
-                    if(to){
+                    else if(to){
                         if(souToDes[j][i]>4) max=0;
                         else if(souToDes[j][i]>1) max=1;
                         else max=2;
@@ -488,24 +491,14 @@ void Map::on_pushButton_4_clicked()
             }
             for(i=0;i<myticketnum;i++){
                 if(userLogs[i].next==NULL){
-                    for(begin=0;begin<16;begin++){
-                        if(userLogs[i].sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                    }
-                    for(end=0;end<16;end++){
-                        if(userLogs[i].des.mid(0,citys[end].length()).contains(citys[end])) break;
-                    }
+                    findCityNum(userLogs[i],begin,end);
                     souToDes[begin][end]++;
                 }
                 else{
                     Log *p=&userLogs[i];
                     while(p->next!=NULL){
                         p=p->next;
-                        for(begin=0;begin<16;begin++){
-                            if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                        }
-                        for(end=0;end<16;end++){
-                            if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-                        }
+                        findCityNum(*p,begin,end);
                         souToDes[begin][end]++;
                     }
                 }
@@ -564,7 +557,7 @@ void Map::on_pushButton_5_clicked()
     day= QString::number(curDate.day());
     QImage img;
     QString fname;
-    img.load("E:/Qtproject/Dtrip/地图.png");
+    img.load(pathCreator("地图.png"));
     scene->addPixmap(QPixmap::fromImage(img));
     ui->graphicsView->setScene(scene);
     int i,j,num0=0,num1=0;
@@ -574,7 +567,7 @@ void Map::on_pushButton_5_clicked()
             count1=0;
             num0=0;
             num1=0;
-            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
+            fname=pathCreator("")+year+"."+month+"."+day+"/"+citys[i] + "-" + citys[j] + ".txt";
             QFile fs(fname);
             if(fs.open(QIODeviceBase::ReadOnly)){
                 count0=1;
@@ -586,7 +579,7 @@ void Map::on_pushButton_5_clicked()
                 }
             }
             fs.close();
-            fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+citys[j]+"-"+citys[i]+".txt";
+            fname=pathCreator("")+year+"."+month+"."+day+"/"+citys[j]+"-"+citys[i]+".txt";
             QFile fs1(fname);
             if(fs1.open(QIODeviceBase::ReadOnly)){
                 count1=1;

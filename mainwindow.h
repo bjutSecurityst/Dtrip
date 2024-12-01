@@ -142,5 +142,8 @@ private:
     void userImageAnalyse(Log* userLogs,bool *bus,float *probus);
     void userSearchAnalyse(int *commonfrom,int * commonto,float *profrom,float *proto);
     void resetChecked();
+    void setAD(int bus);
+    void lastWindowCleaner();
+    void layoutCleaner(int num);
 };
 #endif // MAINWINDOW_H

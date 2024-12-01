@@ -48,18 +48,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_back->setCheckable(true);
     ui->pushButton_0->setStyleSheet("border:none;");
     ui->pushButton_0->setMaximumSize(100,30);
-    ui->pushButton_0->setIcon(QIcon("E:/Qtproject/Dtrip/菜单栏2.png"));
+    ui->pushButton_0->setIcon(QIcon(pathCreator("菜单栏2.png")));
     QFile file_search(pathCreator("qss/选择.qss"));
     file_search.open(QFile::ReadOnly);
     QString styleSheet_se = tr(file_search.readAll());
     ui->pushButton->setStyleSheet(styleSheet_se);
-    ui->pushButton_4->setIcon(QIcon("E:/Qtproject/Dtrip/search.png"));
+    ui->pushButton_4->setIcon(QIcon(pathCreator("search.png")));
     ui->pushButton_4->setStyleSheet(styleSheet_se);
     //设置应用图标
-    QPixmap icon0("E:/Qtproject/Dtrip/trip.png");
+    QPixmap icon0(":/trip.png");
     ui->labelicon0->setPixmap(icon0);
     //设置查询窗口中内容
-    ui->easystay->setStyleSheet("border: none; border-image: url(E:/Qtproject/Dtrip/easy_stay.png);");
+    ui->easystay->setStyleSheet("border: none; border-image: url(:/easy_stay.png);");
     ui->backgroundsky->setMinimumSize(200,100);
     ui->backgroundsky->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; border-image: url(:/gradbackground.png);");
     ui->lineEditdep->setMinimumHeight(30);
@@ -72,14 +72,14 @@ MainWindow::MainWindow(QWidget *parent)
     QString styleSheet = tr(file.readAll());
     ui->pushButton_9->setStyleSheet(styleSheet);
     ui->pushButton_11->setStyleSheet("border: 2px solid lightblue; border-radius: 10px; background-color: white;");
-    ui->home_background->setStyleSheet("border: none; border-image: url(E:/Qtproject/Dtrip/homepage-background.png);");
+    ui->home_background->setStyleSheet("border: none; border-image: url(:/homepage-background.png);");
     ui->comboBox->setCurrentIndex(-1);
     ui->verticalScrollBar_3->setVisible(false);
 
     button_swap = new QPushButton();
     button_swap->setParent(this);
     button_swap->setObjectName("交换");
-    button_swap->setIcon(QIcon("E:/Qtproject/Dtrip/change.png"));
+    button_swap->setIcon(QIcon(pathCreator("change.png")));
     button_swap->setIconSize(QSize(38,38));
     button_swap->setFlat(true);
     button_swap->setGeometry(680,168,38,38);
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,&QTimer::timeout,this,&MainWindow::Timerout);
 
     QImage imgGg;
-    imgGg.load("E:/Qtproject/Dtrip/北京旅.jpg");
+    imgGg.load(pathCreator("北京旅.jpg"));
     ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),5));
     ui->label_10->setScaledContents(true);
     ui->pushButton_6->setVisible(false);
@@ -134,11 +134,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//定时的图片更新函数，更新内容包括广告图与右侧的风景图
 void MainWindow::Timerout(){
     if(ui->pushButton_1->isChecked()){
-        //定时的图片更新函数
-        QString path("E:/Qtproject/Dtrip/scene");
+        QString path(pathCreator("scene"));
         path+=QString::number(picId);
         path+=".jpg";
         QImage img;
@@ -147,38 +146,19 @@ void MainWindow::Timerout(){
         picId++;
         picId=picId % 4;
         if(picId%2==1){
-            QImage imgGg;
-            if(!business && common!=-1){
-                QString ts="E:/Qtproject/Dtrip/"+citys[this->common]+"旅.jpg";
-                imgGg.load(ts);
-                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-            }
-            else if(home!=-1){
-                if(this->home==0 ||this->home==1 || this->home==3){
-                    imgGg.load("E:/Qtproject/Dtrip/"+citys[this->home]+"商.jpg");
-                }
-                else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-            }
-            else if(commonfrom!=-1){
-                if(this->commonfrom==0 ||this->commonfrom==1 || this->commonfrom==3){
-                    imgGg.load("E:/Qtproject/Dtrip/"+citys[this->commonfrom]+"商.jpg");
-                }
-                else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-                ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-            }
+            setAD(business);
         }
         else{
             QImage imgGg;
             if(commonto!=-1){
-                QString ts="E:/Qtproject/Dtrip/"+citys[this->commonto]+"旅.jpg";
+                QString ts=pathCreator("")+citys[this->commonto]+"旅.jpg";
                 imgGg.load(ts);
                 ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
             }
         }
     }
 }
-
+//地图按钮槽函数：用于打开地图
 void MainWindow::on_pushButton_clicked()
 {
     //转至地图选择页
@@ -188,7 +168,7 @@ void MainWindow::on_pushButton_clicked()
     connect(m,&Map::sendToMainWindow,this,&MainWindow::getMapMessage);
 }
 
-
+//工具栏滚动条槽函数，用于设置工具栏按钮的位置
 void MainWindow::on_verticalScrollBar_sliderMoved(int position)
 {
     int begin=30,step=35;
@@ -201,7 +181,8 @@ void MainWindow::on_verticalScrollBar_sliderMoved(int position)
     ui->pushButton_3->move(QPoint(5,y.at(2)+ui->verticalScrollBar->sliderPosition()));
     ui->pushButton_back->move(QPoint(5,y.at(3)+ui->verticalScrollBar->sliderPosition()));
 }
-
+//地图界面信号的主界面接收函数：getMapMessage
+// input args：a：始发地 b：目的地 curdate：购票日期
 void MainWindow::getMapMessage(QString a,QString b,QDate curdate){
     this->show();
     a.remove(0,4);
@@ -210,6 +191,14 @@ void MainWindow::getMapMessage(QString a,QString b,QDate curdate){
     ui->lineEditari->setText(b);
     ui->dateEdit->setDate(curdate);
 }
+/*
+小票据界面信号的主界面接收函数：getticketInfoMessage
+    func：
+    根据传入的模式来打开对应的ticketwindow来显示票据
+    input args：
+        tlog：该界面的票据
+        mode：打开模式 0，1为一般模式 2为改签模式
+*/
 void MainWindow::getticketInfoMessage(Log* tlog,int mode){
     if(!login){
         QMessageBox msgBox;
@@ -232,23 +221,47 @@ void MainWindow::getticketInfoMessage(Log* tlog,int mode){
         t->show();
     }
 }
+/*
+购票主函数-即ticketwindow的接收函数：getticketwindowMessage
+    func：
+    1.生成PID
+    2.往用户数据库的ticket和subticket表中写入该票对应的票根与子票
+    3.更新主数据库的用户消费与里程信息
+    4.弹出窗口告知用户购票成功
+    input args：
+        tlog：要购买的票
+    write args：
+        myticketnum：用户正常票数
+        myLogs：有效票数组
+        cost：用户累计消费
+        mileage：用户累计里程
+*/
 void MainWindow::getticketwindowMessage(Log* tlog){
     QString uid;
     openDatabasegetuid(&uid,username);
+    //生成PID：DES（时间戳+UID前四位+4位随机数）
+    //获取UID前四位
     if(uid.length()>4) uid=uid.mid(0,4);
+    //获取时间戳
     std::time_t t = std::time(0);
     string timeString=std::to_string(t);
     std::random_device rd;
     std::mt19937_64 g2 (rd());
+    //生成32位二进制位随机数
     uint32_t u32Random = g2();
     DES *mydes=new DES();
+    //将时间戳转换为36进制
     string time_H=mydes->longToA((long)t,36);
+    //将随机数转换为36进制后取2~5位
     string s=mydes->uint_32ToA(u32Random,36).substr(1,4);
+    //构建PID原文
     string sPID=time_H+uid.toStdString()+s;
+    //使用密钥security对PID进行加密，并转换为32进制
     sPID=mydes->des_encrypt_ECB(sPID,"security");
     sPID=mydes->des_H(sPID);
     sPID=mydes->des_2To32(sPID);
     mydes->deleteLater();
+    //设置该票的PID
     tlog->setPID(QString::fromStdString(sPID));
     Log *p=tlog;
     Log *q=&userLogs[myticketnum];
@@ -264,6 +277,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     QString password;
     bool open=openDatabasegetPassword(&password,username);
     if(!open) return;
+    //建立与用户的数据库的连接
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
     qDebug() << QSqlDatabase::drivers();
@@ -287,6 +301,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     {
         QSqlQuery sql_query2(database);
         QString PID=p->PID;
+        //如果这张票没有子票，则只向ticket表中写入该票
         if(p->next==NULL){
             QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(p->PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
             if(!sql_query2.exec(insert_sql))
@@ -296,20 +311,18 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             else
             {
                 qDebug() << "inserted Wang!";
+                //更新用户消费与里程数据
                 cost+=tlog->price*(tlog->business+1);
                 int begin,end;
-                for(begin=0;begin<16;begin++){
-                    if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                }
-                for(end=0;end<16;end++){
-                    if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-                }
+                findCityNum(*p,begin,end);
                 mileage+=calDistance(cityp[begin],cityp[end]);
             }
         }
+        //如果这张票有子票
         else{
             bool head=true;
             int i=0,subnum=0;
+            //先计算子票数
             while(p->next!=NULL){
                 p=p->next;
                 subnum++;
@@ -317,11 +330,13 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             p=tlog;
             while(p!=NULL){
                 QString insert_sql;
+                //首先将票根写入ticket表，并更新用户消费数据
                 if(head) {
                     insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business).arg(p->num);
                     head=false;
                     cost+=tlog->price*(tlog->business+1);
                 }
+                //如果是子票则写入subticket表
                 else insert_sql = QString("insert into subticket(PID, name, id , sou, des, time0, time1, price, chi, next, date) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11') ").arg(PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(i).arg(p->curdate);
                 if(!sql_query2.exec(insert_sql))
                 {
@@ -330,14 +345,10 @@ void MainWindow::getticketwindowMessage(Log* tlog){
                 else
                 {
                     qDebug() << "inserted SUCCESS!";
+                    //如果不是票根，则更新用户里程数据
                     if(!head){
                         int begin,end;
-                        for(begin=0;begin<16;begin++){
-                            if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-                        }
-                        for(end=0;end<16;end++){
-                            if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-                        }
+                        findCityNum(*p,begin,end);
                         mileage+=calDistance(cityp[begin],cityp[end]);
                     }
                 }
@@ -345,12 +356,15 @@ void MainWindow::getticketwindowMessage(Log* tlog){
                 p=p->next;
             }
         }
+        //关闭数据库
         database.close();
     }
+    //断开与数据库的连接
     QString name0 = QSqlDatabase::database().connectionName();
     QSqlDatabase::removeDatabase(name0);
     QSqlDatabase::removeDatabase("read_connection");
     QSqlDatabase::removeDatabase("read_connection_2");
+    //弹出窗口告知用户订票成功
     QMessageBox msgBox;
     msgBox.setText("订票成功");
     msgBox.setInformativeText("点击OK返回主界面");
@@ -358,9 +372,30 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
     myticketnum++;
+    //更新主数据库的用户消费与里程信息
     updateUserCostandMileage(cost,mileage,username);
     this->show();
 }
+/*
+改签主函数：changeTicketMain
+    func：
+    1.将被改签票的票写入用户的数据库的preticket表中
+    2.从用户数据库的ticket和subticket表中把该票对应的票根与子票更新为新票的数据
+    3.更新主数据库的用户消费与里程信息
+    4.弹出窗口告知用户改签成功
+    5.将票从程序的我的票据数组中复制到失效票数组，并将我的票据被改签的票更新为改签为的票
+    6.刷新页面
+    input args：
+        tlog：要改签为的票
+    write args：
+        clog：被改签的票
+        mypreticketnum：用户失效票数
+        myticketnum：用户正常票数
+        prelogs：失效票数组
+        myLogs：有效票数组
+        cost：用户累计消费
+        mileage：用户累计里程
+*/
 void MainWindow::changeTicketMain(Log* tlog){
     Log *t;
     int i=0;
@@ -369,6 +404,7 @@ void MainWindow::changeTicketMain(Log* tlog){
     QString password;
     bool open=openDatabasegetPassword(&password,username);
     if(!open) return;
+    //生成新票的PID：DES（时间戳+UID前四位+4位随机数）
     std::time_t ti = std::time(0);
     string timeString=std::to_string(ti);
     std::random_device rd;
@@ -382,7 +418,7 @@ void MainWindow::changeTicketMain(Log* tlog){
     sPID=mydes->des_H(sPID);
     sPID=mydes->des_2To32(sPID);
     QString qsPID=QString::fromStdString(sPID);
-
+    //建立与用户的数据库的连接
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
     qDebug() << QSqlDatabase::drivers();
@@ -402,17 +438,19 @@ void MainWindow::changeTicketMain(Log* tlog){
         return;
     }
     else
-    {
+    {   //获取preticket表中票数
         QSqlQuery sql_query2(database);
         QString count_sqllogs="select count(*) from preticket";
         sql_query2.exec(count_sqllogs);
         sql_query2.next();
         int count = sql_query2.value(0).toInt();
+        //如果表中票数超过100
         if(count>=100){
             count_sqllogs="SELECT sequence FROM preticket ORDER BY sequence ASC LIMIT 1";
             sql_query2.exec(count_sqllogs);
             sql_query2.next();
             int sequence = sql_query2.value(0).toInt();
+            //则删除编号最小的票
             QString delete_sql=QString("DELETE FROM preticket WHERE sequence='%1'").arg(sequence);
             if(!sql_query2.exec(delete_sql))
             {
@@ -422,6 +460,7 @@ void MainWindow::changeTicketMain(Log* tlog){
             {
                 qDebug() << "deleted!";
             }
+            //如果最小编号以经达到100，则对所有票据从1开始重新编号
             if(sequence==100){
                 for(i=1;i<100;i++){
                     QString update_prelog=QString("UPDATE preticket SET sequence='%1' WHERE sequence='%2'").arg(i).arg(sequence+i);
@@ -445,6 +484,7 @@ void MainWindow::changeTicketMain(Log* tlog){
                 }
             }
         }
+        //将被退票的票写入用户的数据库的preticket表中
         QString copy_log=QString("INSERT into preticket(PID,name,id,sou,des,time0,time1,price,chi,date,business,num)  select PID,name,id,sou,des,time0,time1,price,chi,date,business,num from ticket where PID='%1'").arg(clog->PID);
         if(!sql_query2.exec(copy_log)){
             qDebug() << "Error: Fail to copy." << sql_query2.lastError();
@@ -453,6 +493,7 @@ void MainWindow::changeTicketMain(Log* tlog){
         {
             qDebug() << "success!";
         }
+        //更新这张票的状态
         QString update_prelog=QString("UPDATE preticket SET status='%1' WHERE PID='%2'").arg("改签").arg(clog->PID);
         if(!sql_query2.exec(update_prelog))
         {
@@ -474,6 +515,7 @@ void MainWindow::changeTicketMain(Log* tlog){
             PID= sql_query2.value(0).toString();
             next = sql_query2.value(9).toInt();
         }
+        //将被改签的票的票根更新为新票的票根
         QString update_sql=QString("UPDATE ticket SET PID='%1',name='%2', id='%3', sou='%4', des='%5', time0='%6', time1='%7', price='%8', chi='%9' WHERE PID='%10'").arg(qsPID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(clog->PID);
         if(!sql_query2.exec(update_sql))
         {
@@ -485,6 +527,7 @@ void MainWindow::changeTicketMain(Log* tlog){
             cost-=clog->price*(clog->business+1);
             cost+=tlog->price*(tlog->business+1);
         }
+        //将被改签的票的子票更新为新票的子票
         if(next!=-1){
             i=1;
             while(p->next!=NULL){
@@ -501,17 +544,21 @@ void MainWindow::changeTicketMain(Log* tlog){
                 i++;
             }
         }
+        //关闭数据库
         database.close();
     }
+    //断开与数据库的连接
     QString name0 = QSqlDatabase::database().connectionName();
     QSqlDatabase::removeDatabase(name0);
     QSqlDatabase::removeDatabase("read_connection");
     QMessageBox msgBox;
+    //弹出窗口告知用户改签成功
     msgBox.setText("改签成功");
     msgBox.setInformativeText("点击OK返回主界面");
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
+    //将票从程序的我的票据数组中移入失效票数组，并将我的票据被改签的票更新为改签为的票
     prelogs[mypreticketnum].setlogL(clog);
     prelogs[mypreticketnum].setstatus("改签");
     mypreticketnum++;
@@ -532,45 +579,49 @@ void MainWindow::changeTicketMain(Log* tlog){
             break;
         }
     }
+    //更新主数据库的用户消费与里程信息
     updateUserCostandMileage(cost,mileage,username);
     this->show();
+    //关闭改签模式
     changemode=0;
+    //刷新页面
     on_pushButton_2_clicked();
 }
+/*
+改签票查找函数：changeTicketSearch
+    func：
+    1.根据改签票的航线与日期查找符合改签要求的机票
+    input args：
+        tlog：要改签的票
+    write args：
+        ticketnum：查找到的票数
+        ticket_checkednum：已经做过有效性检测的票据数量
+        clog：存储要改签的票
+        sortmode：前一排序方式
+        changemode：表示改签模式是否开始
+*/
 void MainWindow::changeTicketSearch(Log* tlog){
     Log *p=tlog;
     clog=tlog;
     int begin,end,k=5,i;
     string s="";
     this->show();
-    while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-    {
-        if (QWidget* widget = item->widget()){
-            widget->disconnect();
-            widget->deleteLater();
-        }
-
-        if (QSpacerItem* spaerItem = item->spacerItem())
-            verticalLayout_7->removeItem(spaerItem);
-
-        delete item;
-    }
+    layoutCleaner(7);
+    //读取票据信息并拼接出航线
     if(p->next!=NULL) p=p->next;
     while(p!=NULL){
         if(p->next!=NULL){
             for(begin=0;begin<16;begin++){
                 if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
+                if(begin==4){
+                    if(p->sou.mid(0,4).contains("中国台北")) break;
+                }
             }
             if(s=="") s="< "+to_string(begin);
             else s=s+" , "+to_string(begin);
         }
         else{
-            for(begin=0;begin<16;begin++){
-                if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-            }
-            for(end=0;end<16;end++){
-                if(p->des.mid(0,citys[end].length()).contains(citys[end])) break;
-            }
+            findCityNum(*p,begin,end);
             if(s=="") s="< "+to_string(begin)+" : "+"99 "+to_string(end)+" >";
             else s=s+" , "+to_string(begin)+" : "+"99 "+to_string(end)+" >";
         }
@@ -581,12 +632,14 @@ void MainWindow::changeTicketSearch(Log* tlog){
     }
     ticketnum=0;
     ticket_checkednum=0;
+    //使用时间最短方式查找票据
     setLog(s,2);
     if(clog->business){
         for(i=0;i<ticketnum;i++){
             logs[i].setBus(true);
         }
     }
+    //设置前一排序方式为飞行时间最短
     sortmode=1;
     qDebug() << QString::fromStdString(s) <<"\n";
     for(i=4;i>=0;i--){
@@ -594,6 +647,7 @@ void MainWindow::changeTicketSearch(Log* tlog){
             k=i;
         }
     }
+    //将查到的票据显示到改签票滚动界面中
     if(k==0) {
         k=0;
         Log* logno=new Log();
@@ -617,6 +671,7 @@ void MainWindow::changeTicketSearch(Log* tlog){
         }
     }
     copymode=0;
+    //开启改签模式
     changemode=1;
     ticket_now=0;
     ui->pushButton_9->setVisible(true);
@@ -625,6 +680,25 @@ void MainWindow::changeTicketSearch(Log* tlog){
     ui->checkBox_2->setVisible(false);
     ui->checkBox_3->setVisible(false);
 }
+/*
+退票函数：refundTicketMain
+    func：
+    1.将被退票的票写入用户的数据库的preticket表中
+    2.从用户数据库的ticket和subticket表中把该票对应的票根与子票删除
+    3.更新主数据库的用户消费与里程信息
+    4.弹出窗口告知用户退票成功
+    5.将票从程序的我的票据数组中删除，并加入失效票数组
+    6.刷新页面
+    input args：
+        tlog：要退的票
+    write args：
+        mypreticketnum：用户失效票数
+        myticketnum：用户正常票数
+        prelogs：失效票数组
+        myLogs：有效票数组
+        cost：用户累计消费
+        mileage：用户累计里程
+*/
 void MainWindow::refundTicketMain(Log* tlog){
     Log *q,*t;
     int i=0,j;
@@ -633,6 +707,7 @@ void MainWindow::refundTicketMain(Log* tlog){
     QString password;
     bool open=openDatabasegetPassword(&password,username);
     if(!open) return;
+    //建立与用户的数据库的连接
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("SQLITECIPHER","read_connection");
     qDebug() << QSqlDatabase::drivers();
@@ -653,16 +728,19 @@ void MainWindow::refundTicketMain(Log* tlog){
     }
     else
     {
+        //获取preticket表中票数
         QSqlQuery sql_query2(database);
         QString count_sqllogs="select count(*) from preticket";
         sql_query2.exec(count_sqllogs);
         sql_query2.next();
         int count = sql_query2.value(0).toInt();
+        //如果表中票数超过100
         if(count>=100){
             count_sqllogs="SELECT sequence FROM preticket ORDER BY sequence ASC LIMIT 1";
             sql_query2.exec(count_sqllogs);
             sql_query2.next();
             int sequence = sql_query2.value(0).toInt();
+            //则删除编号最小的票
             QString delete_sql=QString("DELETE FROM preticket WHERE sequence='%1'").arg(sequence);
             if(!sql_query2.exec(delete_sql))
             {
@@ -672,6 +750,7 @@ void MainWindow::refundTicketMain(Log* tlog){
             {
                 qDebug() << "deleted!";
             }
+            //如果最小的票是第100号，则将所有的票重新从1开始编号
             if(sequence==100){
                 for(i=1;i<100;i++){
                     QString update_prelog=QString("UPDATE preticket SET sequence='%1' WHERE sequence='%2'").arg(i).arg(sequence+i);
@@ -695,6 +774,7 @@ void MainWindow::refundTicketMain(Log* tlog){
                 }
             }
         }
+        //将被退票的票写入用户的数据库的preticket表中
         QString copy_log=QString("INSERT into preticket(PID,name,id,sou,des,time0,time1,price,chi,date,business,num)  select PID,name,id,sou,des,time0,time1,price,chi,date,business,num from ticket where PID='%1'").arg(tlog->PID);
         sql_query2.exec(copy_log);
         if(!sql_query2.next()){
@@ -704,6 +784,7 @@ void MainWindow::refundTicketMain(Log* tlog){
         {
             qDebug() << "success!";
         }
+        //更新这张票的状态
         QString update_prelog=QString("UPDATE preticket SET status='%1' WHERE PID='%2'").arg("退票").arg(tlog->PID);
         if(!sql_query2.exec(update_prelog))
         {
@@ -713,6 +794,7 @@ void MainWindow::refundTicketMain(Log* tlog){
         {
             qDebug() << "prelog updated!";
         }
+        //从用户数据库的ticket和subticket表中把该票对应的票根与子票删除
         QString PID_log = QString("select * from ticket where PID = '%1'").arg(tlog->PID);
         sql_query2.exec(PID_log);
         int next;
@@ -725,6 +807,7 @@ void MainWindow::refundTicketMain(Log* tlog){
             PID= sql_query2.value(0).toString();
             next = sql_query2.value(9).toInt();
         }
+        //先删ticket表中的票根
         QString delete_sql=QString("DELETE FROM ticket WHERE PID = '%1'").arg(tlog->PID);
         if(!sql_query2.exec(delete_sql))
         {
@@ -735,14 +818,10 @@ void MainWindow::refundTicketMain(Log* tlog){
             qDebug() << "deleted!";
             cost-=tlog->price;
             int begin,end;
-            for(begin=0;begin<16;begin++){
-                if(tlog->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
-            }
-            for(end=0;end<16;end++){
-                if(tlog->des.mid(0,citys[end].length()).contains(citys[end])) break;
-            }
+            findCityNum(*tlog,begin,end);
             mileage-=calDistance(cityp[begin],cityp[end]);
         }
+        //如果有子票，就把subticket表中的子票都删掉
         if(next!=-1){
             i=1;
             while(p->next!=NULL){
@@ -759,16 +838,20 @@ void MainWindow::refundTicketMain(Log* tlog){
                 i++;
             }
         }
+        //关闭数据库
         database.close();
     }
+    //断开与数据库的连接
     QString name0 = QSqlDatabase::database().connectionName();
     QSqlDatabase::removeDatabase(name0);
     QSqlDatabase::removeDatabase("read_connection");
     QMessageBox msgBox;
+    //弹窗告知用户退票成功
     msgBox.setText("退票成功");
     msgBox.setInformativeText("点击OK返回主界面");
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
+    //将票从程序的我的票据数组中删除，并加入失效票数组
     prelogs[mypreticketnum].setlogL(tlog);
     prelogs[mypreticketnum].setstatus("退票");
     mypreticketnum++;
@@ -783,10 +866,13 @@ void MainWindow::refundTicketMain(Log* tlog){
             break;
         }
     }
+    //更新主数据库的用户消费与里程信息
     updateUserCostandMileage(cost,mileage,username);
     this->show();
+    //刷新页面
     on_pushButton_2_clicked();
 }
+//始发地与目的地交换按钮
 void MainWindow::on_button_swap_clicked()
 {
     QString dep=ui->lineEditdep->text();
@@ -794,7 +880,7 @@ void MainWindow::on_button_swap_clicked()
     ui->lineEditdep->setText(ari);
     ui->lineEditari->setText(dep);
 }
-
+//工具栏控制按钮，用户控制工具栏是否显示
 void MainWindow::on_pushButton_0_clicked()
 {
     if(btvisible==true){
@@ -813,7 +899,29 @@ void MainWindow::on_pushButton_0_clicked()
     }
 }
 
-
+/*
+搜索按钮槽函数即搜索功能的实现：
+    func：
+    1.对搜索输入进行检查，包括目的地，始发地是否为空，是否相同，是否合法。
+    2.刷新搜索算法与用户搜索地点权重
+    3.根据用户选择的模式进行机票搜索
+    4.根据机票特征获取筛选条件
+    5.计算搜索用时，并显示机票
+    mid args：
+        mode：0为智能搜索，1为费用最少，2为时间最短，3为直飞，5为费用最少深度，6为时间最短深度
+    write args:
+        ui->lineEditdep：始发地输入栏
+        ui->lineEditari：目的地输入栏
+        time_money：费用最少搜索方式权重
+        time_time：时间最短搜索方式权重
+        time_straight：直飞搜索方式权重
+        citytimesfrom：用户搜索始发地权重
+        citytimesto：用户搜索目的地权重
+        sortmode：前一排序模式
+        logs:搜索票据数组
+        ticketnum：搜索票据数组中的票据数量
+        ticket_checkednum：已经做过有效性检测的票据数量
+*/
 void MainWindow::on_pushButton_4_clicked()
 {
     int nodeNum=16, arcNum=241, begin,end;
@@ -858,13 +966,7 @@ void MainWindow::on_pushButton_4_clicked()
     if(labeldep==false || labelari==false) return;
     ui->lineEditdep->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
     ui->lineEditari->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
-    while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-    {
-        if (QWidget* widget = item->widget())
-            widget->deleteLater();
-
-        delete item;
-    }
+    layoutCleaner(2);
     for(i=0;i<=ticketnum;i++){
         logs[i].clear();
     }
@@ -876,24 +978,29 @@ void MainWindow::on_pushButton_4_clicked()
     year= QString::number(curDate.year());
     month= QString::number(curDate.month());
     day= QString::number(curDate.day());
-    //根据下拉条目设置检索模式
+    //根据下拉条目设置检索模式,如果未选择则直接返回
     if(ui->comboBox->currentIndex()<4 && ui->comboBox->currentIndex()>=0) mode=ui->comboBox->currentIndex();
     else return;
+    //判断是否勾选深度搜索
     bool deepmode=ui->checkBox->checkState();
+    //设置程序计时，并开始计时
     clock_t c_start, c_end;
     c_start = clock();
+    //根据搜索方式改变权重，并进行权重衰减
     if(time_money!=0) time_money-=time_money/10;
     if(time_time!=0) time_time-=time_time/10;
     if(time_straight!=0) time_straight-=time_straight/10;
     if(mode==1) time_money++;
     else if(mode==2) time_time++;
     else if(mode==3) time_straight++;
+    //将城市名称编码为序号
     for(begin=0;begin<17;begin++){
         if(citys[begin]==ui->lineEditdep->text()) break;
     }
     for(end=0;end<17;end++){
         if(citys[end]==ui->lineEditari->text()) break;
     }
+    //如果用户已经登录，则根据搜索始发地与目的地改变权重，并进行权重衰减
     if(username!=""){
         for(i=0;i<16;i++){
             if(citytimesfrom[i]!=0) citytimesfrom[i]-=citytimesfrom[i]/16;
@@ -902,14 +1009,20 @@ void MainWindow::on_pushButton_4_clicked()
             if(i==end) citytimesto[i]++;
         }
     }
+    //如果是时间最短搜索，则设置上一个排序方式为时间最短升序（为了后续进行排序算法优化），否则为价格排序升序
     if(mode==2) sortmode=1;
     else sortmode=2;
+    //如果是费用最少和时间最短的深度搜索
     if(deepmode && mode!=3 && mode!=0){
         mode=mode+4;
+        //新建图
         CMap* pMap = new CMap(nodeNum,10000);
+        //按照搜索模式设置图的边及其权重
         CMapSet(curDate,citys,pMap,mode-4);
         Dist* dist,*dist0;
+        //以begin为起点进行深度dijkstra搜索
         dist = pMap->DijkstraPlus(begin);
+        //删除图
         delete pMap;
         for(i=0;i<16;i++) {
             qDebug() << dist[i].m_vertex;
@@ -919,15 +1032,17 @@ void MainWindow::on_pushButton_4_clicked()
             }
             qDebug() << "\n";
         }
-        //获取最低路径
+        //获取最短路径，并设置访问数组（防止出现环路）
         bool blist[16];
         for(i=0;i<16;i++) {
             blist[i]=false;
         }
+        //list保存了所有求出的最短及次短路径
         QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
         for(i=0;i<list.size();i++) {
             qDebug() << list[i] << "\n";
         }
+        //逐路径获取对应的机票，当票数大于400时停止
         while (!list.empty()) {
             setLog(list[0].toStdString(),mode);
             list.removeFirst();
@@ -935,36 +1050,41 @@ void MainWindow::on_pushButton_4_clicked()
         }
     }
     else{
+        //新建图
         CMap* pMap = new CMap(nodeNum,arcNum);
         int modeuser;
-        if(mode!=0) CMapSet(curDate,citys,pMap,mode);
-        else {
-            modeuser=1;
+        //如果是费用最少或时间最短
+        if(mode==1 || mode==2) CMapSet(curDate,citys,pMap,mode);
+        //如果是智能搜索
+        else if(mode==0){
+            //根据用户搜索习惯设定智能搜索的基本模式（费用最少||时间最短）
             if(time_time>=time_straight && time_time>time_money){
                 modeuser=2;
             }
+            else modeuser=1;
             CMapSet(curDate,citys,pMap,modeuser);
         }
-        //ui->label_11->setText(QString::number(end));
+        //如果是智能搜索或直飞
         if(mode==3 || mode==0) {
+            //首先搜索直飞航线
             string s="< "+to_string(begin)+" : 999 "+to_string(end)+" >";
+            //获取直飞航线的机票
             setLog(s,mode);
+            //如果是智能搜索并且票数过少
             if(mode==0 && ticketnum<10){
+                //进行进一步搜索
                 dist = pMap->Dijkstra(begin);
                 //获取最低路径
                 string s = pMap->visit_first(dist,begin,end);
                 setLog(s,modeuser);
+                //如果票数还是少
                 if(ticketnum<10){
+                    //获取次低路径
                     string s1 = pMap->visit_second(dist,begin,end);
                     setLog(s1,modeuser);
+                    //如果还是少，转为进行深度搜索
                     if(ticketnum<3){
-                        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-                        {
-                            if (QWidget* widget = item->widget())
-                                widget->deleteLater();
-
-                            delete item;
-                        }
+                        layoutCleaner(2);
                         for(i=0;i<=ticketnum;i++){
                             logs[i].clear();
                         }
@@ -981,7 +1101,7 @@ void MainWindow::on_pushButton_4_clicked()
                             }
                             qDebug() << "\n";
                         }
-                        //获取最低路径
+                        //获取最短路径，并设置访问数组（防止出现环路）
                         bool blist[16];
                         for(i=0;i<16;i++) {
                             blist[i]=false;
@@ -1000,6 +1120,7 @@ void MainWindow::on_pushButton_4_clicked()
             }
             delete pMap;
         }
+        //如果是普通的费用最少或时间最短模式
         else {
             dist = pMap->Dijkstra(begin);
             //获取最低路径
@@ -1010,6 +1131,7 @@ void MainWindow::on_pushButton_4_clicked()
             setLog(s1,mode);
         }
     }
+    //显示部分新增控件
     ui->label_10->setVisible(false);
     ui->label_11->setVisible(false);
     ui->label_14->setVisible(true);
@@ -1017,12 +1139,14 @@ void MainWindow::on_pushButton_4_clicked()
     ui->pushButton_7->setVisible(true);
     ui->pushButton_9->setVisible(true);
     ui->comboBox_2->setVisible(true);
+    //开始获取筛选指标 st为航空公司指标list，sroute为路线指标list
     QStringList st,sroute;
     int pricemin[200];
     for(i=0;i<200;i++){
         pricemin[i]=INT_MAX;
     }
     if(ticketnum!=0){
+        //获取航空公司指标
         for(i=0;i<ticketnum;i++){
             bool find=false;
             j=0;
@@ -1039,6 +1163,7 @@ void MainWindow::on_pushButton_4_clicked()
                 pricemin[j]=logs[i].price;
             }
         }
+        //获取路线指标
         for(i=0;i<ticketnum;i++){
             bool find=false;
             foreach (QString route,sroute){
@@ -1052,12 +1177,15 @@ void MainWindow::on_pushButton_4_clicked()
                 sroute.append(logs[i].route);
             }
         }
+        //将迪杰斯特拉路线翻译为人能看懂的格式
         for(i=0;i<sroute.count();i++){
             sroute[i]=routeTranslate(sroute[i]);
         }
+        //规范化航空公司指标
         for(i=0;i<st.count();i++){
             st[i]=st[i]+" ￥"+QString::number(pricemin[i]);
         }
+        //向筛选滚动区域内添加指标控件
         QWidget *wid=new QWidget();
         QVBoxLayout *l=new QVBoxLayout();
         foreach (QString var, st) {
@@ -1078,6 +1206,7 @@ void MainWindow::on_pushButton_4_clicked()
         ui->scrollArea->setWidget(wid);
         ui->pushButton_12->setVisible(true);
     }
+    //向机票滚动区域内放置机票
     if(logs[2].ID=="" || logs[2].des=="不可达"){
         k=2;
         if(logs[1].ID=="" || logs[1].des=="不可达") k=1;
@@ -1102,6 +1231,7 @@ void MainWindow::on_pushButton_4_clicked()
             ui->verticalLayout_2->addWidget(ticket0);
         }
     }
+    //停止计时，并显示搜索时间
     c_end = clock();
     ui->label_14->setText("查询用时："+QString::number((double)(c_end - c_start) / CLOCKS_PER_SEC)+"s");
     printf("time=%f\n", (double)(c_end - c_start) / CLOCKS_PER_SEC);
@@ -1109,11 +1239,13 @@ void MainWindow::on_pushButton_4_clicked()
     ticket_now=0;
 }
 
+//搜索页面滚动条
 void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
 {
     Log* scrollLogs;
     int scrollTicketnum;
     int position=ui->verticalScrollBar_2->sliderPosition();
+    //如果是普通模式
     if(copymode==0){
         scrollLogs=logs;
         scrollTicketnum=ticketnum;
@@ -1123,13 +1255,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
             j=(scrollTicketnum+1)*((double)position/(double)999);
             if(j<3)j=3;
             if(j>scrollTicketnum) j=scrollTicketnum;
-            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-            {
-                if (QWidget* widget = item->widget())
-                    widget->deleteLater();
-
-                delete item;
-            }
+            layoutCleaner(2);
             ticket_now=j-3;
             ticketInfo* ticket0=new ticketInfo(&scrollLogs[j-3],0);
             ticketInfo* ticket1=new ticketInfo(&scrollLogs[j-2],0);
@@ -1142,6 +1268,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
             connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
         }
     }
+    //如果是筛选模式
     else if(copymode==1 && copynum>2){
         scrollTicketnum=copynum;
         int i=0;
@@ -1149,13 +1276,7 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
         j=(scrollTicketnum+1)*((double)position/(double)999);
         if(j<3)j=3;
         if(j>scrollTicketnum) j=scrollTicketnum;
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget())
-                widget->deleteLater();
-
-            delete item;
-        }
+        layoutCleaner(2);
         ticket_now=j-3;
         ticketInfo* ticket0=new ticketInfo(copylogs[j-3],0);
         ticketInfo* ticket1=new ticketInfo(copylogs[j-2],0);
@@ -1168,6 +1289,17 @@ void MainWindow::on_verticalScrollBar_2_valueChanged(int value)
         connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
     }
 }
+/*
+通过dijiestra算法的输出生成票据的函数：setLog
+    func：根据输入的dijiestra算法路径字符串与搜索模式从航班数据中搜索符合要求的票据，并将其放入logs数组中，并展示前3个票据到滚动区域中。
+    input args：
+        s:dijiestra算法路径字符串
+        mode:搜索模式
+    write args:
+        logs:搜索票据数组
+        ticketnum：搜索票据数组中的票据数量
+        ticket_checkednum：已经做过有效性检测的票据数量
+*/
 void MainWindow::setLog(string s,int mode){
     QDate curDate =ui->dateEdit->date();
     curdate=curDate;
@@ -1189,35 +1321,58 @@ void MainWindow::setLog(string s,int mode){
     QStringList mid[5];
     Log *p,*q;
     int i=0,j=0,k=0;
+    //解析dijiestra算法路径字符串
     foreach (QString item, qsl) {
+        //使用数字正则表达式匹配字符串
         matchnum = numbers.match(item);
         if(item=="不可达") return;
+        //如果匹配成功
         if(matchnum.hasMatch()){
+            //如果小于20，则为城市信息
             if(item.toInt()<20){
+                //如果始发地为空，则设置始发地
                 if(coc=="") coc=citys[item.toInt()];
+                //否则加入中转数组
                 else {
                     mid->append(citys[item.toInt()]);
                     i++;
                 }
+                //设置目的地
                 ari=citys[item.toInt()];
             }
+            //否则认为是路径长度信息，赋值给路径长度
             else if(price_max<item.toInt()) price_max=item.toInt();
         }
     }
+    //将中转城市的最后一个去除（将目的地去除）
     mid->removeLast();
     beg=coc;
     i=0;
     j=ticket_checkednum;
+    //如果是直飞
     if(mid->empty()){
-        fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+ coc + "-" + ari + ".txt";
+        fname=pathCreator("")+year+"."+month+"."+day+"/"+ coc + "-" + ari + ".txt";
+        //读取当日航班
         QFile fs(fname);
         if(fs.open(QIODeviceBase::ReadOnly)){
             QTextStream in(&fs);
             in.setEncoding(QStringConverter::System);
+            //获取每行航班信息
             while (in.atEnd()==false){
                 info0=in.readLine();
                 QStringList infos=info0.split('/');
                 i=0;
+                /*
+                    获取该行每个部分的信息
+                        company：航空公司
+                        ID：航班号
+                        sou：始发地
+                        des：目的地
+                        time0：始发时间
+                        time1：到达时间
+                        price：价格
+                        chi：准点率
+                 */
                 foreach (QString item, infos) {
                     switch(i){
                     case(0):company=item;break;
@@ -1231,8 +1386,11 @@ void MainWindow::setLog(string s,int mode){
                     }
                     i++;
                 }
+                //将信息设置到票据中
                 logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                //设置路径信息
                 logs[j].setRoute(QString::fromStdString(s));
+                //表示该票没有子票（直飞）
                 logs[j].next=NULL;
                 j++;
             }
@@ -1241,24 +1399,43 @@ void MainWindow::setLog(string s,int mode){
             //     qDebug() <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
             // }
         }
+        //更新当前票据数量
         ticketnum=j;
+        //更新已检查票据数量
         ticket_checkednum=ticketnum;
         fs.close();
+        //按价格排序（随机轴值）
         QuickSort(logs,ticketnum,2,1);
     }
+    //如果有中转
     else{
+        //获取中转地
         las=mid->first();
         while(1){
+            //如果是从始发地出发的
             if(beg==coc){
-                fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+ coc + "-" + las + ".txt";
+                //读取当日航班
+                fname=pathCreator("")+year+"."+month+"."+day+"/"+ coc + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
+                    //获取每行航班信息
                     QTextStream in(&fs);
                     in.setEncoding(QStringConverter::System);
                     while (in.atEnd()==false){
                         info0=in.readLine();
                         QStringList infos=info0.split('/');
                         i=0;
+                        /*
+                            获取该行每个部分的信息
+                                company：航空公司
+                                ID：航班号
+                                sou：始发地
+                                des：目的地
+                                time0：始发时间
+                                time1：到达时间
+                                price：价格
+                                chi：准点率
+                        */
                         foreach (QString item, infos) {
                             switch(i){
                             case(0):company=item;break;
@@ -1272,10 +1449,14 @@ void MainWindow::setLog(string s,int mode){
                             }
                             i++;
                         }
+                        //将信息设置到一个新的票据中
                         Log* log0=new Log();
                         log0->setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        //并将票根的子票指针指向新的票据
                         logs[j].next=log0;
+                        //将信息设置到票根中
                         logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        //设置路径
                         logs[j].setRoute(QString::fromStdString(s));
                         j++;
                     }
@@ -1284,17 +1465,22 @@ void MainWindow::setLog(string s,int mode){
                     //     qDebug() << "首" <<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     // }
                 }
+                //更新当前票据数量
                 ticketnum=j;
                 fs.close();
+                //将中转地设为下一次始发地
                 beg=mid->first();
                 mid->removeFirst();
+                //如果中转数组为空，则将下一个目的地设为最终目的地
                 if(mid->empty()) las=ari;
+                //否则从中转数组中获取下一个中转地
                 else las=mid->first();
             }
             else{
                 j=0;
+                //新建转机子票据数据
                 Log logs0[1000];
-                fname="E:/Qtproject/Dtrip/"+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
+                fname=pathCreator("")+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
                     QTextStream in(&fs);
@@ -1319,31 +1505,42 @@ void MainWindow::setLog(string s,int mode){
                         logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         j++;
                     }
-                    if(mode==1 || mode==5) QuickSort(logs0,j,2,1);
+                    //如果搜索模式为费用最少（普通或深度搜索），对子票据进行起飞时间排序（快排随机轴值），并进行归并价格排序
+                    if(mode==1 || mode==5) {
+                        QuickSort(logs0,j,3,1);
+                        Log logs0merge[1000];
+                        mergeSort(logs0,logs0merge,0,j-1);
+                    }
                     // for(i=0;i<j;i++){
                     //     qDebug() <<"中"<<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
                     // }
                     int log_number=0,l=ticketnum-1;
                     bool repeat=false;
-                    if(mode==2 || mode==6) QuickSort_Turn(logs[i],logs0,j,1);
+                    //以前面的票据为票根，开始搜索哪一个票据符合转机要求，并将其添加到其中
                     for(i=ticket_checkednum;i<ticketnum;i++){
+                        //如果时间跨度以经超过两天，不继续进行搜索
                         if(logs[i].time1.right(2)=="+2"){
                             logs[i].des="不可达";
                             continue;
                         }
+                        //如果该票被废弃，不继续进行搜索
                         if(logs[i].des=="不可达") continue;
+                        //如果时间跨度未超过一天
                         if(logs[i].time1.right(2)!="+1"){
-                            repeat=false;
-                            log_number=0;
-                            if(mode==1 || mode==5) k=modSearch(logs0,logs[i].time1,0,j+1);
-                            else k=0;
-                            if(k==0 && timediffer(logs[i].time1,logs0[j-1].time0)<0 && (mode==1 || mode==5)) {
+                            if(mode==2 || mode==6) QuickSort_Turn(logs[i],logs0,j,1);
+                            // //如果是时间最短算法并且没找到则不继续进行搜索
+                            if(timediffer(logs[i].time1,logs0[0].time0)<0 && (mode==2 || mode==6)) {
                                 logs[i].des="不可达";
                                 continue;
                             }
+                            repeat=false;
+                            log_number=0;
                             QString time_preserve=logs[i].time1;
-                            for(; k<=j;k++){
+                            //开始查找符合转机条件的机票
+                            for(k=0; k<j;k++){
+                                //如果转机时间在1到10个小时内，就将其添加进来
                                 if(timediffer(time_preserve,logs0[k].time0)>60 && timediffer(time_preserve,logs0[k].time0)<600){
+                                    //如果是本轮第一次添加，则直接加到本体上面
                                     if(!repeat) {
                                         p=&logs[i];
                                         while(p->next!=NULL){
@@ -1359,6 +1556,7 @@ void MainWindow::setLog(string s,int mode){
                                         logs[i].time1=logs0[k].time1;
                                         repeat=true;
                                     }
+                                    //否则在数组尾部创建一个新的，并深复制所有数据过去
                                     else{
                                         int price1=0;
                                         QString chi_min=logs[i].chi;
@@ -1382,23 +1580,32 @@ void MainWindow::setLog(string s,int mode){
                                         q->next=log2;
                                     }
                                     log_number++;
+                                    //如果本轮获取了三或六个子票以后直接结束查找
                                     if(log_number>=3 && mode<4) break;//&&mode<4
-                                    else if(log_number>=6 && mode==6) break;
+                                    else if(log_number>=6) break;
                                 }
                             }
-                            if(log_number==0) logs[i].des="不可达";
+                            //如果当天没有找到机票，则去第二天查找
+                            if(log_number==0) findSecondDay(logs,logs0,ticketnum,ticket_checkednum,i,mode,j,l,curdate,s);
                         }
+                        //如果时间跨度超过一天，搜索第二天的航班数据并进行匹配
                         else{
-                            repeat=false;
-                            log_number=0;
-                            QString pretime1=logs[i].time1.left(time1.size()-2);
-                            if(mode==1 || mode==5) k=modSearch(logs0,pretime1,0,j+1);
-                            else k=0;
-                            if(k==0 && timediffer(pretime1,logs0[j-1].time0)<0 && (mode==1 || mode==5)) {
+                            QString pretime1=logs[i].time1.left(logs[i].time1.size()-2);
+                            //如果搜索模式为时间最短（普通或深度搜索），对子票据进行快排起飞时间排序（随机轴值），并进行归并转机时间排序
+                            if(mode==2 || mode==6) {
+                                Log *log1=new Log();
+                                log1->time1=pretime1;
+                                QuickSort_Turn(*log1,logs0,j,1);
+                                delete log1;
+                            }
+                            //如果搜索模式为最短时间，如果未找到合适的航班，就跳过这次循环
+                            if(timediffer(pretime1,logs0[0].time0)<0 && (mode==2 || mode==6)) {
                                 logs[i].des="不可达";
                                 continue;
                             }
-                            for(; k<=j;k++){
+                            repeat=false;
+                            log_number=0;
+                            for(k=0; k<j;k++){
                                 if(timediffer(pretime1,logs0[k].time0)>60 && timediffer(pretime1,logs0[k].time0)<600){
                                     if(!repeat) {
                                         p=&logs[i];
@@ -1414,9 +1621,10 @@ void MainWindow::setLog(string s,int mode){
                                         logs[i].price=logs[i].price+logs0[k].price;
                                         QString ssss=logs0[k].time1;
                                         if(logs0[k].time1.right(2)=="+1"){
-                                            ssss=logs0[k].time1.left(time1.size()-2)+"+2";
+                                            ssss=logs0[k].time1.left(logs0[k].time1.size()-2)+"+2";
                                         }
                                         else ssss=logs0[k].time1+"+1";
+                                        //将票根的目的时间设为子票的目的时间并调整日期
                                         logs[i].time1=ssss;
                                         repeat=true;
                                     }
@@ -1439,8 +1647,9 @@ void MainWindow::setLog(string s,int mode){
                                         Log* log2=new Log();
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
                                         QString ssss=logs0[k].time1;
+                                        //将票根的目的时间设为子票的目的时间并调整日期
                                         if(logs0[k].time1.right(2)=="+1"){
-                                            ssss=logs0[k].time1.left(time1.size()-2)+"+2";
+                                            ssss=logs0[k].time1.left(logs0[k].time1.size()-2)+"+2";
                                         }
                                         else ssss=logs0[k].time1+"+1";
                                         logs[l].setLog(logs[i].company,logs[i].ID,logs[i].sou,logs0[k].des,logs[i].time0,ssss,logs0[k].price+price1,chi_min,curdate.toString());
@@ -1449,13 +1658,13 @@ void MainWindow::setLog(string s,int mode){
                                     }
                                     log_number++;
                                     if(log_number>=3 && mode<4) break;//&&mode<4
-                                    else if(log_number>=6 && mode==6) break;//&&mode<4
+                                    else if(log_number>=6) break;
                                 }
                             }
                             if(log_number==0) logs[i].des="不可达";
                         }
                     }
-
+                    //删除所有无效票据
                     ticketnum=l+1;
                     for(i=ticket_checkednum;i<=ticketnum;i++){
                         if(logs[i].des=="不可达"){
@@ -1483,6 +1692,7 @@ void MainWindow::setLog(string s,int mode){
                 else las=mid->first();
             }
         }
+        //删除所有无效票据
         for(i=ticket_checkednum;i<=ticketnum;i++){
             if(logs[i].des=="不可达"){
                 for(j=i;j<=ticketnum;j++){
@@ -1498,6 +1708,7 @@ void MainWindow::setLog(string s,int mode){
             //     qDebug() <<"结"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
             // }
         }
+        //如果票数过多，仅保留500张
         if(ticketnum<0) ticketnum=0;
         if(ticketnum>500) {
             for(i=500;i<=ticketnum;i++){
@@ -1505,14 +1716,19 @@ void MainWindow::setLog(string s,int mode){
             }
             ticketnum=500;
         }
+        //如果是费用最少算法，进行价格排序
         if(mode==1 || mode==5) QuickSort(logs,ticketnum,2,1);
+        //如果是时间最短算法，进行飞行时间排序
         else if(mode==2 || mode==6) QuickSort(logs,ticketnum,1,1);
+        //更新已检查票据数量
         ticket_checkednum=ticketnum;
     }
 }
-
+//登录按钮槽函数
 void MainWindow::on_pushButton_5_clicked()
-{   if(!login){
+{
+    //如果还没登录则弹出登录界面
+    if(!login){
         if(loginW==NULL){
             loginW=new Login();
             loginW->show();
@@ -1520,6 +1736,7 @@ void MainWindow::on_pushButton_5_clicked()
         }
         else loginW->raise();
     }
+    //否则弹出用户展示界面
     else{
         userinfo *userui=new userinfo(username,cost,mileage);
         userui->show();
@@ -1527,7 +1744,7 @@ void MainWindow::on_pushButton_5_clicked()
     }
 }
 
-
+//始发地输入栏的提示词生成函数
 void MainWindow::on_lineEditdep_textChanged(const QString &arg1)
 {
     int i,j,k;
@@ -1554,7 +1771,7 @@ void MainWindow::on_lineEditdep_textChanged(const QString &arg1)
     }
 }
 
-
+//目的地输入栏的提示词生成函数
 void MainWindow::on_lineEditari_textChanged(const QString &arg1)
 {
     int i;
@@ -1581,48 +1798,38 @@ void MainWindow::on_lineEditari_textChanged(const QString &arg1)
     }
 }
 
+/*
+向下移动按钮槽函数：
+    注：一次一个票据，仅在票据数量大于滚动区域单次能显示的数量时才管用。
+    搜索界面与退改签界面公用
+    func：
+        搜索界面普通模式
+        搜索界面筛选模式
+        退改签界面普通模式
+        退改签界面改签模式
+        退改签界面筛选模式
+        退改签界面过往票据模式
+*/
 void MainWindow::on_pushButton_7_clicked()
 {
     if(ui->pushButton_1->isChecked()){
+        //搜索界面普通模式
         if(copymode==0 && ticketnum>3 && ticket_now<ticketnum-3){
             int i=0,j;
-            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
-
-                if (QSpacerItem* spaerItem = item->spacerItem()){
-                    ui->verticalLayout_2->removeItem(spaerItem);
-                }
-
-                delete item;
-            }
+            layoutCleaner(2);
             ticket_now=ticket_now+1;
             j=ticket_now+3;
-            ticketInfo* ticket0=new ticketInfo(&logs[j-3],0);
-            ticketInfo* ticket1=new ticketInfo(&logs[j-2],0);
-            ticketInfo* ticket2=new ticketInfo(&logs[j-1],0);
-            ui->verticalLayout_2->addWidget(ticket0);
-            ui->verticalLayout_2->addWidget(ticket1);
-            ui->verticalLayout_2->addWidget(ticket2);
-            connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            connect(ticket1,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
-            connect(ticket2,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            for(i=j-3;i<j;i++){
+                ticketInfo* ticket0=new ticketInfo(&logs[i],0);
+                ui->verticalLayout_2->addWidget(ticket0);
+                connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
+            }
             //ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
+        //搜索界面筛选模式
         else if(copymode==1 && copynum>3 && ticket_now<copynum-3){
             int i=0,j;
-            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
-
-                delete item;
-            }
+            layoutCleaner(2);
             ticket_now=ticket_now+1;
             j=ticket_now+3;
             for(i=j-3;i<j;i++){
@@ -1633,22 +1840,11 @@ void MainWindow::on_pushButton_7_clicked()
         }
     }
     else if(ui->pushButton_2->isChecked()){
+        //退改签界面改签模式
         if(changemode==1){
             if(ticketnum>5 && ticket_now<ticketnum-5){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now+1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1660,21 +1856,10 @@ void MainWindow::on_pushButton_7_clicked()
             }
         }
         else{
+            //退改签界面过往票据模式
             if(copymode==0 && premode==1 && myticketnum+mypreticketnum>5 && ticket_now<myticketnum+mypreticketnum-5){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now+1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1687,21 +1872,10 @@ void MainWindow::on_pushButton_7_clicked()
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
             }
+            //退改签界面普通模式
             else if(copymode==0 && myticketnum>5 && ticket_now<myticketnum-5){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now+1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1711,21 +1885,10 @@ void MainWindow::on_pushButton_7_clicked()
                 }
                 //ui->verticalScrollBar_3->setValue((ticket_now/(double)(myticketnum-5))*999);
             }
+            //退改签界面筛选模式
             else if(copymode==1 && copynum>5 && ticket_now<copynum-5){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now+1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1738,24 +1901,25 @@ void MainWindow::on_pushButton_7_clicked()
     }
 }
 
-
+/*
+向上移动按钮槽函数：
+    注：一次一个票据，仅在票据数量大于滚动区域单次能显示的数量时才管用。
+    搜索界面与退改签界面公用
+    func：
+        搜索界面普通模式
+        搜索界面筛选模式
+        退改签界面普通模式
+        退改签界面改签模式
+        退改签界面筛选模式
+        退改签界面过往票据模式
+*/
 void MainWindow::on_pushButton_6_clicked()
 {
     if(ui->pushButton_1->isChecked()){
+        //搜索界面普通模式
         if(copymode==0 && ticketnum>3 && ticket_now>0){
             int i=0,j;
-            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    ui->verticalLayout_2->removeItem(spaerItem);
-
-                delete item;
-            }
+            layoutCleaner(2);
             ticket_now=ticket_now-1;
             j=ticket_now+3;
             for(i=j-3;i<j;i++){
@@ -1765,20 +1929,10 @@ void MainWindow::on_pushButton_6_clicked()
             }
             //ui->verticalScrollBar_2->setValue(ticket_now/(double)(ticketnum-3)*999);
         }
+        //搜索界面筛选模式
         else if(copymode==1 && copynum>3 && ticket_now>0){
             int i=0,j;
-            while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()){
-                    widget->disconnect();
-                    widget->deleteLater();
-                }
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    ui->verticalLayout_2->removeItem(spaerItem);
-
-                delete item;
-            }
+            layoutCleaner(2);
             ticket_now=ticket_now-1;
             j=ticket_now+3;
             for(i=j-3;i<j;i++){
@@ -1789,22 +1943,11 @@ void MainWindow::on_pushButton_6_clicked()
         }
     }
     else if(ui->pushButton_2->isChecked()){
+        //退改签界面改签模式
         if(changemode==1){
             if(ticketnum>5 && ticket_now>0){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now-1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1816,21 +1959,10 @@ void MainWindow::on_pushButton_6_clicked()
             }
         }
         else{
+            //退改签界面过往票据模式
             if(copymode==0 && premode==1 && myticketnum+mypreticketnum>5 && ticket_now>0){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now-1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1841,21 +1973,10 @@ void MainWindow::on_pushButton_6_clicked()
                     connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
                 }
             }
+            //退改签界面普通模式
             if(copymode==0 && myticketnum>5 && ticket_now>0){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now-1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1865,21 +1986,10 @@ void MainWindow::on_pushButton_6_clicked()
                 }
                 //ui->verticalScrollBar_3->setValue(ticket_now/(double)(myticketnum-5)*999);
             }
+            //退改签界面筛选模式
             else if(copymode==1 && copynum>5 && ticket_now>0){
                 int i=0,j;
-                while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-                {
-                    if (QWidget* widget = item->widget()){
-                        widget->disconnect();
-                        widget->deleteLater();
-                    }
-
-                    if (QSpacerItem* spaerItem = item->spacerItem()){
-                        verticalLayout_7->removeItem(spaerItem);
-                    }
-
-                    delete item;
-                }
+                layoutCleaner(7);
                 ticket_now=ticket_now-1;
                 j=ticket_now+5;
                 for(i=j-5;i<j;i++){
@@ -1891,6 +2001,28 @@ void MainWindow::on_pushButton_6_clicked()
         }
     }
 }
+/*
+登录界面返回信息的接收函数： getLoginMessage
+    func：
+        1.接收所有用户信息
+        2.计算用户画像
+        3.设置个性化广告
+    args：
+        username：用户名
+        mylog：用户有效票据数组
+        prelogs：用户失效票据数据
+        myticketnum：用户有效票据数量
+        mypreticketnum：用户失效票据数量
+        home：用户家所在城市
+        probability：home对应的概率
+        common：用户常去地
+        pco：common对应的概率
+        time_money，time_time，time_straight：分别是费用最少，时间最短，直飞搜索算法的用户权重
+        citytimesfrom：用户全部始发城市的搜索权重数组
+        citytimesto：用户全部目的城市的搜索权重数组
+        cost：用户累计消费
+        mileage：用户累计里程
+*/
 void MainWindow::getLoginMessage(QString username,Log* mylog,Log * prelogs,int myticketnum,int mypreticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float *citytimesfrom,float *citytimesto,int cost,int mileage){
     if(username!=""){
         this->username=username;
@@ -1917,30 +2049,11 @@ void MainWindow::getLoginMessage(QString username,Log* mylog,Log * prelogs,int m
         float probus=0;
         userImageAnalyse(userLogs,&bus,&probus);
         userSearchAnalyse(&commonfrom,&commonto,&profrom,&proto);
-        QImage imgGg;
-        if(!bus && common!=-1){
-            QString ts="E:/Qtproject/Dtrip/"+citys[this->common]+"旅.jpg";
-            imgGg.load(ts);
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
-        else if(home!=-1){
-            if(this->home==0 ||this->home==1 || this->home==3){
-                imgGg.load("E:/Qtproject/Dtrip/"+citys[this->home]+"商.jpg");
-            }
-            else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
-        else if(commonfrom!=-1){
-            if(this->commonfrom==0 ||this->commonfrom==1 || this->commonfrom==3){
-                imgGg.load("E:/Qtproject/Dtrip/"+citys[this->commonfrom]+"商.jpg");
-            }
-            else imgGg.load("E:/Qtproject/Dtrip/通用商.jpg");
-            ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
-        }
+        setAD(bus);
     }
     loginW=NULL;
 }
-
+//用户展示界面返回的 退出登录信息的接收函数
 void MainWindow::getuserinfoMessage()
 {
     this->login=false;
@@ -1948,41 +2061,20 @@ void MainWindow::getuserinfoMessage()
     this->myticketnum=0;
     ui->pushButton_5->setText("登录");
 }
-
+//搜索方式下拉栏变化槽函数，用于设置深度搜索按钮的可用性（智能搜索与直飞禁用）
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     if(index==0 || index==3) ui->checkBox->setDisabled(true);
     else ui->checkBox->setDisabled(false);
 }
 
-
+//退改签界面初始化函数
 void MainWindow::on_pushButton_2_clicked()
 {
     if(ui->pushButton_2->isChecked()){
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
-        }
+        //由于与其他界面有公用控件，所以才需要以下语句设置控件
+        layoutCleaner(2);
+        layoutCleaner(7);
         widget0->show();
         resetChecked();
         ui->pushButton_2->setChecked(true);
@@ -2011,6 +2103,7 @@ void MainWindow::on_pushButton_2_clicked()
         ui->pushButton_12->setVisible(false);
         ui->scrollArea->setVisible(false);
         ui->comboBox_2->setGeometry(180,65,201,22);
+        //由于退改签界面的排序规则比搜索界面更多，因此加入新的规则
         if(ui->comboBox_2->count()==10){
             ui->comboBox_2->addItems({"PID-升序","PID-降序","出发日期-升序","出发日期-降序"});
         }
@@ -2039,16 +2132,8 @@ void MainWindow::on_pushButton_2_clicked()
         copymode=0;
         premode=0;
         ticket_now=0;
-        if(m!=NULL){
-            m->setAttribute(Qt::WA_DeleteOnClose, true);
-            m->close();
-            m=NULL;
-        }
-        if(m4!=NULL){
-            m4->setAttribute(Qt::WA_DeleteOnClose, true);
-            m4->close();
-            m4=NULL;
-        }
+        //清空系统无法自动回收的界面
+        lastWindowCleaner();
         int i;
         if(myticketnum==0){
             Log* logno=new Log();
@@ -2078,10 +2163,11 @@ void MainWindow::on_pushButton_2_clicked()
     }
 }
 
-
+//搜索界面初始化函数
 void MainWindow::on_pushButton_1_clicked()
 {
     if(ui->pushButton_1->isChecked()){
+        //由于与其他界面有公用控件，所以才需要以下语句设置控件（后台界面不用了太复杂）
         widget0->hide();
         resetChecked();
         ui->pushButton_1->setChecked(true);
@@ -2132,24 +2218,18 @@ void MainWindow::on_pushButton_1_clicked()
         ui->verticalScrollBar_2->setVisible(true);
         ui->verticalScrollBar_3->setVisible(false);
         ui->widget->setVisible(false);
-        if(m!=NULL){
-            m->setAttribute(Qt::WA_DeleteOnClose, true);
-            m->close();
-            m=NULL;
-        }
-        if(m4!=NULL){
-            m4->setAttribute(Qt::WA_DeleteOnClose, true);
-            m4->close();
-            m4=NULL;
-        }
+        //清空系统无法自动回收的界面
+        lastWindowCleaner();
+        layoutCleaner(7);
     }
     changemode=0;
 }
 
-
+//用户信息统计界面初始化函数
 void MainWindow::on_pushButton_3_clicked()
 {
     if(ui->pushButton_3->isChecked()){
+        //由于与其他界面有公用控件，所以才需要以下语句设置控件
         widget0->hide();
         resetChecked();
         ui->pushButton_3->setChecked(true);
@@ -2192,28 +2272,11 @@ void MainWindow::on_pushButton_3_clicked()
         ui->dateEdit_2->setVisible(false);
         ui->checkBox_2->setVisible(false);
         ui->checkBox_3->setVisible(false);
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
-        }
-        if(m!=NULL){
-            m->setAttribute(Qt::WA_DeleteOnClose, true);
-            m->close();
-            m=NULL;
-        }
-        if(m4!=NULL){
-            m4->setAttribute(Qt::WA_DeleteOnClose, true);
-            m4->close();
-            m4=NULL;
-        }
+        //清空滚动区域内控件
+        layoutCleaner(2);
+        //清空系统不会自动回收的界面
+        lastWindowCleaner();
+        //新建地图窗口
         m=new Map(userLogs,myticketnum);
         WId proc1Window_HWND = WId(this->winId()); //记下进程1的窗口句柄
         //TODO: 创建一个进程1的窗口代理
@@ -2228,6 +2291,7 @@ void MainWindow::on_pushButton_3_clicked()
         m->resize(780, 600);
         m->move(150,70);
         m->show();
+        //设置用户信息
         if(username!=""){
             ui->label_22->setText(username);
             if(home!=-1){
@@ -2266,9 +2330,10 @@ void MainWindow::on_pushButton_3_clicked()
     changemode=0;
 }
 
-
+//退改签界面滚动条，滚动功能函数（更换显示的票据）注：对应票数>5时才管用
 void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
 {
+    //如果是改签模式
     if(changemode==1){
         if(ticketnum>4){
             int i=0;
@@ -2276,15 +2341,7 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
             j=(ticketnum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>ticketnum) j=ticketnum;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()) widget->deleteLater();
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    verticalLayout_7->removeItem(spaerItem);
-
-                delete item;
-            }
+            layoutCleaner(7);
             //ticket_now=j-5;
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0=new ticketInfo(&logs[i],clog,4);
@@ -2293,22 +2350,16 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
             }
         }
     }
+    //一般模式
     else{
-        if(copymode==0 && premode==1 && myticketnum+mypreticketnum>4){
+        //如果开启了过往票据查询
+        if(copymode==0 && premode==1 && myticketnum+mypreticketnum>5){
             int i=0;
             int j=5;
             j=(myticketnum+mypreticketnum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>myticketnum+mypreticketnum) j=myticketnum+mypreticketnum;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()) widget->deleteLater();
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    verticalLayout_7->removeItem(spaerItem);
-
-                delete item;
-            }
+            layoutCleaner(7);
             //ticket_now=j-5;
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0;
@@ -2318,21 +2369,14 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
                 connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             }
         }
-        else if(myticketnum>4 && copymode==0){
+        //如果没有开启筛选功能
+        else if(myticketnum>5 && copymode==0){
             int i=0;
             int j=5;
             j=(myticketnum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>myticketnum) j=myticketnum;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()) widget->deleteLater();
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    verticalLayout_7->removeItem(spaerItem);
-
-                    delete item;
-            }
+            layoutCleaner(7);
             //ticket_now=j-5;
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0=new ticketInfo(&userLogs[i],3);
@@ -2340,21 +2384,14 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
                 connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             }
         }
+        //如果开启了筛选功能
         else if(copymode==1 && copynum>5){
             int i=0;
             int j=5;
             j=(copynum-5)*((double)value/(double)999)+5;
             if(j<5)j=5;
             if(j>copynum) j=copynum;
-            while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-            {
-                if (QWidget* widget = item->widget()) widget->deleteLater();
-
-                if (QSpacerItem* spaerItem = item->spacerItem())
-                    verticalLayout_7->removeItem(spaerItem);
-
-                delete item;
-            }
+            layoutCleaner(7);
             for(i=j-5;i<j;i++){
                 ticketInfo* ticket0=new ticketInfo(copylogs[i],3);
                 verticalLayout_7->addWidget(ticket0);
@@ -2363,7 +2400,14 @@ void MainWindow::on_verticalScrollBar_3_valueChanged(int value)
         }
     }
 }
-
+/*
+ 排序按钮槽函数：
+    func：实现票据的排序（搜索，退改签界面公用）
+    sortmode 1：飞行时间 2：价格 3：起飞时间 4：降落时间 5：准点率 6：PID 7：日期（升序）
+        7以上为降序对应排序规则为sortnum mod7
+    关于排序：对于逆序排序采用了调换的方式优化
+    注：由于采用了共用的设计，因此逻辑极为复杂
+ */
 void MainWindow::on_pushButton_9_clicked(bool checked)
 {
     int index=ui->comboBox_2->currentIndex();
@@ -2400,19 +2444,9 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         case 9:if(sortmode==12) invert(logs,ticketnum); else QuickSort(logs,ticketnum,5,0); sortmode=5;break;
         }
     }
+    //如果是搜索界面并且没有开启筛选功能
     if(ui->pushButton_1->isChecked() && copymode==0){
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
-        }
+        layoutCleaner(2);
         k=3;
         for(i=2;i>=0;i--){
             if(logs[i].ID=="" || logs[i].des=="不可达"){
@@ -2434,23 +2468,14 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
             }
         }
     }
+    //如果是搜索界面并且开启筛选功能
     else if(ui->pushButton_1->isChecked() && copymode==1){
         getScrollBarMessage();
     }
+    //如果是退改签界面并且开启改签功能
     else if(ui->pushButton_2->isChecked() && changemode==1){
         k=5;
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        layoutCleaner(7);
         for(i=4;i>=0;i--){
             if(logs[i].ID=="" || logs[i].des=="不可达"){
                 k=i;
@@ -2471,20 +2496,11 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
             }
         }
     }
+    //如果是退改签界面并且开启筛选功能
     else if(ui->pushButton_2->isChecked() && copymode==1) on_checkBox_2_stateChanged(ui->checkBox_2->isChecked());
+    //如果是退改签界面并且没有开启改签功能
     else if(ui->pushButton_2->isChecked() && changemode==0){
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        layoutCleaner(7);
         if(myticketnum==0) {
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
@@ -2512,17 +2528,9 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
     ticket_now=0;
     ui->checkBox_3->setCheckState(Qt::Unchecked);
 }
+//覆写关闭事件，删除了一些系不会自动回收的界面，并向数据库写入用户信息
 void MainWindow::closeEvent(QCloseEvent *event) {
-    if(m!=NULL){
-        m->setAttribute(Qt::WA_DeleteOnClose, true);
-        m->close();
-        m=NULL;
-    }
-    if(m4!=NULL){
-        m4->setAttribute(Qt::WA_DeleteOnClose, true);
-        m4->close();
-        m4=NULL;
-    }
+    lastWindowCleaner();
     if(username!=""){
         QSqlDatabase database;
         database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
@@ -2581,7 +2589,13 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         }
     }
 }
-
+/*
+用户画像分析算法：userImageAnalyse
+args：
+  userLogs为用户的票据数组
+  bus为用户画像
+  probus为用户画像预估概率
+*/
 void MainWindow::userImageAnalyse(Log* userLogs,bool *bus,float *probus){
     int Times[2]={0,0};
     *probus=0;
@@ -2600,7 +2614,14 @@ void MainWindow::userImageAnalyse(Log* userLogs,bool *bus,float *probus){
     }
     else *bus=false;
 }
-
+/*
+用户票务始发地与目的地的分析算法：userSearchAnalyse
+args：
+  commonfrom为始发地
+  commonto为目的地
+  profrom为始发地的预估概率
+  proto为目的地的预估概率
+*/
 void MainWindow::userSearchAnalyse(int *commonfrom,int * commonto,float *profrom,float *proto){
     *commonfrom=-1;
     *commonto=-1;
@@ -2637,24 +2658,25 @@ void MainWindow::userSearchAnalyse(int *commonfrom,int * commonto,float *profrom
     }
     if(max!=0) *proto=max/(double)(max+premax);
 }
+//我的订单按钮按下跳转至退改签界面
 void MainWindow::on_pushButton_8_clicked()
 {
     ui->pushButton_2->setChecked(true);
     on_pushButton_2_clicked();
 }
 
-
+//退出按钮
 void MainWindow::on_pushButton_10_clicked()
 {
     this->close();
 }
-
+//当退改签界面的滚动条停止滚动时设置当前滚动区域顶部的票号
 void MainWindow::on_verticalScrollBar_3_sliderReleased()
 {
     int value=ui->verticalScrollBar_3->value();
     ticket_now=(myticketnum-5)*((double)value/(double)999);
 }
-
+//将迪杰斯特拉算法输出的字符串翻译为人能看懂的格式
 QString MainWindow::routeTranslate(QString qs){
     QStringList qsl=qs.split(' ');
     QRegularExpression numbers( "0|[1-9]\\d{0,1}" );
@@ -2687,14 +2709,17 @@ QString MainWindow::routeTranslate(QString qs){
     route=route+"降："+ari+" ￥"+QString::number(price_max);
     return route;
 }
-
+//筛选滚动区域的槽函数，用于及时更新筛选结果
 void MainWindow::getScrollBarMessage(){
+    //如果筛选滚动区域内发生变化，则重新筛选票据
     int i;
     QStringList st;
     QWidget* wid=ui->scrollArea->widget();
+    //查找所有选中筛选项
     foreach(QCheckBox* child,wid->findChildren<QCheckBox*>()){
         if(child->isChecked()) st.append(child->objectName());
     }
+    //空则关闭筛选模式
     if(st.empty()){
         copymode=0;
         ui->verticalScrollBar_2->setSliderPosition(0);
@@ -2703,8 +2728,10 @@ void MainWindow::getScrollBarMessage(){
     }
     copynum=0;
     copymode=1;
+    //筛选每一张票，并把符合条件的票的地址放入筛选指针数组
     for(i=0;i<ticketnum;i++){
         foreach(QString item,st){
+            //如果是航线筛选
             if(item.left(1)=="起"){
                 if(routeTranslate(logs[i].route)==item){
                     copylogs[copynum]=&logs[i];
@@ -2712,6 +2739,7 @@ void MainWindow::getScrollBarMessage(){
                     break;
                 }
             }
+            //如果是航空公司筛选
             else{
                 if(item.mid(0,logs[i].company.length()).contains(logs[i].company)){
                     copylogs[copynum]=&logs[i];
@@ -2721,13 +2749,8 @@ void MainWindow::getScrollBarMessage(){
             }
         }
     }
-    while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-    {
-        if (QWidget* widget = item->widget())
-            widget->deleteLater();
-
-        delete item;
-    }
+    //清空票据滚动区域内控件
+    layoutCleaner(2);
     ticket_now=0;
     if(copynum==0){
             Log* logno=new Log();
@@ -2752,39 +2775,36 @@ void MainWindow::getScrollBarMessage(){
     }
     ui->verticalScrollBar_2->setSliderPosition(0);
 }
-
+//搜索界面筛选按钮槽函数，用于控制筛选滚动区域的显示情况
 void MainWindow::on_pushButton_12_clicked()
 {
+    //如果按下搜索界面筛选按钮，将滚动区域显示出来，否则隐藏
     if(ui->scrollArea->isVisible()) ui->scrollArea->setVisible(false);
     else ui->scrollArea->setVisible(true);
 }
 
-
+//日期筛选按钮槽函数，用于开启和关闭删选功能
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
+    //如果选中，并且票数大于0，开启筛选模式
     if(arg1 && myticketnum>0) {
+        //重置筛选票数
         copynum=0;
+        //开启筛选模式
         copymode=1;
         int i;
+        //将符合条件的票的指针存入筛选指针数组
         for(i=0;i<myticketnum;i++){
             if(userLogs[i].curdate==ui->dateEdit_2->date().toString()){
                 copylogs[copynum]=&userLogs[i];
                 copynum++;
             }
         }
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        //清除滚动区域内控件
+        layoutCleaner(7);
+        //设置当前滚动区域的第一张票为0号
         ticket_now=0;
+        //如果没有符合条件的票
         if(copynum==0){
             Log* logno=new Log();
             logno->setLog("没有该日机票","123456","不可达","不可达","00:00","24:00",2,"0%","");
@@ -2810,22 +2830,17 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
         }
         ui->verticalScrollBar_3->setSliderPosition(0);
     }
+    //如果取消选中
     else {
+        //关闭筛选模式
+        //清空筛选票数
         copynum=0;
         copymode=0;
+        //设置当前滚动区域的第一张票为0号
         ticket_now=0;
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        //清除滚动区域内控件
+        layoutCleaner(7);
+        //如果没有票
         if(myticketnum==0){
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
@@ -2854,30 +2869,21 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
     }
 }
 
-
+//日期栏槽函数，用于在日期改变时及时更新筛选结果
 void MainWindow::on_dateEdit_2_userDateChanged(const QDate &date)
 {
+    //如果日期筛选功能开启
     if(ui->checkBox_2->isChecked() && copymode==1){
         copynum=0;
         int i;
+        //将符合筛选条件的机票的地址放入筛选指针数组中
         for(i=0;i<myticketnum;i++){
             if(userLogs[i].curdate==ui->dateEdit_2->date().toString()){
                 copylogs[copynum]=&userLogs[i];
                 copynum++;
             }
         }
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        layoutCleaner(7);
         ticket_now=0;
         if(copynum==0){
             Log* logno=new Log();
@@ -2905,24 +2911,17 @@ void MainWindow::on_dateEdit_2_userDateChanged(const QDate &date)
         ui->verticalScrollBar_3->setSliderPosition(0);
     }
 }
-
+//过往票据按钮槽函数，用于开关过往票据功能
 void MainWindow::on_checkBox_3_stateChanged(int arg1)
 {
+    //如果选中
     if(arg1) {
+        //过往票据状态开启
         premode=true;
         ui->checkBox_2->setEnabled(false);
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        //清除滚动栏控件
+        layoutCleaner(7);
+        //如果没有票
         if(myticketnum+mypreticketnum==0){
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
@@ -2931,6 +2930,7 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
             verticalLayout_7->addWidget(ticket0);
         }
         else{
+            //如果票数少于5
             if(myticketnum+mypreticketnum<5){
                 for(int i=0;i<myticketnum+mypreticketnum;i++){
                     ticketInfo* ticket0;
@@ -2942,6 +2942,7 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
                 QSpacerItem* sp1=new QSpacerItem(20,125*(5-myticketnum-mypreticketnum),QSizePolicy::Minimum,QSizePolicy::Fixed);
                 verticalLayout_7->addItem(sp1);
             }
+            //如果票数多于5
             else{
                 for(int i=0;i<5;i++){
                     ticketInfo* ticket0;
@@ -2954,20 +2955,11 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
         }
     }
     else {
+        //过往票据状态关闭
         premode=false;
         ui->checkBox_2->setEnabled(true);
-        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                verticalLayout_7->removeItem(spaerItem);
-
-            delete item;
-        }
+        //清除滚动栏控件
+        layoutCleaner(7);
         if(myticketnum==0){
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
@@ -2996,10 +2988,11 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
     }
 }
 
-
+//后台按钮槽函数
 void MainWindow::on_pushButton_back_clicked()
 {
     if(ui->pushButton_back->isChecked()){
+        //将其他界面的控件隐藏（后台页面使用了全新的开发方式，在切换到其他界面后会自动销毁）
         widget0->hide();
         resetChecked();
         ui->pushButton_back->setChecked(true);
@@ -3042,28 +3035,9 @@ void MainWindow::on_pushButton_back_clicked()
         ui->dateEdit_2->setVisible(false);
         ui->checkBox_2->setVisible(false);
         ui->checkBox_3->setVisible(false);
-        while (QLayoutItem* item = ui->verticalLayout_2->takeAt(0))
-        {
-            if (QWidget* widget = item->widget()){
-                widget->disconnect();
-                widget->deleteLater();
-            }
-
-            if (QSpacerItem* spaerItem = item->spacerItem())
-                ui->verticalLayout_2->removeItem(spaerItem);
-
-            delete item;
-        }
-        if(m!=NULL){
-            m->setAttribute(Qt::WA_DeleteOnClose, true);
-            m->close();
-            m=NULL;
-        }
-        if(m4!=NULL){
-            m4->setAttribute(Qt::WA_DeleteOnClose, true);
-            m4->close();
-            m4=NULL;
-        }
+        layoutCleaner(2);
+        //清空系统无法自动回收的界面
+        lastWindowCleaner();
         m4=new MainWindow4();
         WId proc1Window_HWND = WId(this->winId()); //记下进程1的窗口句柄
         //TODO: 创建一个进程1的窗口代理
@@ -3080,9 +3054,87 @@ void MainWindow::on_pushButton_back_clicked()
         m4->show();
     }
 }
+//重置工具栏按钮的check状态
 void MainWindow::resetChecked(){
     ui->pushButton_1->setChecked(false);
     ui->pushButton_2->setChecked(false);
     ui->pushButton_3->setChecked(false);
     ui->pushButton_back->setChecked(false);
 }
+//设置广告函数
+void MainWindow::setAD(int bus){
+
+    QImage imgGg;
+    //如果是游客且常去地存在
+    if(!bus && common!=-1){
+        QString ts=pathCreator("")+citys[this->common]+"旅.jpg";
+        imgGg.load(ts);
+        ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+    }
+    //如果游客的家可以分析
+    else if(home!=-1){
+        if(this->home==0 ||this->home==1 || this->home==3){
+            imgGg.load(pathCreator("")+citys[this->home]+"商.jpg");
+        }
+        else imgGg.load(pathCreator("")+"通用商.jpg");
+        ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+    }
+    //如果游客常出发地存在
+    else if(commonfrom!=-1){
+        if(this->commonfrom==0 ||this->commonfrom==1 || this->commonfrom==3){
+            imgGg.load(pathCreator("")+citys[this->commonfrom]+"商.jpg");
+        }
+        else imgGg.load(pathCreator("")+"通用商.jpg");
+        ui->label_10->setPixmap(changeImage(QPixmap::fromImage(imgGg),imgGg.height()/30));
+    }
+}
+//用于清除系统无法自动回收的界面
+void MainWindow::lastWindowCleaner(){
+    if(m!=NULL){
+        m->setAttribute(Qt::WA_DeleteOnClose, true);
+        m->close();
+        m=NULL;
+    }
+    //重新点击后台按钮重建页面
+    if(m4!=NULL){
+        m4->setAttribute(Qt::WA_DeleteOnClose, true);
+        m4->close();
+        m4=NULL;
+    }
+}
+//用于清除layout中的控件
+void MainWindow::layoutCleaner(int num){
+    if(num==2) {
+        QString layoutName = QString("verticalLayout_%1").arg(num);
+        QVBoxLayout *layout = findChild<QVBoxLayout*>(layoutName);
+        if (layout) {
+            while (QLayoutItem* item = layout->takeAt(0))
+            {
+                if (QWidget* widget = item->widget()){
+                    widget->disconnect();
+                    widget->deleteLater();
+                }
+
+                if (QSpacerItem* spaerItem = item->spacerItem())
+                    layout->removeItem(spaerItem);
+
+                delete item;
+            }
+        }
+    }
+    else{
+        while (QLayoutItem* item = verticalLayout_7->takeAt(0))
+        {
+            if (QWidget* widget = item->widget()){
+                widget->disconnect();
+                widget->deleteLater();
+            }
+
+            if (QSpacerItem* spaerItem = item->spacerItem())
+                verticalLayout_7->removeItem(spaerItem);
+
+            delete item;
+        }
+    }
+}
+
