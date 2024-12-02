@@ -1,6 +1,6 @@
 #include "mysqlite.h"
 #include "QuickSort.h"
-
+//打开主数据库并获取用户密码函数：openDatabasegetPassword
 bool openDatabasegetPassword(QString *password,QString username){
     QSqlDatabase database2;
     database2 = QSqlDatabase::addDatabase("QSQLITE","read_connection_2");
@@ -29,7 +29,7 @@ bool openDatabasegetPassword(QString *password,QString username){
         return true;
     }
 }
-
+//更新主数据库中用户消费与里程函数：updateUserCostandMileage
 bool updateUserCostandMileage(int cost,int mileage,QString username){
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
@@ -67,6 +67,7 @@ bool updateUserCostandMileage(int cost,int mileage,QString username){
         }
     }
 }
+//从主数据库获取消费排行榜信息函数：getuserinfocost
 bool getuserinfocost(QStringList *names,int *costs,QString username,int &mycost,int &myrank){
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
@@ -124,6 +125,7 @@ bool getuserinfocost(QStringList *names,int *costs,QString username,int &mycost,
         }
     }
 }
+//从主数据库获取里程排行榜信息函数：getuserinfokilo
 bool getuserinfokilo(QStringList *names,int *kilos,QString username,int &mykilos,int &myrank){
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("QSQLITE","read_connection");
@@ -180,6 +182,7 @@ bool getuserinfokilo(QStringList *names,int *kilos,QString username,int &mykilos
         }
     }
 }
+//从主数据库获取用户UID函数：openDatabasegetuid
 bool openDatabasegetuid(QString *uid,QString username){
     QSqlDatabase database2;
     database2 = QSqlDatabase::addDatabase("QSQLITE","read_connection_2");

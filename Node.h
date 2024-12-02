@@ -36,7 +36,7 @@ public:
 public:
     int m_cData; //数据
     bool m_bVisited; //是否访问
-    int m_indegree;
+    int m_indegree; //入度
     Edge* next;
 };
 #endif // NODE_H

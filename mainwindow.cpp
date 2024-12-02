@@ -1478,13 +1478,20 @@ void MainWindow::setLog(string s,int mode){
             }
             else{
                 j=0;
+                //Log logs0[1000];
                 //新建转机子票据数据
-                Log logs0[1000];
                 fname=pathCreator("")+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
                     QTextStream in(&fs);
                     in.setEncoding(QStringConverter::System);
+                    int linenum=0;
+                    while (in.atEnd()==false){
+                        in.readLine();
+                        linenum++;
+                    }
+                    Log logs0[linenum];
+                    in.seek(0);
                     while (in.atEnd()==false){
                         info0=in.readLine();
                         QStringList infos=info0.split('/');
@@ -2325,7 +2332,7 @@ void MainWindow::on_pushButton_3_clicked()
         userImageAnalyse(userLogs,&business,&probus);
         if(business) ui->label_23->setText("用户画像：商业人士");
         else ui->label_23->setText("用户画像：游客");
-        ui->label_24->setText("概率："+QString::number(pco*100,'f',1)+'%');
+        ui->label_24->setText("概率："+QString::number(probus*100,'f',1)+'%');
     }
     changemode=0;
 }
@@ -2627,7 +2634,8 @@ void MainWindow::userSearchAnalyse(int *commonfrom,int * commonto,float *profrom
     *commonto=-1;
     *profrom=0;
     *proto=0;
-    int max=0,pre=-1,premax=0;
+    int pre=-1;
+    float max=0,premax=0;
     for (int i = 0; i < 16; i++) {
         if(max<citytimesfrom[i]) {
             premax=max;
@@ -2656,7 +2664,11 @@ void MainWindow::userSearchAnalyse(int *commonfrom,int * commonto,float *profrom
             premax=citytimesto[i];
         }
     }
-    if(max!=0) *proto=max/(double)(max+premax);
+    if(*commonfrom==*commonto){
+        *commonto=pre;
+        if(max!=0) *proto=premax/(double)(max+premax);
+    }
+    else if(max!=0) *proto=max/(double)(max+premax);
 }
 //我的订单按钮按下跳转至退改签界面
 void MainWindow::on_pushButton_8_clicked()

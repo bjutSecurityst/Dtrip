@@ -14,8 +14,10 @@ struct Dist {
     int m_vertex;
     int m_length;
     int m_pre_vertex;
+    //second新增
     int m_second_length;
     int m_second_pre_vertex;
+    //plus新增
     int m_length_list[100];
     int m_pre_vertex_list[100];
 };
@@ -56,6 +58,7 @@ public:
     int Parent(int pos) {
         return (pos - 1) / 2;
     }
+    //上筛
     void SiftUp(int position) {
         int temppos = position;
         Dist* temp;
@@ -66,6 +69,7 @@ public:
             temppos = Parent(temppos);
         }
     }
+    //下筛
     void SiftDown(int left) {
         int i = left;
         int j = LeftChild(i);
@@ -81,6 +85,7 @@ public:
         }
         heapArray[i] = temp;
     }
+    //插入
     bool Insert(Dist* newNode) {
         if (CurrentSize == MaxSize) return false;
         heapArray[CurrentSize] = newNode;
@@ -88,6 +93,7 @@ public:
         CurrentSize++;
         return true;
     }
+    //移出
     Dist* RemoveMin() {
         if (CurrentSize == 0) {
             cout << "Can't Delete";

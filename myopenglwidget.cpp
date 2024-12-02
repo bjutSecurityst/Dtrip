@@ -4,6 +4,7 @@
 #include "QImageReader"
 #include "QMouseEvent"
 #include "math.h"
+//3D模型展示界面
 MyOpenGLWidget::MyOpenGLWidget(int mode,QWidget *parent):QOpenGLWidget(parent)
 {
     int i=0;
@@ -11,20 +12,25 @@ MyOpenGLWidget::MyOpenGLWidget(int mode,QWidget *parent):QOpenGLWidget(parent)
     tm_.start(30);
     this->mode=mode;
 }
-
+//opengl初始函数
 void MyOpenGLWidget::initializeGL()
 {
     // 1.初始化OpenGL函数，否则OpenGL函数不可调用
     initializeOpenGLFunctions();
+    //设置着色器
     program_.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex,":/box.vert");
     program_.addCacheableShaderFromSourceFile(QOpenGLShader::Fragment,":/box.frag");
     program_.link();
+    //加载模型
     load();
     load2();
+    //创建缓冲区
     vbo_.create();
     vbo_.bind();
     vbo_.allocate(mMeshDataBuffer.data(),mMeshDataBuffer.size() * sizeof(float));
+    //加载材质
     QImage textureSrc;
+    //冠军材质
     if(mode==1){
         textureSrc = QImage(pathCreator("gold.png"));;
         if (textureSrc.isNull()) {
@@ -34,11 +40,10 @@ void MyOpenGLWidget::initializeGL()
             qDebug() << textureSrc.format();
         }
     }
+    //一般材质
     else{
         QImageReader reader(pathCreator("Color Map2.jpg"));
         reader.setScaledSize(QSize(8000, 4000));  // 缩放图片到适当大小，减少内存消耗
-
-        // 增加内存限制为 256MB 或更高
         reader.setAutoTransform(true);
         textureSrc = reader.read();
         //QImage textureSrc(":/gradbackground.png");
@@ -53,29 +58,32 @@ void MyOpenGLWidget::initializeGL()
     texture_ = new QOpenGLTexture(textureSrc);
     texture_->setWrapMode(QOpenGLTexture::Repeat);
     texture_->setMinMagFilters(QOpenGLTexture::Nearest,QOpenGLTexture::Linear);
+    //设置摄像机位置
     cameraLocation_.setX(0);
     cameraLocation_.setY(aty);
     cameraLocation_.setZ(3);
     // cameraLocation_.setX(0);
     // cameraLocation_.setY(10);
     // cameraLocation_.setZ(23);
+    //设置光源位置
     lightLocation_.setX(120);
     lightLocation_.setY(120);
     lightLocation_.setZ(120);
 }
-
+//改变显示区域大小
 void MyOpenGLWidget::resizeGL(int w, int h)
 {
     pMatrix_.setToIdentity();
     pMatrix_.perspective(45,float(w)/h,0.01f,100.0f);
 }
-
+//MYOPENGL绘制函数
 void MyOpenGLWidget::paintGL()
 {
+    //清除内容
     QOpenGLExtraFunctions *f = QOpenGLContext::currentContext()->extraFunctions();
     f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    //旋转一定角度
     QMatrix4x4 vMatrix;
     //vMatrix.lookAt(cameraLocation_,QVector3D(0,10,0),QVector3D(0,1,0));
     vMatrix.lookAt(cameraLocation_,QVector3D(0,looky,0),QVector3D(0,1,0));
@@ -86,8 +94,11 @@ void MyOpenGLWidget::paintGL()
     //    mMatrix.rotate(anglZ_,0,0,1);
     render(f,pMatrix_,vMatrix,mMatrix,cameraLocation_,lightLocation_);
 }
+//绘制子函数
 void MyOpenGLWidget::render(QOpenGLExtraFunctions *f, QMatrix4x4 &pMatrix, QMatrix4x4 &vMatrix, QMatrix4x4 &mMatrix, QVector3D &cameraLocation, QVector3D &lightCation)
 {
+    //绑定渲染程序与缓冲区
+    //启用深度检测
     f->glEnable(GL_DEPTH_TEST);
     program_.bind();
     vbo_.bind();
@@ -108,7 +119,7 @@ void MyOpenGLWidget::render(QOpenGLExtraFunctions *f, QMatrix4x4 &pMatrix, QMatr
     texture_->bind(0);
     // f->glDrawArrays(GL_TRIANGLES,0,vexCache.size()/3);
     GLuint VAO, VBO;
-    // 创建 VBO 和 VAO
+    // 创建 VBO 和 VAO绘制球体模型
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -126,7 +137,7 @@ void MyOpenGLWidget::render(QOpenGLExtraFunctions *f, QMatrix4x4 &pMatrix, QMatr
     glBindVertexArray(0);
     glBindVertexArray(VAO);
     f->glDrawArrays(GL_TRIANGLES, 0, mMeshDataBuffer.size()/8);
-    //2
+    //2，绘制RANK模型
     program_.setAttributeBuffer(0,GL_FLOAT,0,3,3*sizeof(GLfloat));
     program_.setAttributeBuffer(2,GL_FLOAT,vexCache2.size() * sizeof(GLfloat),2,2*sizeof(GLfloat));
     program_.setAttributeBuffer(1,GL_FLOAT,(vexCache2.size() + texCache2.size()) * sizeof(GLfloat),3,3*sizeof(GLfloat));
@@ -147,6 +158,7 @@ void MyOpenGLWidget::render(QOpenGLExtraFunctions *f, QMatrix4x4 &pMatrix, QMatr
     glBindVertexArray(VAO);
     f->glDrawArrays(GL_TRIANGLES, 0, mMeshDataBuffer2.size()/8);
 
+    //收尾
     program_.disableAttributeArray(0);
     program_.disableAttributeArray(1);
     program_.disableAttributeArray(2);
@@ -163,6 +175,7 @@ void MyOpenGLWidget::render(QOpenGLExtraFunctions *f, QMatrix4x4 &pMatrix, QMatr
     f->glCullFace(GL_BACK); // 剔除背面，保留正面
 
 }
+//球体模型加载函数
 void MyOpenGLWidget::load(){
     QFile objFile(pathCreator("earth.obj")); // 读取模型文件
     if(!objFile.open(QIODevice::ReadOnly)){
@@ -293,6 +306,7 @@ void MyOpenGLWidget::load(){
         }
     }
 }
+//RANK模型加载函数
 void MyOpenGLWidget::load2(){
     QFile objFile(pathCreator("无标题.obj")); // 读取模型文件
     if(!objFile.open(QIODevice::ReadOnly)){
@@ -423,6 +437,7 @@ void MyOpenGLWidget::load2(){
         }
     }
 }
+//计时器函数，用于旋转模型
 void MyOpenGLWidget::slotTimeout()
 {
     angleX_ += 2;
@@ -442,6 +457,7 @@ std::tuple<float, float, float> computeNormal(
     QVector3D normal = QVector3D::crossProduct(p2 - p1, p3 - p1).normalized();
     return {normal.x(), normal.y(), normal.z()};
 }
+//用于摄像头的移动
 void MyOpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if(pressstate){
@@ -465,6 +481,7 @@ void MyOpenGLWidget::mousePressEvent(QMouseEvent *event){
 void MyOpenGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 
 }
+//计算绕y轴旋转后模型的位置
 std::tuple<float, float, float> MyOpenGLWidget::computeRotate(
     const std::tuple<float, float, float>& v1,int rotation)
 {

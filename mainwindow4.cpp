@@ -12,11 +12,13 @@
 #include "QuickSort.h"
 #include <algorithm>
 #pragma comment(lib,"sqlcipher.LIB")
+//后台界面的实现
 MainWindow4::MainWindow4(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow4)
 {
     ui->setupUi(this);
+    //设置控件
     for(int i=0;i<16;i++){
         cityweight *cw=new cityweight(citys[i]);
         cw->setObjectName(citys[i]);
@@ -35,6 +37,7 @@ MainWindow4::MainWindow4(QWidget *parent)
     for(int i=0;i<16;i++){
         ui->comboBox->addItem(citys[i]);
     }
+    //设置输入正则表达式过滤器
     ui->lineEdit_4->setValidator(new QRegularExpressionValidator(QRegularExpression("^[0-9]+$")));
     ui->pushButton->setStyleSheet("border: 2px solid #009ef9;border-radius: 10px;background-color: white;");
 }
@@ -43,7 +46,7 @@ MainWindow4::~MainWindow4()
 {
     delete ui;
 }
-
+//判断用户组名是否符合要求
 void MainWindow4::on_lineEdit_returnPressed()
 {
     if(ui->lineEdit->text().length()<3){
@@ -52,7 +55,7 @@ void MainWindow4::on_lineEdit_returnPressed()
     }
 }
 
-
+//判断密码长度是否符合要求
 void MainWindow4::on_lineEdit_2_returnPressed()
 {
     if(ui->lineEdit_2->text().length()<6){
@@ -61,7 +64,13 @@ void MainWindow4::on_lineEdit_2_returnPressed()
     }
 }
 
-
+/*
+生成用户按钮槽函数即生成用户功能的实现
+func：
+1.对输入进行判断：用户组名是否正确，用户密码是否正确，出行次数是否符合要求
+2.开始逐用户创建数据库并搜索数据加入到数据库中
+3.生成过程中用进度条提示用户进度
+*/
 void MainWindow4::on_pushButton_clicked()
 {
     if(ui->lineEdit->text()==""){
@@ -103,76 +112,103 @@ void MainWindow4::on_pushButton_clicked()
     else if(ui->dateEdit->date().daysTo(ui->dateEdit_2->date())/ui->lineEdit_4->text().toInt()<2){
         QMessageBox msgBox;
         msgBox.setText("出行过于频繁");
-        msgBox.setInformativeText("这边建议您乘坐高超音速导弹出行");
+        msgBox.setInformativeText("出行次数不能大于天数区间的一半\n这边建议您前进四");
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.exec();
         return;
     }
     else{
+        //获取组内用户数
         int usernums=ui->spinBox->value();
         float souweight[16],desweight[16];
+        //获取用户出发地权重
         for (int i = 0; i < 16; i++)
         {
             QLayoutItem* item = ui->gridLayout->itemAt(i);
             cityweight *child=(cityweight*)item->widget();
             souweight[i]=child->getweight();
         }
+        //获取用户目的地权重
         for (int i = 0; i < 16; i++)
         {
             QLayoutItem* item = ui->gridLayout_3->itemAt(i);
             cityweight *child=(cityweight*)item->widget();
             desweight[i]=child->getweight();
         }
+        //获取用户搜索方式
         int searchmode=ui->comboBox_3->currentIndex();
+        //初始化进度条
         ui->lineEdit_5->clear();
         ui->label_14->setText("0%");
+        //开始生成用户
         for(int usernum=0;usernum<usernums;usernum++){
+            //首先创建用户数据库，并设置部分用户数据
             createUsers(usernum,souweight,desweight,searchmode);
+            //接下来开始票据生成
+            //先获取区间起始日期
             QDate curdate=ui->dateEdit->date();
+            //获取常乘航司信息
             QString company=ui->lineEdit_3->text();
+            //sounum：出行次数 interval：区间天数长度
             int sounum,interval;
+            //获取出行次数
             sounum=ui->lineEdit_4->text().toInt();
             int *days=new int[sounum];
             interval=ui->dateEdit->date().daysTo(ui->dateEdit_2->date());
+            //生成一个0-区间天数的数组
             vector<int> temp;
             for (int i = 0; i <= interval; i++){
                 temp.push_back(i);
             }
+            //随机打乱该数组
             random_shuffle(temp.begin(), temp.end());
+            //取该数组的前sounum个作为出行日期
             for(int i=0;i<sounum;i++){
                 days[i]=temp[i];
             }
+            //将出行日期升序排序
             QuickSortcommon(days,sounum,0,0);
             Log mylogs[1000];
             int myticketnum=0;
+            //开始逐日期构建航线并获取机票数据
             for(int i=0;i<sounum;i++){
+                //计算出发日期
                 curdate=ui->dateEdit->date().addDays(days[i]);
+                //period：这次出行的最长天数，daysstay：在此地的停留时间
                 int period=14,daysstay=0;
+                //flytimes：飞行权重（用于计算回家概率）
                 float flytimes=0.5;
+                //计算本次出行的最长天数
                 if(i!=sounum-1) period=days[i+1]-days[i];
                 //购买第一张票
                 int end=0,modebase=0,home;
+                //urgent：是否为紧急清况（来不及了）
                 bool urgent=false;
+                //获取用户住所作为始发地
                 int begin=ui->comboBox->currentIndex();
+                //第一张票的始发地为用户住所
                 home=begin;
-                //根据权重随机目的地
+                //根据权重随机目的地（end）
                 float desweightcopy[16];
                 for(int j=0;j<16;j++){
                     if(j==home) desweightcopy[j]=0;
                     else desweightcopy[j]=desweight[j];
                 }
+                //加权随机
                 weightedRandom(desweightcopy,16,end);
-                //设置搜索方式权重
+                //设置搜索方式权重 0：费用最少，1：时间最短 2：直飞
                 float timesearchs[3];
                 switch(searchmode){
                 case(0): timesearchs[0]=8;timesearchs[1]=0.5;timesearchs[2]=0;break;
                 case(1): timesearchs[0]=0.5;timesearchs[1]=8;timesearchs[2]=0;break;
                 case(2): timesearchs[0]=0.5;timesearchs[1]=0.5;timesearchs[2]=8;break;
                 }
+                //mode：0智能搜索 3直飞 modeuser 0直飞 1：费用最少 2：时间最短
                 int mode,modeuser;
-                //如果离下次旅行只有1天，进入紧急模式
+                //如果距离下次旅行只有1天，进入紧急模式
                 if(period==1) {
+                    //急了
                     urgent=true;
                     mode=0;
                     modeuser=2;
@@ -195,15 +231,19 @@ void MainWindow4::on_pushButton_clicked()
                 }
                 Log logs[3000];
                 int ticketnum=0,ticket_checkednum=0;
-                //查询票据
+                //查询票据，算法与搜索界面相同
                 findticket(curdate,begin,end,logs,mode,modeuser,ticketnum,ticket_checkednum);
                 int rand;
                 bool find=false;
+                //如果开启了常乘航司功能
                 if(company!=""){
                     Log copylogs[1000];
                     int copynum=0;
+                    //对常乘航司进行筛选，将符合要求的机票加入到复制数组中
                     companyFilter(logs,ticketnum,copylogs,copynum);
+                    //如果存在符合要求的票
                     if(copynum>0){
+                        //随机获取一张票，并将该票放入用户票据中
                         myRandom(copynum,rand);
                         Log *p=&copylogs[rand];
                         Log *q=&mylogs[myticketnum];
@@ -221,7 +261,7 @@ void MainWindow4::on_pushButton_clicked()
                 }
                 //否则随机选票
                 if(!find){
-                    //随机选择票据
+                    //随机选择票据，并将该票放入用户票据中
                     myRandom(ticketnum,rand);
                     Log *p=&logs[rand];
                     Log *q=&mylogs[myticketnum];
@@ -235,16 +275,17 @@ void MainWindow4::on_pushButton_clicked()
                     mylogs[myticketnum].setlogL(&logs[rand]);
                     myticketnum++;
                 }
+                vector<int> precity;
                 //继续后续选择，直到回家
                 while(end!=home){
-                    //更新当前日期
+                    //根据上一张票更新当前日期
                     if(mylogs[myticketnum-1].time1!="" && mylogs[myticketnum-1].time1.last(2)=="+1"){
                         curdate=ui->dateEdit->date().addDays(days[i]+1);
                     }
                     else if(mylogs[myticketnum-1].time1!="" && mylogs[myticketnum-1].time1.last(2)=="+2"){
                         curdate=ui->dateEdit->date().addDays(days[i]+2);
                     }
-                    //如果时间紧迫，且可以推迟，就推迟下次出发的时间
+                    //如果时间紧迫，且下一次可以推迟，就推迟下次出发的时间
                     if(curdate.daysTo(ui->dateEdit->date().addDays(days[i+1]))==0){
                         if((i+2)<sounum && days[i+2]-days[i+1]>3){
                             days[i+1]++;
@@ -252,11 +293,13 @@ void MainWindow4::on_pushButton_clicked()
                         else if(i==sounum-2){
                             days[i+1]++;
                         }
+                        //进入紧急模式（你看又急）
                         urgent=true;
                     }
+                    //将上一次的始发地作为此次的目的地
                     begin=end;
                     bool back=false;
-                    //利用正态分布，计算出发间隔
+                    //如果不急的话，利用正态分布，计算出发间隔
                     if(!urgent){
                         double aver=period/2;
                         double stddev=period/6;
@@ -270,20 +313,25 @@ void MainWindow4::on_pushButton_clicked()
                             daysstay = distribution(generator);
                             if(daysstay>=0 && daysstay<period) break;
                         }
-                        //如果立即返回
                         int lastdays=period-ui->dateEdit->date().daysTo(curdate);
+                        //随机出了如果立即返回
                         if(daysstay==0){
+                            //开启紧急模式
                             urgent=true;
                         }
+                        //如果待的太久了，赶紧回家
                         else if(lastdays-daysstay<=1){
+                            //设置立即回家为true
                             back=true;
                         }
+                        //更新当前日期
                         curdate=curdate.addDays(daysstay);
                     }
                     //如果紧急立即回家
                     if(back){
                         mode=0;
                         modeuser=2;
+                        //将目的地设为家
                         end=home;
                     }
                     //否则加权计算目的地
@@ -302,14 +350,24 @@ void MainWindow4::on_pushButton_clicked()
                             modeuser=2;
                         }
                         float sum=0;
+                        //复制权重数组，将始发地的权重设为0
                         for(int j=0;j<16;j++){
                             if(j!=home) sum+=desweight[j];
                             if(j==begin) desweightcopy[j]=0;
                             else desweightcopy[j]=desweight[j];
                         }
-                        desweightcopy[home]=sum*flytimes;
+                        //将去过的地方的权重减半（每去一次减一半）
+                        if(precity.size()!=0){
+                            for(int j=0;j<precity.size();j++){
+                                if(desweightcopy[precity.at(j)]!=0) desweightcopy[precity.at(j)]=desweightcopy[precity.at(j)]/2;
+                            }
+                        }
+                        //如果始发地不等于家，则根据飞行次数设置家的权重
+                        if(begin!=home) desweightcopy[home]=sum*flytimes;
+                        //按权重随机目的地
                         weightedRandom(desweightcopy,16,end);
                     }
+                    //清空上次搜索结果
                     for(int j=0;j<ticketnum;j++){
                         logs[j].clear();
                     }
@@ -317,7 +375,7 @@ void MainWindow4::on_pushButton_clicked()
                     ticket_checkednum=0;
                     //查找票据
                     findticket(curdate,begin,end,logs,mode,modeuser,ticketnum,ticket_checkednum);
-                    //如果紧急，顺序查找
+                    //如果紧急，先查今天的再查明天的
                     if(urgent || back){
                         bool find=false;
                         int pretime=0;
@@ -361,6 +419,7 @@ void MainWindow4::on_pushButton_clicked()
                             myticketnum++;
                         }
                     }
+                    //如果不紧急，先查常乘航司，查不到再查全部
                     else{
                         bool find=false;
                         if(company!=""){
@@ -399,10 +458,13 @@ void MainWindow4::on_pushButton_clicked()
                             myticketnum++;
                         }
                     }
+                    //飞行次数上升
                     flytimes++;
+                    //将这次去的城市加入已去数组
+                    precity.push_back(end);
                 }
             }
-            //买完票后
+            //买完票后, 删除无效票据
             for(int i=myticketnum-1;i>=0;i--){
                 if(mylogs[i].time1=="" || mylogs[i].time0==""){
                     for(int j=i;j<=myticketnum;j++){
@@ -416,12 +478,14 @@ void MainWindow4::on_pushButton_clicked()
             // for(int i=0;i<myticketnum;i++){
             //     qDebug() <<mylogs[i].company<<mylogs[i].ID<<mylogs[i].sou<<mylogs[i].des<<mylogs[i].time0<<mylogs[i].time1<<mylogs[i].price<<mylogs[i].chi<<mylogs[i].curdate<< "\n";
             // }
+            //将用户票据写入用户数据库
             setTicketsToDB(mylogs,myticketnum,usernum);
+            //更新进度条
             updateMyProgressbar(usernum);
         }
     }
 }
-
+//用户数据库生成函数：createUsers 功能与登录界面的相似
 bool MainWindow4::createUsers(int num,float *souweight,float *desweight,int searchmode){
     float timemoney, timetime, timestraight;
     switch(searchmode){
@@ -558,6 +622,7 @@ bool MainWindow4::createUsers(int num,float *souweight,float *desweight,int sear
     QSqlDatabase::removeDatabase(name0);
     return true;
 }
+//查找票据函数：findticket 功能与主页面on_pushbutton4_clicked差不多，都是查找票据
 void MainWindow4::findticket(QDate curdate,int begin,int end,Log* logs,int mode,int modeuser,int &ticketnum,int &ticket_checkednum)
 {
     int nodeNum=16, arcNum=241;
@@ -630,6 +695,12 @@ void MainWindow4::findticket(QDate curdate,int begin,int end,Log* logs,int mode,
     }
     delete pMap;
 }
+/*加权随机计算函数：weightedRandom
+input args：
+    array：权重数组
+    n：数组长度
+    randnum：随机结果
+*/
 template <typename T>
 void MainWindow4::weightedRandom(T *array,int n,int &randnum){
     double sum=0;
@@ -651,12 +722,14 @@ void MainWindow4::weightedRandom(T *array,int n,int &randnum){
         }
     }
 }
+//指定范围随机小数生成函数：myRandom n：范围（0-n） randnum：随机小数
 void MainWindow4::myRandom(int n,int &randnum){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> distrib(0,n); // 指定范围
     randnum=distrib(gen);
 }
+//向数据库中写入用户票据数组 功能与主界面getticketWindowMessage差不多
 void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
     QString username=ui->lineEdit->text()+"_"+QString::number(num);
     bool business=ui->comboBox_2->currentIndex();
@@ -768,6 +841,7 @@ void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
     QSqlDatabase::removeDatabase("read_connection_2");
     updateUserCostandMileage(cost,mileage,username);
 }
+//进度条更新函数：updateMyProgressbar usernum：用户生成进度
 void MainWindow4::updateMyProgressbar(int usernum){
     int a=(usernum+1)/(float)ui->spinBox->value()*100;
     int n=a/7;
@@ -780,6 +854,7 @@ void MainWindow4::updateMyProgressbar(int usernum){
     this->show();
     update();
 }
+//常乘航司票据筛选函数：companyFilter
 void MainWindow4::companyFilter(Log *mylogs,int myticketnum,Log *copylogs,int &copynum){
     int i;
     QString st=ui->lineEdit_3->text();

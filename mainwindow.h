@@ -39,7 +39,7 @@ private slots:
     void on_pushButton_4_clicked();
 
     void on_verticalScrollBar_2_valueChanged(int value);
-
+    //通过dijiestra算法的输出生成票据的函数：setLog
     void setLog(string s,int mode);
 
     void on_button_swap_clicked();
@@ -73,7 +73,7 @@ private slots:
     void on_pushButton_10_clicked();
 
     void on_verticalScrollBar_3_sliderReleased();
-
+    //将迪杰斯特拉算法输出的字符串翻译为人能看懂的格式
     QString routeTranslate(QString qs);
 
     void on_pushButton_12_clicked();
@@ -107,15 +107,17 @@ private:
     QDate curdate;
     // dijiestela结果
     Dist *dist;
-    // 工具栏visible，是否登录,是否商业
+    // 工具栏visible，是否登录,退改是否筛选，搜索是否筛选，是否商业，是否过往模式
     bool btvisible=true,login=false,mode2filter=false,copymode=false,business=false,premode=false;
     // 交换按钮
     QPushButton* button_swap;
+    //城市名数组
     QString citys[17]={"北京","上海","昆明","广州","台北","西安","乌鲁木齐","哈尔滨","拉萨","西宁","新加坡","马尼拉","曼谷","东京","首尔","新德里"};
+    //城市位置数组
     QPoint cityp[17]={QPoint(1115,338),QPoint(1252,649),QPoint(735,828),QPoint(1025,885),QPoint(1245,834),QPoint(900,540),QPoint(310,192),QPoint(1392,139),QPoint(419,674),QPoint(699,459),QPoint(774,1472),QPoint(1230,1117),QPoint(677,1132),QPoint(1739,495),QPoint(1400,440),QPoint(42,721)};
-    Log logs[5000],*copylogs[4000];
+    Log logs[5000],*copylogs[2000];
     QString username="",userpassword;
-    // 用户票据，改签票据
+    // 用户票据，改签票据，过往票据
     Log *userLogs,*clog,*prelogs;
     // 主页模式2 widget
     QWidget* widget0;
@@ -124,26 +126,43 @@ private:
     Login* loginW=NULL;
     // 主页模式3 用户地图
     Map *m=NULL;
+    //后台界面指针
     MainWindow4 *m4=NULL;
     // 改签模式(界面2)，上次查询机票排序模式，我的机票排序模式，筛选模式（界面1）
     int changemode=0,sortmode=0,mysortmode=0;
     // 用户总消费，用户总里程
     int cost=0,mileage=0;
+    //定时的图片更新函数，更新内容包括广告图与右侧的风景图
     void Timerout();
+    //地图界面信号的主界面接收函数：
     void getMapMessage(QString a,QString b,QDate curdate);
+    //登录界面返回信息的接收函数：
     void getLoginMessage(QString username,Log* mylog,Log * prelogs,int myticketnum,int allmyticketnum,int home,double probability,int common,double pco,float time_money,float time_time,float time_straight,float* citytimesfrom,float *citytimesto,int cost,int mileage);
+    //小票据界面信号的主界面接收函数：
     void getticketInfoMessage(Log* tlog,int mode);
+    //购票主函数-即ticketwindow的接收函数：
     void getticketwindowMessage(Log* tlog);
+    //筛选滚动区域的槽函数，用于及时更新筛选结果：
     void getScrollBarMessage();
+    //用户展示界面返回的 退出登录信息的接收函数：
     void getuserinfoMessage();
+    //改签主函数：
     void changeTicketMain(Log* tlog);
+    //改签票查找函数：
     void changeTicketSearch(Log* tlog);
+    //退票函数：
     void refundTicketMain(Log* tlog);
+    //用户画像分析算法：
     void userImageAnalyse(Log* userLogs,bool *bus,float *probus);
+    //用户票务始发地与目的地的分析算法：
     void userSearchAnalyse(int *commonfrom,int * commonto,float *profrom,float *proto);
+    //重置工具栏按钮的check状态：
     void resetChecked();
+    //设置广告函数：
     void setAD(int bus);
+    //用于清除系统无法自动回收的界面：
     void lastWindowCleaner();
+    //用于清除layout中的控件
     void layoutCleaner(int num);
 };
 #endif // MAINWINDOW_H

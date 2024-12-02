@@ -3,20 +3,20 @@
 #include <QString>
 class Log {
 public:
-    QString company;
-    QString PID;
-    QString ID="";
-    QString sou;
-    QString des;
-    QString time0;
-    QString time1;
-    int price;
-    QString chi;
-    QString curdate;
-    int num=1;
-    bool business=false;
-    Log* next=NULL;
-    QString route="",status="";
+    QString company;//航空公司
+    QString PID;//票唯一ID
+    QString ID="";//航班号
+    QString sou;//始发地
+    QString des;//目的地
+    QString time0;//起飞时间
+    QString time1;//到达时间
+    int price;//价格
+    QString chi;//晚点率
+    QString curdate;//日期
+    int num=1;//票数
+    bool business=false;//true为商务
+    Log* next=NULL;//子票指针
+    QString route="",status="";//路径和票状态
     Log() {}
     ~Log(){}
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
@@ -30,6 +30,7 @@ public:
         this->chi=chi;
         this->curdate=curdate;
     }
+    //深复制函数
     void setlogL(Log* tlog){
         this->company=tlog->company;
         this->ID=tlog->ID;

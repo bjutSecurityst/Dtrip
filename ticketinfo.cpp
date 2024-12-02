@@ -270,7 +270,7 @@ ticketInfo::~ticketInfo()
     delete ui;
     if(mode==2 && (tlog->company=="没有航空公司"||tlog->company=="您还没有登录"||tlog->company=="您还没有订票"||tlog->company=="没有该日机票")) delete tlog;
 }
-
+//字符串计算相差时间函数
 QString timeDifferString(QString time0,QString time1,int mode,QString date0,QString date1){
     int time0h,time0m,time1h,time1m,i=0,j=0,times_h,times_m;
     int dayplus0=0,dayplus1=0;

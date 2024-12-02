@@ -12,8 +12,7 @@
 #include "Log.h"
 using namespace std;
 #define pai 3.1415926
-void addcursorline(int x1,int x2,int y1,int y2,int line,QGraphicsScene *scene);
-//地图选择页
+//地图选择界面
 Map::Map(QDate curDate,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Map)
@@ -58,12 +57,18 @@ Map::Map(QDate curDate,QWidget *parent)
     float leftx=ui->graphicsView->mapToScene(QPoint(60,660)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,660)).ry();
     float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
     itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,660)).rx(),lefty);
+    kilos=new QGraphicsSimpleTextItem();
     kilos->setText("200公里");
-    kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).ry(),kilox,kiloy);
+    QFont ft;
+    ft.setPointSize((int)4*ratioreal);
+    kilos->setFont(ft);
+    kilos->setPos(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).ry());
+    //kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,635)).ry(),kilox,kiloy);
     scene->addItem(itemline);
-    scene->addWidget(kilos);
-    kilos->setStyleSheet("background-color: transparent;");
+    scene->addItem(kilos);
+    //kilos->setStyleSheet("background-color: transparent;");
 }
+//地图选择页带用户票据
 Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Map)
@@ -101,7 +106,8 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     for(i=0;i<16;i++){
         buttons[i] = new QPushButton(citys[i]);
         buttons[i]->setParent(this);
-        buttons[i]->setObjectName(citys[i]);
+        if(citys[i]=="台北") buttons[i]->setObjectName("中国台北");
+        else buttons[i]->setObjectName(citys[i]);
         buttons[i]->setIcon(QIcon(pathCreator("机场.png")));
         buttons[i]->setIconSize(QSize(20,30));
         buttons[i]->setFlat(true);
@@ -119,17 +125,22 @@ Map::Map(Log* userLogs,int myticketnum,QWidget *parent)
     float leftx=ui->graphicsView->mapToScene(QPoint(60,posy1)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,posy1)).ry();
     float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
     itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,posy1)).rx(),lefty);
+    kilos=new QGraphicsSimpleTextItem();
     kilos->setText("200公里");
-    kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).ry(),kilox,kiloy);
+    QFont ft;
+    ft.setPointSize((int)4*ratioreal);
+    kilos->setFont(ft);
+    kilos->setPos(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/2,posy2)).ry());
+    scene->addItem(kilos);
     scene->addItem(itemline);
-    scene->addWidget(kilos);
-    kilos->setStyleSheet("background-color: transparent;");
+
+    //kilos->setStyleSheet("background-color: transparent;");
 }
 Map::~Map()
 {
     delete ui;
 }
-//实现滚轮缩放以及缩放条的长度设置
+//实现滚轮缩放以及缩放条的长度设置以及标度尺的长度的文字设置
 void Map::wheelEvent(QWheelEvent *event)
 {
     int i;
@@ -168,21 +179,27 @@ void Map::wheelEvent(QWheelEvent *event)
     float leftx=ui->graphicsView->mapToScene(QPoint(60,posy1)).rx(),lefty=ui->graphicsView->mapToScene(QPoint(60,posy1)).ry();
     float kilox=ui->graphicsView->mapToScene(QPoint(140,140)).rx()-ui->graphicsView->mapToScene(QPoint(0,140)).rx(),kiloy=ui->graphicsView->mapToScene(QPoint(20,20)).ry()-ui->graphicsView->mapToScene(QPoint(20,0)).ry();
     QFont ft;
-    if(kilos->isVisible()) scene->removeItem(itemline);
+    if(kilos->isVisible()) {
+        scene->removeItem(itemline);
+        delete itemline;
+    }
     if(ratioreal>2) {
         itemline = new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+200/ratioreal,posy1)).rx(),lefty);
         kilos->setText("200公里");
-        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+        kilos->setPos(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry());
+        //kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+200/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
     }
     else if(ratioreal>=1) {
         itemline=new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+100/ratioreal,posy1)).rx(),lefty);
         kilos->setText("100公里");
-        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+100/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+        kilos->setPos(ui->graphicsView->mapToScene(QPoint(60+100/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry());
+        //kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+100/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
     }
     else if(ratioreal>=0.5) {
         itemline=new QGraphicsLineItem(leftx,lefty,ui->graphicsView->mapToScene(QPoint(60+50/ratioreal,posy1)).rx(),lefty);
         kilos->setText("50公里");
-        kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+50/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
+        kilos->setPos(ui->graphicsView->mapToScene(QPoint(60+50/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry());
+        //kilos->setGeometry(ui->graphicsView->mapToScene(QPoint(60+50/ratioreal/3,posy2)).rx(),ui->graphicsView->mapToScene(QPoint(0,posy2)).ry(),kilox,kiloy);
     }
     if(ratioreal<0.5){
         kilos->setVisible(false);
@@ -225,7 +242,14 @@ void Map::on_MyGraphicsView_rubberBandChanged()
     }
     ui->label_2->move(ui->graphicsView->mapFromScene(QPoint(850,560)).rx(),ui->graphicsView->mapFromScene(QPoint(850,560)).ry());
 }
-
+/*
+按钮公用槽函数：
+    func：
+    1.实现始发地，目的地选择清除功能
+    2.实现确定按钮返回到主界面的功能
+    3.实现在城市选择模式点击城市按钮显示该城市到下方显示栏的功能
+    4.实现用户信息模式点击城市按钮显示该城市用户统计信息的功能
+*/
 void Map::on_buttons_clicked()
 {
     QPushButton *btn=qobject_cast<QPushButton*>(sender());
@@ -374,8 +398,8 @@ void Map::on_buttons_clicked()
         }
     }
 }
-
-void addcursorline(int x1,int x2,int y1,int y2,int line,int color,QGraphicsScene *scene){
+//实现航线绘制功能：addcursorline 始发地位置（x1,y1),目的地位置（x2，y2），line（1直线，2椭圆），color：颜色，scene：载体
+void Map::addcursorline(int x1,int x2,int y1,int y2,int line,int color,QGraphicsScene *scene){
     QImage img;
     img.load(pathCreator("icon_airplane.png"));
     if(line==2){
@@ -427,7 +451,12 @@ void addcursorline(int x1,int x2,int y1,int y2,int line,int color,QGraphicsScene
     }
 }
 
-
+/*
+实现清除航线和显示航线的功能：
+func：
+1.在城市选择模式，显示或隐藏当天航线信息
+2.在用户信息模式，显示或隐藏用户航行信息，并且有合并模式和拆分模式，（拆分即是显示转机清况）
+*/
 void Map::on_pushButton_4_clicked()
 {
     if(ui->pushButton_4->text()=="清除航线"){
@@ -436,6 +465,10 @@ void Map::on_pushButton_4_clicked()
         scene->addPixmap(QPixmap::fromImage(img));
         ui->graphicsView->setScene(scene);
         ui->pushButton_4->setText("显示航线");
+        scene->removeItem(kilos);
+        scene->addItem(kilos);
+        scene->removeItem(itemline);
+        scene->addItem(itemline);
     }
     else{
         if(mode==1 && modemul==0){
@@ -500,7 +533,7 @@ void Map::on_pushButton_4_clicked()
                         p=p->next;
                         findCityNum(*p,begin,end);
                         souToDes[begin][end]++;
-                    }
+               }
                 }
             }
             for(i=0;i<16;i++){
@@ -602,11 +635,15 @@ void Map::on_pushButton_5_clicked()
         }
     }
     ui->pushButton_4->setText("清除航线");
+    scene->removeItem(kilos);
+    scene->addItem(kilos);
+    scene->removeItem(itemline);
+    scene->addItem(itemline);
 }
 QPoint* Map::getcityp(){
     return cityp;
 }
-
+//实现用户信息模式的始发模式与到达模式的切换
 void Map::on_pushButton_7_clicked()
 {
     if(modeAD==0){
@@ -618,7 +655,7 @@ void Map::on_pushButton_7_clicked()
         ui->pushButton_7->setText("到达模式");
     }
 }
-
+//拆分模式复选框槽函数，用于切换合并模式或拆分模式
 void Map::on_checkBox_stateChanged(int arg1)
 {
     if(arg1) {

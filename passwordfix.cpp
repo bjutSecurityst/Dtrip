@@ -10,6 +10,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QRegularExpressionValidator>
+//修改和忘记密码界面
 Passwordfix::Passwordfix(QString name,QString password,int mode,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Passwordfix)
@@ -52,7 +53,7 @@ Passwordfix::~Passwordfix()
 {
     delete ui;
 }
-
+//修改或忘记密码确认按钮槽函数：更新数据库中密码为新值
 void Passwordfix::on_pushButton_2_clicked()
 {
     if(ui->lineEdit->text()==""){
@@ -231,7 +232,7 @@ void Passwordfix::on_pushButton_2_clicked()
     }
 }
 
-
+//退出按钮槽函数
 void Passwordfix::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);

@@ -26,10 +26,15 @@ private slots:
     void on_spinBox_valueChanged(int arg1);
 
 signals:
+    //购票信号
     void sendToMainWindow(Log* tlog);
+    //退出信号
     void Exit();
+    //准备改签信号
     void changeTicket(Log* tlog);
+    //改签信号
     void change(Log* tlog);
+    //退票信号
     void refund(Log* tlog);
 private:
     Ui::ticketWindow *ui;

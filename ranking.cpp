@@ -9,6 +9,7 @@ ranking::ranking(QString username,int mode,QWidget *parent)
     , ui(new Ui::ranking)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_QuitOnClose,false);
     this->mode=mode;
     this->username=username;
     userRank(mode);
@@ -94,6 +95,7 @@ void ranking::on_pushButton_2_clicked()
     this->setAttribute(Qt::WA_DeleteOnClose, true);
     this->close();
 }
+//随时间改变字体颜色
 void ranking::Timerout(){
     r=(r+3)%256;
     g=(g+3)%256;

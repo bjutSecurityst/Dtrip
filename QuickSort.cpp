@@ -11,41 +11,58 @@
 #include <QPainter>
 #include <random>
 using namespace std;
+//快排轴值为8
 #define THRESHOLD 8
+//快排模式数
 #define sortnum 8
+//快排主函数
 void QuickSort(Log* array, int n,int mode,int opt);
+//按价格排序
 void ModQuickSort1(Log* array, int left, int right,int mode,int opt);
 int partition1(Log* array, int left, int right,int mode);
 void insertSort1(Log* array, int n,int mode);
+//按飞行时间排序
 void ModQuickSort2(Log* array, int left, int right,int mode,int opt);
 int partition2(Log* array, int left, int right,int mode);
 void insertSort2(Log* array, int n,int mode);
+//按起飞时间排序
 void ModQuickSort3(Log* array, int left, int right,int mode,int opt);
 int partition3(Log* array, int left, int right,int mode);
 void insertSort3(Log* array, int n,int mode);
+//按降落时间排序
 void ModQuickSort4(Log* array, int left, int right,int mode,int opt);
 int partition4(Log* array, int left, int right,int mode);
 void insertSort4(Log* array, int n,int mode);
+//按准点率排序
 void ModQuickSort5(Log* array, int left, int right,int mode,int opt);
 int partition5(Log* array, int left, int right,int mode);
 void insertSort5(Log* array, int n,int mode);
+//按PID排序
 void ModQuickSort6(Log* array, int left, int right,int mode,int opt);
 int partition6(Log* array, int left, int right,int mode);
 void insertSort6(Log* array, int n,int mode);
+//按日期排序
 void ModQuickSort7(Log* array, int left, int right,int mode,int opt);
 int partition7(Log* array, int left, int right,int mode);
 void insertSort7(Log* array, int n,int mode);
+//时间差计算函数
 int timediffer(QString time0,QString time1);
+//按转机时间+飞行时间排序
 void QuickSort_Turn(Log logs,Log* array,int n,int opt);
 void ModQuickSort_Turn(Log logs,Log* array, int left, int right,int opt);
 int partition_Turn(Log logs,Log* array, int left, int right);
 void insertSort_Turn(Log logs,Log* array, int n);
+//按价格归并排序
 void mergeSort(Log* array, Log* temparray,int left, int right);
 void merge(Log* array, Log* temparray, int left, int right, int middle);
+//废弃函数
 void mergeSortTurn(Log logs,Log* array, Log* temparray,int left, int right);
 void mergeTurn(Log logs,Log* array, Log* temparray, int left, int right, int middle);
+//二分法查找函数
 int modSearch(Log logs0[],QString time1,int a,int b);
+//相对路径转绝对路径
 QString pathCreator(QString a);
+//通用快排函数
 template <typename T>
 void QuickSortcommon(T* array, int n,int mode,int opt);
 template <typename T>
@@ -54,8 +71,12 @@ template <typename T>
 int partitioncommon(T* array, int left, int right,int mode);
 template <typename T>
 void insertSortcommon(T* array, int n,int mode);
+//查找第二日票据
 void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,int i,int mode,int j,int &l,QDate curdate,string s);
+//城市字符串编码为数字
 void findCityNum(Log mylog,int &begin,int &end);
+
+
 void ModQuickSort1(Log* array, int left, int right,int mode,int opt) {
     if (right - left + 1 > THRESHOLD) {
         int j,pivot;
@@ -1087,12 +1108,18 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
             }
             else{
                 j=0;
-                Log logs0[1000];
                 fname=pathCreator("")+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
                     QTextStream in(&fs);
                     in.setEncoding(QStringConverter::System);
+                    int linenum=0;
+                    while (in.atEnd()==false){
+                        in.readLine();
+                        linenum++;
+                    }
+                    Log logs0[linenum];
+                    in.seek(0);
                     while (in.atEnd()==false){
                         info0=in.readLine();
                         QStringList infos=info0.split('/');
