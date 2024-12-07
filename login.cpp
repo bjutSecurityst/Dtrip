@@ -65,7 +65,7 @@ Login::~Login()
 void Login::on_pushButton_5_clicked()
 {
     this->setAttribute(Qt::WA_DeleteOnClose, true);
-    emit sendToMainWindow("",NULL,NULL,myticketnum,mypreticketnum,0,0,0,0,0,0,0,NULL,NULL,0,0);
+    emit sendToMainWindow("",nullptr,nullptr,myticketnum,mypreticketnum,0,0,0,0,0,0,0,NULL,NULL,0,0);
     this->close();
 }
 
@@ -207,7 +207,7 @@ void Login::on_pushButton_2_clicked()
                     logs[j].setPID(PID);
                     logs[j].setBus(business);
                     logs[j].setnum(num);
-                    logs[j].next=NULL;
+                    logs[j].next=nullptr;
                     p=&logs[j];
                     j++;
                     //如果有子票，则从subticket表中获取子票
@@ -228,7 +228,7 @@ void Login::on_pushButton_2_clicked()
                             chi = querysub.value(8).toString();
                             date = querysub.value(10).toString();
                             log0->setLog(company,ID,sou,des,time0,time1,price,chi,date);
-                            log0->next=NULL;
+                            log0->next=nullptr;
                             p->next=log0;
                             p=p->next;
                         }
@@ -260,7 +260,7 @@ void Login::on_pushButton_2_clicked()
                     prelogs[j].setBus(business);
                     prelogs[j].setnum(num);
                     prelogs[j].setstatus(status);
-                    prelogs[j].next=NULL;
+                    prelogs[j].next=nullptr;
                     j++;
                 }
                 //更新用户过去票据数

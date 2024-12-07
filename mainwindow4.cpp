@@ -138,6 +138,11 @@ void MainWindow4::on_pushButton_clicked()
         }
         //获取用户搜索方式
         int searchmode=ui->comboBox_3->currentIndex();
+        //获取常乘航司信息
+        QString company=ui->lineEdit_3->text();
+        int sounum;
+        //获取出行次数
+        sounum=ui->lineEdit_4->text().toInt();
         //初始化进度条
         ui->lineEdit_5->clear();
         ui->label_14->setText("0%");
@@ -148,12 +153,8 @@ void MainWindow4::on_pushButton_clicked()
             //接下来开始票据生成
             //先获取区间起始日期
             QDate curdate=ui->dateEdit->date();
-            //获取常乘航司信息
-            QString company=ui->lineEdit_3->text();
             //sounum：出行次数 interval：区间天数长度
-            int sounum,interval;
-            //获取出行次数
-            sounum=ui->lineEdit_4->text().toInt();
+            int interval;
             int *days=new int[sounum];
             interval=ui->dateEdit->date().daysTo(ui->dateEdit_2->date());
             //生成一个0-区间天数的数组
@@ -247,7 +248,7 @@ void MainWindow4::on_pushButton_clicked()
                         myRandom(copynum,rand);
                         Log *p=&copylogs[rand];
                         Log *q=&mylogs[myticketnum];
-                        while(p->next!=NULL){
+                        while(p->next!=nullptr){
                             p=p->next;
                             Log* log1=new Log();
                             log1->setlogL(p);
@@ -265,7 +266,7 @@ void MainWindow4::on_pushButton_clicked()
                     myRandom(ticketnum,rand);
                     Log *p=&logs[rand];
                     Log *q=&mylogs[myticketnum];
-                    while(p->next!=NULL){
+                    while(p->next!=nullptr){
                         p=p->next;
                         Log* log1=new Log();
                         log1->setlogL(p);
@@ -280,10 +281,10 @@ void MainWindow4::on_pushButton_clicked()
                 while(end!=home){
                     //根据上一张票更新当前日期
                     if(mylogs[myticketnum-1].time1!="" && mylogs[myticketnum-1].time1.last(2)=="+1"){
-                        curdate=ui->dateEdit->date().addDays(days[i]+1);
+                        curdate=curdate.addDays(1);
                     }
                     else if(mylogs[myticketnum-1].time1!="" && mylogs[myticketnum-1].time1.last(2)=="+2"){
-                        curdate=ui->dateEdit->date().addDays(days[i]+2);
+                        curdate=curdate.addDays(2);
                     }
                     //如果时间紧迫，且下一次可以推迟，就推迟下次出发的时间
                     if(curdate.daysTo(ui->dateEdit->date().addDays(days[i+1]))==0){
@@ -296,7 +297,7 @@ void MainWindow4::on_pushButton_clicked()
                         //进入紧急模式（你看又急）
                         urgent=true;
                     }
-                    //将上一次的始发地作为此次的目的地
+                    //将上一次的目的地作为此次的始发地
                     begin=end;
                     bool back=false;
                     //如果不急的话，利用正态分布，计算出发间隔
@@ -313,7 +314,7 @@ void MainWindow4::on_pushButton_clicked()
                             daysstay = distribution(generator);
                             if(daysstay>=0 && daysstay<period) break;
                         }
-                        int lastdays=period-ui->dateEdit->date().daysTo(curdate);
+                        int lastdays=curdate.daysTo(ui->dateEdit->date().addDays(days[i+1]));
                         //随机出了如果立即返回
                         if(daysstay==0){
                             //开启紧急模式
@@ -359,7 +360,10 @@ void MainWindow4::on_pushButton_clicked()
                         //将去过的地方的权重减半（每去一次减一半）
                         if(precity.size()!=0){
                             for(int j=0;j<precity.size();j++){
-                                if(desweightcopy[precity.at(j)]!=0) desweightcopy[precity.at(j)]=desweightcopy[precity.at(j)]/2;
+                                if(desweightcopy[precity.at(j)]!=0) {
+                                    desweightcopy[precity.at(j)]=desweightcopy[precity.at(j)]/2;
+                                    sum-=desweightcopy[precity.at(j)];
+                                }
                             }
                         }
                         //如果始发地不等于家，则根据飞行次数设置家的权重
@@ -385,7 +389,7 @@ void MainWindow4::on_pushButton_clicked()
                             if(timediffer(mylogs[myticketnum-1].time1,logs[j].time0)+pretime>=60){
                                 Log *p=&logs[rand];
                                 Log *q=&mylogs[myticketnum];
-                                while(p->next!=NULL){
+                                while(p->next!=nullptr){
                                     p=p->next;
                                     Log* log1=new Log();
                                     log1->setlogL(p);
@@ -408,7 +412,7 @@ void MainWindow4::on_pushButton_clicked()
                             myRandom(ticketnum,rand);
                             Log *p=&logs[rand];
                             Log *q=&mylogs[myticketnum];
-                            while(p->next!=NULL){
+                            while(p->next!=nullptr){
                                 p=p->next;
                                 Log* log1=new Log();
                                 log1->setlogL(p);
@@ -430,7 +434,7 @@ void MainWindow4::on_pushButton_clicked()
                                 myRandom(copynum,rand);
                                 Log *p=&copylogs[rand];
                                 Log *q=&mylogs[myticketnum];
-                                while(p->next!=NULL){
+                                while(p->next!=nullptr){
                                     p=p->next;
                                     Log* log1=new Log();
                                     log1->setlogL(p);
@@ -447,7 +451,7 @@ void MainWindow4::on_pushButton_clicked()
                             myRandom(ticketnum,rand);
                             Log *p=&logs[rand];
                             Log *q=&mylogs[myticketnum];
-                            while(p->next!=NULL){
+                            while(p->next!=nullptr){
                                 p=p->next;
                                 Log* log1=new Log();
                                 log1->setlogL(p);
@@ -463,14 +467,17 @@ void MainWindow4::on_pushButton_clicked()
                     //将这次去的城市加入已去数组
                     precity.push_back(end);
                 }
+                for(int i=0;i<ticketnum;i++){
+                    logs[i].clear();
+                }
             }
             //买完票后, 删除无效票据
             for(int i=myticketnum-1;i>=0;i--){
                 if(mylogs[i].time1=="" || mylogs[i].time0==""){
-                    for(int j=i;j<=myticketnum;j++){
+                    mylogs[i].clear();
+                    for(int j=i;j<myticketnum;j++){
                         mylogs[j]=mylogs[j+1];
                     }
-                    mylogs[myticketnum].clear();
                     //i--;
                     myticketnum--;
                 }
@@ -482,6 +489,10 @@ void MainWindow4::on_pushButton_clicked()
             setTicketsToDB(mylogs,myticketnum,usernum);
             //更新进度条
             updateMyProgressbar(usernum);
+            //delete[] days;
+            for(int i=0;i<myticketnum;i++){
+                mylogs[i].clear();
+            }
         }
     }
 }
@@ -637,7 +648,7 @@ void MainWindow4::findticket(QDate curdate,int begin,int end,Log* logs,int mode,
     month= QString::number(curDate.month());
     day= QString::number(curDate.day());
     CMap* pMap = new CMap(nodeNum,arcNum);
-    Dist* dist,*dist0;
+    Dist* dist;
     if(mode!=0) CMapSet(curDate,citys,pMap,mode);
     else {
         CMapSet(curDate,citys,pMap,modeuser);
@@ -681,7 +692,7 @@ void MainWindow4::findticket(QDate curdate,int begin,int end,Log* logs,int mode,
                 for(i=0;i<16;i++) {
                     blist[i]=false;
                 }
-                QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+                QStringList list = pMap->visit_plus(dist,begin,end,end,0,blist);
                 for(i=0;i<list.size();i++) {
                     qDebug() << list[i] << "\n";
                 }
@@ -692,6 +703,7 @@ void MainWindow4::findticket(QDate curdate,int begin,int end,Log* logs,int mode,
                 }
             }
         }
+        delete[] dist;
     }
     delete pMap;
 }
@@ -784,7 +796,7 @@ void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
         for(int i=0;i<myticketnum;i++){
             Log *p=&mylogs[i];
             QString PID=p->PID;
-            if(p->next==NULL){
+            if(p->next==nullptr){
                 QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(p->PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
                 if(!sql_query2.exec(insert_sql))
                 {
@@ -802,12 +814,12 @@ void MainWindow4::setTicketsToDB(Log* mylogs,int myticketnum,int num){
             else{
                 bool head=true;
                 int j=0,subnum=0;
-                while(p->next!=NULL){
+                while(p->next!=nullptr){
                     p=p->next;
                     subnum++;
                 }
                 p=&mylogs[i];
-                while(p!=NULL){
+                while(p!=nullptr){
                     QString insert_sql;
                     if(head) {
                         insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(subnum).arg(p->curdate).arg(p->business).arg(p->num);

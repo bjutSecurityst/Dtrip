@@ -105,8 +105,6 @@ private:
     QTimer *timer;
     // 当前日期
     QDate curdate;
-    // dijiestela结果
-    Dist *dist;
     // 工具栏visible，是否登录,退改是否筛选，搜索是否筛选，是否商业，是否过往模式
     bool btvisible=true,login=false,mode2filter=false,copymode=false,business=false,premode=false;
     // 交换按钮

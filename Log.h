@@ -15,10 +15,28 @@ public:
     QString curdate;//日期
     int num=1;//票数
     bool business=false;//true为商务
-    Log* next=NULL;//子票指针
+    Log* next=nullptr;//子票指针
     QString route="",status="";//路径和票状态
-    Log() {}
-    ~Log(){}
+    Log() {
+        this->company="";
+        this->ID="";
+        this->sou="";
+        this->des="";
+        this->time0="";
+        this->time1="";
+        this->price=0;
+        this->chi="";
+        this->curdate="";
+        this->PID="-1";
+        this->business=false;
+        this->route="";
+        this->status="";
+        this->num=1;
+        next=nullptr;
+    }
+    ~Log(){
+
+    }
     void setLog(QString company,QString ID,QString sou,QString des,QString time0,QString time1,int price,QString chi,QString curdate){
         this->company=company;
         this->ID=ID;
@@ -75,17 +93,36 @@ public:
         this->business=false;
         this->route="";
         this->status="";
+        this->num=1;
         Log *p,*q;
-        if(this->next!=NULL){
+        if(this->next!=nullptr){
             p=this->next;
-            while(p->next!=NULL) {
+            while(p!=nullptr) {
                 q=p->next;
-                p->clear();
+                //p->clear();
+                p->next=nullptr;
+                delete p;
                 p=q;
             }
-            p->clear();
         }
-        this->next=NULL;
+        this->next=nullptr;
+    }
+    void init(){
+        this->company="";
+        this->ID="";
+        this->sou="";
+        this->des="";
+        this->time0="";
+        this->time1="";
+        this->price=0;
+        this->chi="";
+        this->curdate="";
+        this->PID="-1";
+        this->business=false;
+        this->route="";
+        this->status="";
+        this->num=1;
+        next=nullptr;
     }
 private:
 

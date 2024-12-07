@@ -23,6 +23,9 @@
 #include "mainwindow4.h"
 //#include "mysqlite.h"
 #include <QMessageBox>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 #pragma comment(lib,"winmm.lib")
 #pragma comment(lib,"MSIMG32.LIB")
 #pragma comment(lib,"sqlcipher.LIB")
@@ -128,6 +131,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->checkBox_3->setVisible(false);
     ui->lineEditari->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
     ui->lineEditdep->setValidator(new QRegularExpressionValidator(QRegularExpression("^[^? \\\\  * | \" < > : / %]*$")));
+    for(int i=0;i<5000;i++){
+        logs[i].init();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -265,7 +271,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
     tlog->setPID(QString::fromStdString(sPID));
     Log *p=tlog;
     Log *q=&userLogs[myticketnum];
-    while(p->next!=NULL){
+    while(p->next!=nullptr){
         p=p->next;
         Log* log1=new Log();
         log1->setlogL(p);
@@ -302,7 +308,7 @@ void MainWindow::getticketwindowMessage(Log* tlog){
         QSqlQuery sql_query2(database);
         QString PID=p->PID;
         //如果这张票没有子票，则只向ticket表中写入该票
-        if(p->next==NULL){
+        if(p->next==nullptr){
             QString insert_sql = QString("insert into ticket(PID, name, id , sou, des, time0, time1, price, chi, next, date, business, num) values('%1','%2','%3','%4','%5','%6','%7','%8','%9','%10','%11','%12','%13') ").arg(p->PID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(-1).arg(p->curdate).arg(p->business).arg(p->num);
             if(!sql_query2.exec(insert_sql))
             {
@@ -323,12 +329,12 @@ void MainWindow::getticketwindowMessage(Log* tlog){
             bool head=true;
             int i=0,subnum=0;
             //先计算子票数
-            while(p->next!=NULL){
+            while(p->next!=nullptr){
                 p=p->next;
                 subnum++;
             }
             p=tlog;
-            while(p!=NULL){
+            while(p!=nullptr){
                 QString insert_sql;
                 //首先将票根写入ticket表，并更新用户消费数据
                 if(head) {
@@ -530,7 +536,7 @@ void MainWindow::changeTicketMain(Log* tlog){
         //将被改签的票的子票更新为新票的子票
         if(next!=-1){
             i=1;
-            while(p->next!=NULL){
+            while(p->next!=nullptr){
                 p=p->next;
                 QString update_sql=QString("UPDATE subticket SET PID='%1',name='%2', id='%3', sou='%4', des='%5', time0='%6', time1='%7', price='%8', chi='%9' WHERE PID='%10' AND next='%11'").arg(qsPID).arg(p->company).arg(p->ID).arg(p->sou).arg(p->des).arg(p->time0).arg(p->time1).arg(p->price).arg(p->chi).arg(PID).arg(i);
                 if(!sql_query2.exec(update_sql))
@@ -568,7 +574,7 @@ void MainWindow::changeTicketMain(Log* tlog){
             clog->clear();
             Log *p=tlog;
             Log *q=&userLogs[i];
-            while(p->next!=NULL){
+            while(p->next!=nullptr){
                 p=p->next;
                 Log* log1=new Log();
                 log1->setlogL(p);
@@ -608,9 +614,9 @@ void MainWindow::changeTicketSearch(Log* tlog){
     this->show();
     layoutCleaner(7);
     //读取票据信息并拼接出航线
-    if(p->next!=NULL) p=p->next;
-    while(p!=NULL){
-        if(p->next!=NULL){
+    if(p->next!=nullptr) p=p->next;
+    while(p!=nullptr){
+        if(p->next!=nullptr){
             for(begin=0;begin<16;begin++){
                 if(p->sou.mid(0,citys[begin].length()).contains(citys[begin])) break;
                 if(begin==4){
@@ -652,6 +658,7 @@ void MainWindow::changeTicketSearch(Log* tlog){
         k=0;
         Log* logno=new Log();
         logno->setLog("没有航空公司","123456","不可改签","不可改签","00:00","25:00",0,"0%","");
+        logno->next=nullptr;
         ticketInfo* ticket0=new ticketInfo(logno,2);
         connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
         verticalLayout_7->addWidget(ticket0);
@@ -1019,7 +1026,7 @@ void MainWindow::on_pushButton_4_clicked()
         CMap* pMap = new CMap(nodeNum,10000);
         //按照搜索模式设置图的边及其权重
         CMapSet(curDate,citys,pMap,mode-4);
-        Dist* dist,*dist0;
+        Dist* dist;
         //以begin为起点进行深度dijkstra搜索
         dist = pMap->DijkstraPlus(begin);
         //删除图
@@ -1038,7 +1045,7 @@ void MainWindow::on_pushButton_4_clicked()
             blist[i]=false;
         }
         //list保存了所有求出的最短及次短路径
-        QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+        QStringList list = pMap->visit_plus(dist,begin,end,end,0,blist);
         for(i=0;i<list.size();i++) {
             qDebug() << list[i] << "\n";
         }
@@ -1048,6 +1055,7 @@ void MainWindow::on_pushButton_4_clicked()
             list.removeFirst();
             if(ticketnum>=400) break;
         }
+        delete dist;
     }
     else{
         //新建图
@@ -1073,6 +1081,7 @@ void MainWindow::on_pushButton_4_clicked()
             //如果是智能搜索并且票数过少
             if(mode==0 && ticketnum<10){
                 //进行进一步搜索
+                Dist* dist;
                 dist = pMap->Dijkstra(begin);
                 //获取最低路径
                 string s = pMap->visit_first(dist,begin,end);
@@ -1106,7 +1115,7 @@ void MainWindow::on_pushButton_4_clicked()
                         for(i=0;i<16;i++) {
                             blist[i]=false;
                         }
-                        QStringList list = pMap->visit_plus(dist,begin,end,end,blist);
+                        QStringList list = pMap->visit_plus(dist,begin,end,end,0,blist);
                         for(i=0;i<list.size();i++) {
                             qDebug() << list[i] << "\n";
                         }
@@ -1117,11 +1126,13 @@ void MainWindow::on_pushButton_4_clicked()
                         }
                     }
                 }
+                delete dist;
             }
             delete pMap;
         }
         //如果是普通的费用最少或时间最短模式
         else {
+            Dist* dist;
             dist = pMap->Dijkstra(begin);
             //获取最低路径
             string s = pMap->visit_first(dist,begin,end);
@@ -1129,6 +1140,8 @@ void MainWindow::on_pushButton_4_clicked()
             //获取次低路径
             string s1 = pMap->visit_second(dist,begin,end);
             setLog(s1,mode);
+            delete pMap;
+            delete dist;
         }
     }
     //显示部分新增控件
@@ -1214,6 +1227,7 @@ void MainWindow::on_pushButton_4_clicked()
             k=0;
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
@@ -1315,7 +1329,7 @@ void MainWindow::setLog(string s,int mode){
     QString fname,info0;
     QString qs=QString::fromStdString(s);
     QStringList qsl=qs.split(' ');
-    QRegularExpression numbers( "0|[1-9]\\d{0,1}" );
+    static QRegularExpression numbers( "0|[1-9]\\d{0,1}" );
     QRegularExpressionMatch matchnum;
     QString coc="",ari="",beg="",las="";
     QStringList mid[5];
@@ -1391,7 +1405,7 @@ void MainWindow::setLog(string s,int mode){
                 //设置路径信息
                 logs[j].setRoute(QString::fromStdString(s));
                 //表示该票没有子票（直飞）
-                logs[j].next=NULL;
+                logs[j].next=nullptr;
                 j++;
             }
             //QuickSort2(logs,j);
@@ -1405,7 +1419,7 @@ void MainWindow::setLog(string s,int mode){
         ticket_checkednum=ticketnum;
         fs.close();
         //按价格排序（随机轴值）
-        QuickSort(logs,ticketnum,2,1);
+        QuickSort(logs,ticketnum-1,2,1);
     }
     //如果有中转
     else{
@@ -1452,6 +1466,7 @@ void MainWindow::setLog(string s,int mode){
                         //将信息设置到一个新的票据中
                         Log* log0=new Log();
                         log0->setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        log0->next=nullptr;
                         //并将票根的子票指针指向新的票据
                         logs[j].next=log0;
                         //将信息设置到票根中
@@ -1473,13 +1488,13 @@ void MainWindow::setLog(string s,int mode){
                 mid->removeFirst();
                 //如果中转数组为空，则将下一个目的地设为最终目的地
                 if(mid->empty()) las=ari;
-                //否则从中转数组中获取下一个中转地
+                //否则从中转数组中获取下一个中转地作为目的地
                 else las=mid->first();
             }
             else{
                 j=0;
                 //Log logs0[1000];
-                //新建转机子票据数据
+                //新建转机子票据数组
                 fname=pathCreator("")+year+"."+month+"."+day+"/"+ beg + "-" + las + ".txt";
                 QFile fs(fname);
                 if(fs.open(QIODeviceBase::ReadOnly)){
@@ -1510,11 +1525,12 @@ void MainWindow::setLog(string s,int mode){
                             i++;
                         }
                         logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        logs0[j].next=nullptr;
                         j++;
                     }
                     //如果搜索模式为费用最少（普通或深度搜索），对子票据进行起飞时间排序（快排随机轴值），并进行归并价格排序
                     if(mode==1 || mode==5) {
-                        QuickSort(logs0,j,3,1);
+                        QuickSort(logs0,j-1,3,1);
                         Log logs0merge[1000];
                         mergeSort(logs0,logs0merge,0,j-1);
                     }
@@ -1523,9 +1539,9 @@ void MainWindow::setLog(string s,int mode){
                     // }
                     int log_number=0,l=ticketnum-1;
                     bool repeat=false;
-                    //以前面的票据为票根，开始搜索哪一个票据符合转机要求，并将其添加到其中
+                    //以logs内的票据为票根，开始搜索哪一个票据符合转机要求，并将其添加到其中
                     for(i=ticket_checkednum;i<ticketnum;i++){
-                        //如果时间跨度以经超过两天，不继续进行搜索
+                        //如果时间跨度已经超过两天，不继续进行搜索
                         if(logs[i].time1.right(2)=="+2"){
                             logs[i].des="不可达";
                             continue;
@@ -1534,8 +1550,8 @@ void MainWindow::setLog(string s,int mode){
                         if(logs[i].des=="不可达") continue;
                         //如果时间跨度未超过一天
                         if(logs[i].time1.right(2)!="+1"){
-                            if(mode==2 || mode==6) QuickSort_Turn(logs[i],logs0,j,1);
-                            // //如果是时间最短算法并且没找到则不继续进行搜索
+                            if(mode==2 || mode==6) QuickSort_Turn(logs[i],logs0,j-1,1);
+                            //如果是时间最短算法并且没找到则不继续进行搜索
                             if(timediffer(logs[i].time1,logs0[0].time0)<0 && (mode==2 || mode==6)) {
                                 logs[i].des="不可达";
                                 continue;
@@ -1550,7 +1566,7 @@ void MainWindow::setLog(string s,int mode){
                                     //如果是本轮第一次添加，则直接加到本体上面
                                     if(!repeat) {
                                         p=&logs[i];
-                                        while(p->next!=NULL){
+                                        while(p->next!=nullptr){
                                             p=p->next;
                                         }
                                         Log* log2=new Log();
@@ -1558,6 +1574,7 @@ void MainWindow::setLog(string s,int mode){
                                         QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
                                         if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
+                                        log2->next=nullptr;
                                         logs[i].des=logs0[k].des;
                                         logs[i].price=logs[i].price+logs0[k].price;
                                         logs[i].time1=logs0[k].time1;
@@ -1570,7 +1587,7 @@ void MainWindow::setLog(string s,int mode){
                                         l++;
                                         p=&logs[i];
                                         q=&logs[l];
-                                        while(p->next->next!=NULL){
+                                        while(p->next->next!=nullptr){
                                             p=p->next;
                                             price1=price1+p->price;
                                             QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
@@ -1584,6 +1601,7 @@ void MainWindow::setLog(string s,int mode){
                                         logs[l].setRoute(QString::fromStdString(s));
                                         Log* log2=new Log();
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
+                                        log2->next=nullptr;
                                         q->next=log2;
                                     }
                                     log_number++;
@@ -1602,7 +1620,7 @@ void MainWindow::setLog(string s,int mode){
                             if(mode==2 || mode==6) {
                                 Log *log1=new Log();
                                 log1->time1=pretime1;
-                                QuickSort_Turn(*log1,logs0,j,1);
+                                QuickSort_Turn(*log1,logs0,j-1,1);
                                 delete log1;
                             }
                             //如果搜索模式为最短时间，如果未找到合适的航班，就跳过这次循环
@@ -1616,7 +1634,7 @@ void MainWindow::setLog(string s,int mode){
                                 if(timediffer(pretime1,logs0[k].time0)>60 && timediffer(pretime1,logs0[k].time0)<600){
                                     if(!repeat) {
                                         p=&logs[i];
-                                        while(p->next!=NULL){
+                                        while(p->next!=nullptr){
                                             p=p->next;
                                         }
                                         Log* log2=new Log();
@@ -1624,6 +1642,7 @@ void MainWindow::setLog(string s,int mode){
                                         QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
                                         if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                                        log2->next=nullptr;
                                         logs[i].des=logs0[k].des;
                                         logs[i].price=logs[i].price+logs0[k].price;
                                         QString ssss=logs0[k].time1;
@@ -1641,7 +1660,7 @@ void MainWindow::setLog(string s,int mode){
                                         l++;
                                         p=&logs[i];
                                         q=&logs[l];
-                                        while(p->next->next!=NULL){
+                                        while(p->next->next!=nullptr){
                                             p=p->next;
                                             price1=price1+p->price;
                                             QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
@@ -1653,6 +1672,7 @@ void MainWindow::setLog(string s,int mode){
                                         }
                                         Log* log2=new Log();
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                                        log2->next=nullptr;
                                         QString ssss=logs0[k].time1;
                                         //将票根的目的时间设为子票的目的时间并调整日期
                                         if(logs0[k].time1.right(2)=="+1"){
@@ -1668,27 +1688,43 @@ void MainWindow::setLog(string s,int mode){
                                     else if(log_number>=6) break;
                                 }
                             }
-                            if(log_number==0) logs[i].des="不可达";
                         }
+                        if(log_number==0) logs[i].des="不可达";
                     }
                     //删除所有无效票据
                     ticketnum=l+1;
-                    for(i=ticket_checkednum;i<=ticketnum;i++){
+                    for(i=ticket_checkednum;i<ticketnum;i++){
                         if(logs[i].des=="不可达"){
+                            logs[i].clear();
                             for(j=i;j<=ticketnum;j++){
                                 logs[j]=logs[j+1];
                             }
                             if(ticketnum==1){
                                 logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
                             }
-                            logs[ticketnum].clear();
+                            //logs[ticketnum].clear();
                             i--;
                             ticketnum--;
                         }
                     }
+                    for(i=0;i<linenum;i++){
+                        logs0[i].clear();
+                    }
                     // for(i=0;i<ticketnum;i++){
                     //     qDebug() <<"过"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     // }
+                    //如果是费用最少算法，进行价格排序
+                    if(ticketnum>500){
+                        if(mode==1 || mode==5) QuickSortBegin(logs,ticketnum,ticket_checkednum,2,1);
+                        //如果是时间最短算法，进行飞行时间排序
+                        else if(mode==2 || mode==6) QuickSortBegin(logs,ticketnum,ticket_checkednum,1,1);
+                        if(ticketnum>500) {
+                            for(i=500;i<ticketnum;i++){
+                                logs[i].clear();
+                            }
+                            ticketnum=500;
+                        }
+                    }
                 }
                 fs.close();
                 //如果已经找到终点，退出循环
@@ -1699,26 +1735,10 @@ void MainWindow::setLog(string s,int mode){
                 else las=mid->first();
             }
         }
-        //删除所有无效票据
-        for(i=ticket_checkednum;i<=ticketnum;i++){
-            if(logs[i].des=="不可达"){
-                for(j=i;j<=ticketnum;j++){
-                    logs[j]=logs[j+1];
-                }
-                if(ticketnum==1){
-                    logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
-                }
-                i--;
-                ticketnum--;
-            }
-            // else{
-            //     qDebug() <<"结"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
-            // }
-        }
         //如果票数过多，仅保留500张
         if(ticketnum<0) ticketnum=0;
         if(ticketnum>500) {
-            for(i=500;i<=ticketnum;i++){
+            for(i=500;i<ticketnum;i++){
                 logs[i].clear();
             }
             ticketnum=500;
@@ -2146,6 +2166,7 @@ void MainWindow::on_pushButton_2_clicked()
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }
@@ -2463,6 +2484,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         if(k==0) {
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
@@ -2491,6 +2513,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
         if(k==0) {
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可改签","不可改签","00:00","25:00",0,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             verticalLayout_7->addWidget(ticket0);
@@ -2512,6 +2535,7 @@ void MainWindow::on_pushButton_9_clicked(bool checked)
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }
@@ -2595,6 +2619,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             else qDebug() << "updated!";
         }
     }
+    _CrtDumpMemoryLeaks();
 }
 /*
 用户画像分析算法：userImageAnalyse
@@ -2767,6 +2792,7 @@ void MainWindow::getScrollBarMessage(){
     if(copynum==0){
             Log* logno=new Log();
             logno->setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,0);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             ui->verticalLayout_2->addWidget(ticket0);
@@ -2820,6 +2846,7 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
         if(copynum==0){
             Log* logno=new Log();
             logno->setLog("没有该日机票","123456","不可达","不可达","00:00","24:00",2,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             verticalLayout_7->addWidget(ticket0);
@@ -2857,6 +2884,7 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }
@@ -2900,6 +2928,7 @@ void MainWindow::on_dateEdit_2_userDateChanged(const QDate &date)
         if(copynum==0){
             Log* logno=new Log();
             logno->setLog("没有该日机票","123456","不可达","不可达","00:00","24:00",2,"0%","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             connect(ticket0,&ticketInfo::sendToMainWindow,this,&MainWindow::getticketInfoMessage);
             verticalLayout_7->addWidget(ticket0);
@@ -2938,6 +2967,7 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }
@@ -2976,6 +3006,7 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
             Log* logno=new Log();
             if(username=="") logno->setLog("您还没有登录","登录后即可查看信息","没登录","快登录","00:00","24:00",2,"登录后即可查看","");
             else logno->setLog("您还没有订票",username,"没有票","快订票","00:00","24:00",2,"查询后即可订票","");
+            logno->next=nullptr;
             ticketInfo* ticket0=new ticketInfo(logno,2);
             verticalLayout_7->addWidget(ticket0);
         }

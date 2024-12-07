@@ -523,13 +523,13 @@ void Map::on_pushButton_4_clicked()
                 }
             }
             for(i=0;i<myticketnum;i++){
-                if(userLogs[i].next==NULL){
+                if(userLogs[i].next==nullptr){
                     findCityNum(userLogs[i],begin,end);
                     souToDes[begin][end]++;
                 }
                 else{
                     Log *p=&userLogs[i];
-                    while(p->next!=NULL){
+                    while(p->next!=nullptr){
                         p=p->next;
                         findCityNum(*p,begin,end);
                         souToDes[begin][end]++;

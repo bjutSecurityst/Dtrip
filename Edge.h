@@ -19,7 +19,7 @@ public:
         *this = edge;
     }
     ~Edge(){
-        free(next);
+        delete next;
     }
 
     Edge& operator=(const Edge& edge)

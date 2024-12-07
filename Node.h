@@ -21,7 +21,7 @@ public:
         *this = node;
     }
     ~Node(){
-        free(next);
+        delete next;
     }
 
     Node& operator=(const Node& node)

@@ -17,6 +17,8 @@ using namespace std;
 #define sortnum 8
 //快排主函数
 void QuickSort(Log* array, int n,int mode,int opt);
+//快排主函数指定起始
+void QuickSortBegin(Log* array,int b, int n,int mode,int opt);
 //按价格排序
 void ModQuickSort1(Log* array, int left, int right,int mode,int opt);
 int partition1(Log* array, int left, int right,int mode);
@@ -373,7 +375,6 @@ void QuickSort(Log* array, int n,int mode,int opt) {
         ModQuickSort7(array, 0, n - 1,mode,opt);
         insertSort7(array, n,mode);
     }
-
 }
 void ModQuickSort4(Log* array, int left, int right,int mode,int opt) {
     if (right - left + 1 > THRESHOLD) {
@@ -1048,7 +1049,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                 }
                 logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                 logs[j].setRoute(QString::fromStdString(s));
-                logs[j].next=NULL;
+                logs[j].next=nullptr;
                 j++;
             }
             //QuickSort2(logs,j);
@@ -1089,6 +1090,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                         }
                         Log* log0=new Log();
                         log0->setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        log0->next=nullptr;
                         logs[j].next=log0;
                         logs[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
                         logs[j].setRoute(QString::fromStdString(s));
@@ -1138,12 +1140,16 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                             i++;
                         }
                         logs0[j].setLog(company,ID,sou,des,time0,time1,price,chi,curdate.toString());
+                        logs0[j].next=nullptr;
                         j++;
                     }
                     if(mode==1 || mode==5) {
                         QuickSort(logs0,j,3,1);
                         Log logs0merge[1000];
                         mergeSort(logs0,logs0merge,0,j-1);
+                        for(i=0;i<1000;i++){
+                            logs0merge[i].clear();
+                        }
                     }
                     // for(i=0;i<j;i++){
                     //     qDebug() <<"中"<<logs0[i].company<<logs0[i].ID<<logs0[i].sou<<logs0[i].des<<logs0[i].time0<<logs0[i].time1<<logs0[i].price<<logs0[i].chi<< "\n";
@@ -1176,7 +1182,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                 if(timediffer(time_preserve,logs0[k].time0)>60 && timediffer(time_preserve,logs0[k].time0)<600){
                                     if(!repeat) {
                                         p=&logs[i];
-                                        while(p->next!=NULL){
+                                        while(p->next!=nullptr){
                                             p=p->next;
                                         }
                                         Log* log2=new Log();
@@ -1184,6 +1190,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
                                         if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
+                                        log2->next=nullptr;
                                         logs[i].des=logs0[k].des;
                                         logs[i].price=logs[i].price+logs0[k].price;
                                         logs[i].time1=logs0[k].time1;
@@ -1195,7 +1202,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         l++;
                                         p=&logs[i];
                                         q=&logs[l];
-                                        while(p->next->next!=NULL){
+                                        while(p->next->next!=nullptr){
                                             p=p->next;
                                             price1=price1+p->price;
                                             QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
@@ -1209,6 +1216,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         logs[l].setRoute(QString::fromStdString(s));
                                         Log* log2=new Log();
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.toString());
+                                        log2->next=nullptr;
                                         q->next=log2;
                                     }
                                     log_number++;
@@ -1243,7 +1251,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                 if(timediffer(pretime1,logs0[k].time0)>60 && timediffer(pretime1,logs0[k].time0)<600){
                                     if(!repeat) {
                                         p=&logs[i];
-                                        while(p->next!=NULL){
+                                        while(p->next!=nullptr){
                                             p=p->next;
                                         }
                                         Log* log2=new Log();
@@ -1251,6 +1259,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
                                         if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                                        log2->next=nullptr;
                                         logs[i].des=logs0[k].des;
                                         logs[i].price=logs[i].price+logs0[k].price;
                                         QString ssss=logs0[k].time1;
@@ -1267,7 +1276,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         l++;
                                         p=&logs[i];
                                         q=&logs[l];
-                                        while(p->next->next!=NULL){
+                                        while(p->next->next!=nullptr){
                                             p=p->next;
                                             price1=price1+p->price;
                                             QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
@@ -1279,6 +1288,7 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                                         }
                                         Log* log2=new Log();
                                         log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                                        log2->next=nullptr;
                                         QString ssss=logs0[k].time1;
                                         if(logs0[k].time1.right(2)=="+1"){
                                             ssss=logs0[k].time1.left(logs0[k].time1.size()-2)+"+2";
@@ -1300,13 +1310,13 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                     ticketnum=l+1;
                     for(i=ticket_checkednum;i<=ticketnum;i++){
                         if(logs[i].des=="不可达"){
-                            for(j=i;j<=ticketnum;j++){
+                            logs[i].clear();
+                            for(j=i;j<ticketnum;j++){
                                 logs[j]=logs[j+1];
                             }
                             if(ticketnum==1){
                                 logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
                             }
-                            logs[ticketnum].clear();
                             i--;
                             ticketnum--;
                         }
@@ -1314,6 +1324,9 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                     // for(i=0;i<ticketnum;i++){
                     //     qDebug() <<"过"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
                     // }
+                    for(i=0;i<linenum;i++){
+                        logs0[i].clear();
+                    }
                 }
                 fs.close();
                 //如果已经找到终点，退出循环
@@ -1323,21 +1336,6 @@ void setLog(string s,int mode,QDate curdate,int &ticketnum,int &ticket_checkednu
                 if(mid->empty()) las=ari;
                 else las=mid->first();
             }
-        }
-        for(i=ticket_checkednum;i<=ticketnum;i++){
-            if(logs[i].des=="不可达"){
-                for(j=i;j<=ticketnum;j++){
-                    logs[j]=logs[j+1];
-                }
-                if(ticketnum==1){
-                    logs[0].setLog("没有航空公司","123456","不可达","不可达","00:00","25:00",0,"0%","");
-                }
-                i--;
-                ticketnum--;
-            }
-            // else{
-            //     qDebug() <<"结"<<logs[i].company<<logs[i].ID<<logs[i].sou<<logs[i].des<<logs[i].time0<<logs[i].time1<<logs[i].price<<logs[i].chi<< "\n";
-            // }
         }
         if(ticketnum<0) ticketnum=0;
         if(mode==1 || mode==5) QuickSort(logs,ticketnum,2,1);
@@ -1359,11 +1357,12 @@ void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
     month="9";
     day="20";
     QString fname,info0;
-    QRegularExpression rxlen( "^(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$" );
+    static QRegularExpression rxlen( "^(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$" );
     QRegularExpressionMatch match;
     for (i = 0; i < nodeNum;i++) {
         Node* pNode0 = new Node(i);
         pMap->addNode(pNode0);
+        delete pNode0;
     }
     for (i = 0; i < nodeNum;i++) {
         for(j = i+1; j < nodeNum;j++) {
@@ -1464,7 +1463,7 @@ void CMapSet(QDate curDate,QString* citys,CMap* pMap,int mode){
                     }
                 }
             }
-            fs.close();
+            fs1.close();
         }
     }
 }
@@ -1539,7 +1538,7 @@ void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,in
         if(timediffer(pretime1,logs0[k].time0)+1440>60 && timediffer(pretime1,logs0[k].time0)+1440<600){
             if(!repeat) {
                 p=&logs[i];
-                while(p->next!=NULL){
+                while(p->next!=nullptr){
                     p=p->next;
                 }
                 Log* log2=new Log();
@@ -1547,6 +1546,7 @@ void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,in
                 QString chi0=logs[i].chi.left(logs[i].chi.size()-1),chi1=logs0[k].chi.left(logs0[k].chi.size()-1);
                 if(chi1.toDouble()<chi0.toDouble()) logs[i].chi=logs0[k].chi;
                 log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                log2->next=nullptr;
                 logs[i].des=logs0[k].des;
                 logs[i].price=logs[i].price+logs0[k].price;
                 QString ssss=logs0[k].time1;
@@ -1563,7 +1563,7 @@ void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,in
                 l++;
                 p=&logs[i];
                 q=&logs[l];
-                while(p->next->next!=NULL){
+                while(p->next->next!=nullptr){
                     p=p->next;
                     price1=price1+p->price;
                     QString chi0=chi_min.left(chi_min.size()-1),chi1=p->chi.left(p->chi.size()-1);
@@ -1575,6 +1575,7 @@ void findSecondDay(Log *logs,Log *logs0,int &ticketnum,int &ticket_checkednum,in
                 }
                 Log* log2=new Log();
                 log2->setLog(logs0[k].company,logs0[k].ID,logs0[k].sou,logs0[k].des,logs0[k].time0,logs0[k].time1,logs0[k].price,logs0[k].chi,curdate.addDays(1).toString());
+                log2->next=nullptr;
                 QString ssss=logs0[k].time1;
                 if(logs0[k].time1.right(2)=="+1"){
                     ssss=logs0[k].time1.left(logs0[k].time1.size()-2)+"+2";
@@ -1604,5 +1605,67 @@ void findCityNum(Log mylog,int &begin,int &end){
         if(end==4){
             if(mylog.des.mid(0,4).contains("中国台北")) break;
         }
+    }
+}
+void insertSortBegin1(Log* array,int b, int n,int mode) {
+    int  i, j;
+    Log t;
+    if(mode<sortnum){
+        for (i = 1; i < n-b; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= b && timediffer(t.time0,t.time1) < timediffer(array[j].time0,array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+    else{
+        for (i = 1; i < n-b; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= b && timediffer(t.time0,t.time1) > timediffer(array[j].time0,array[j].time1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+}
+void insertSortBegin2(Log* array,int begin,int n,int mode) {
+    int  i, j;
+    Log t;
+    if(mode<sortnum){
+        for (i = 1; i < n-begin; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= begin && t.price*(t.business+1) < array[j].price*(array[j].business+1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+    else{
+        for (i = 1; i < n-begin; i++) {
+            t = array[i];
+            int j = i - 1;
+            while (j >= begin && t.price*(t.business+1) > array[j].price*(array[j].business+1)) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = t;
+        }
+    }
+}
+void QuickSortBegin(Log* array,int b, int n,int mode,int opt) {
+    if(mode%(sortnum-1)==1){
+        ModQuickSort1(array, b, n - 1,mode,opt);
+        insertSortBegin1(array,b,n,mode);
+    }
+    else if(mode%(sortnum-1)==2){
+        ModQuickSort2(array, b, n - 1,mode,opt);
+        insertSortBegin2(array,b,n,mode);
     }
 }

@@ -46,8 +46,8 @@ ticketWindow::ticketWindow(Log* tlog,int mode,QWidget *parent)
         ui->label_5->setVisible(true);
         ui->spinBox->setVisible(true);
     }
-    if(p->next!=NULL) p=p->next;
-    while(p!=NULL){
+    if(p->next!=nullptr) p=p->next;
+    while(p!=nullptr){
         QLabel* q=new QLabel("航班号："+p->ID);
         q->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
         q->wordWrap();
@@ -90,8 +90,8 @@ ticketWindow::ticketWindow(Log* tlog,int mode,Log* clog,QWidget *parent)
     ui->spinBox->setVisible(false);
     if(tlog->business) ui->label_4->setText("商务舱");
     else ui->label_4->setText("经济舱");
-    if(p->next!=NULL) p=p->next;
-    while(p!=NULL){
+    if(p->next!=nullptr) p=p->next;
+    while(p!=nullptr){
         QLabel* q=new QLabel("航班号："+p->ID);
         q->setStyleSheet("font-size:12pt; color:rgb(0,0,0);");
         q->wordWrap();

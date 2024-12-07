@@ -14,6 +14,8 @@
 // 8-14为降序 快排n为数组数量+1 归并n为数组数量 opt为是否采用随机轴值优化
 //快排主函数
 void QuickSort(Log* array, int n,int mode,int opt);
+//快排主函数指定起始
+void QuickSortBegin(Log* array,int b, int n,int mode,int opt);
 //按价格排序
 void ModQuickSort1(Log* array, int left, int right,int mode,int opt);
 int partition1(Log* array, int left, int right,int mode);

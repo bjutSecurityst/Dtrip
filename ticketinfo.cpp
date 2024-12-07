@@ -24,11 +24,11 @@ ticketInfo::ticketInfo(Log* my,int mode,QWidget *parent)
     QString a="";
     QString IDS=ID,timeload;
     bool ID_visible=true;
-    if(p!=NULL && p->company!="" && mode!=1){
+    if(p!=nullptr && p->company!="" && mode!=1){
         timeload=p->time1;
         QString date0=p->curdate;
         i=0;
-        while(p->next!=NULL){
+        while(p->next!=nullptr){
             p=p->next;
             if(p->company!=company) ID_visible=false;
             a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0,date0,p->curdate);
@@ -170,11 +170,11 @@ ticketInfo::ticketInfo(Log* my,Log* clog,int mode,QWidget *parent)
         ui->pushButton->setDisabled(true);
         ui->pushButton->setVisible(false);
     }
-    if(p!=NULL && p->company!="" && mode!=1){
+    if(p!=nullptr && p->company!="" && mode!=1){
         timeload=p->time1;
         QString date0=p->curdate;
         i=0;
-        while(p->next!=NULL){
+        while(p->next!=nullptr){
             p=p->next;
             if(p->company!=company) ID_visible=false;
             a=a+"\n"+p->sou+timeDifferString(timeload,p->time0,0,date0,p->curdate);

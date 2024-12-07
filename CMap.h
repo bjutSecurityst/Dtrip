@@ -458,14 +458,14 @@ public:
                 }
 
                 // 对于每个邻接节点，如果该路径长度比已存储的路径更短，
-                // 且该路径不是最短路径列表中的第一条，更新路径信息
+                // 或者该路径是次短路径列表中的第一条，更新路径信息
                 for (j = 0; j < 6; j++) {
                     if ((dist[e->m_iNodeIndexB].m_length_list[j] < dist[v].m_length + e->m_iWeightValue) &&
                         (dist[e->m_iNodeIndexB].m_length_list[j + 1] > dist[v].m_length + e->m_iWeightValue)) {
                         dist[e->m_iNodeIndexB].m_length_list[j + 1] = dist[v].m_length + e->m_iWeightValue;
                         dist[e->m_iNodeIndexB].m_pre_vertex_list[j + 1] = v;
                         mh.Insert(&dist[e->m_iNodeIndexB]);  // 更新后插入堆中
-                        break;  // 找到并更新了最短路径，跳出循环
+                        break;  // 找到并更新了次短路径，跳出循环
                     }
                 }
             }
@@ -517,15 +517,18 @@ public:
     // visit_plus 函数：用于递归地追溯最短路径并生成路径字符串列表
     // 该函数通过深度优先搜索来找出从某个节点到另一个节点的路径，
     // 允许返回多条路径，并根据条件对路径进行过滤
-    QStringList visit_plus(Dist* tempdist, int dep, int ari, int Ari, bool blist[]) {
-        int a = ari, i, j, k;
+    QStringList visit_plus(Dist* tempdist, int dep, int ari, int Ari, int lastmin,bool blist[]) {
+        int a = ari, i, j;
         bool same;
         QString s;
         QStringList list, list0;
         int depth = 0;
 
         // 如果当前节点 ari 已经被访问过，直接返回空列表
-        if (blist[ari]) return list;
+        if (blist[ari]) {
+            free(blist);
+            return list;
+        }
 
         // 计算当前访问路径的深度
         for (j = 0; j < 16; j++) {
@@ -533,7 +536,10 @@ public:
         }
 
         // 如果路径深度超过 4，认为路径过长，直接返回空列表
-        if (depth > 4) return list;
+        if (depth > 4) {
+            free(blist);
+            return list;
+        }
 
         // 标记当前节点 ari 为已访问
         blist[ari] = true;
@@ -544,23 +550,16 @@ public:
             if (ari == dep) s = "< " + QString::number(dep);
             else s = "< " + QString::number(dep) + " " + QString::number(ari);
             list.append(s);  // 将路径添加到列表中
+            free(blist);
             return list;  // 返回路径
         }
-
-        // 查找 Ari 的前驱节点是否为 ari
-        for (k = 0; k < 6; k++) {
-            if (tempdist[Ari].m_pre_vertex_list[k] == ari) break;
-        }
-
-        // 如果找到的前驱不在最后一个位置，更新 k
-        if (k != 5) k = k + 1;
 
         // 遍历 ari 的所有前驱节点
         for (i = 0; i < 6; i++) {
             // 如果路径长度不为无穷大且前驱节点未访问，并且节点编号小于 16
             if (tempdist[ari].m_length_list[i] != INT_MAX && !blist[tempdist[ari].m_pre_vertex_list[i]] && tempdist[ari].m_pre_vertex_list[i] < 16) {
-                // 如果当前路径的长度大于 Ari 到当前节点的路径长度，且 ari != Ari，则结束递归
-                if (tempdist[ari].m_length_list[i] > tempdist[Ari].m_length_list[k] && ari != Ari) {
+                // 如果当前路径的长度大于父节点的下一兄弟节点的路径长度，且 ari != Ari，则结束递归
+                if (tempdist[ari].m_length_list[i] > lastmin && ari != Ari) {
                     free(blist);  // 释放临时布尔数组
                     return list;  // 结束递归，返回当前路径列表
                 }
@@ -570,12 +569,14 @@ public:
                 for (j = 0; j < 16; j++) {
                     blist0[j] = blist[j];  // 复制访问状态
                 }
-
+                // 将次长的路径长度赋给lastmin
+                if(i!=5) lastmin=tempdist[ari].m_length_list[i+1];
+                else lastmin=INT_MAX;
                 // 调试输出，显示当前的前驱节点
                 qDebug() << tempdist[ari].m_pre_vertex_list[i] << "\n";
 
                 // 递归调用 visit_plus 查找当前节点的前驱路径
-                list0 = visit_plus(tempdist, dep, tempdist[ari].m_pre_vertex_list[i], Ari, blist0);
+                list0 = visit_plus(tempdist, dep, tempdist[ari].m_pre_vertex_list[i], Ari, lastmin,blist0);
 
                 // 遍历并处理递归返回的路径
                 while (!list0.empty()) {
